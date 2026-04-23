@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#04060f"/>
+<title>Closeify — AI Sales Coach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:#04060f;overflow:hidden;}
+#app{height:100%;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative;overflow:hidden;color:#fff;font-family:'Syne',sans-serif;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:#ffffff18;border-radius:2px;}
+
+/* BACKGROUNDS */
+#svg-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;}
+#bg-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(4,6,20,0.22) 0%,rgba(4,6,20,0.14) 20%,rgba(4,6,20,0.65) 55%,rgba(4,6,20,0.96) 82%,rgba(4,6,20,1) 100%);}
+#neural-bg{position:absolute;inset:0;width:100%;height:100%;opacity:0.18;pointer-events:none;z-index:2;}
+.nl{stroke-dasharray:2 3;animation:nDash 6s linear infinite;}
+.nn{animation:nPulse 3s ease-in-out infinite;}
+@keyframes nDash{to{stroke-dashoffset:-50;}}
+@keyframes nPulse{0%,100%{opacity:.3;}50%{opacity:.8;}}
+@keyframes scF{0%,100%{opacity:.85;}50%{opacity:1;}}
+@keyframes cG{0%,100%{opacity:.45;}50%{opacity:1;}}
+@keyframes fC{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
+@keyframes pP{0%,100%{opacity:.6;}50%{opacity:1;}}
+
+/* SPLASH */
+#splash{position:absolute;inset:0;z-index:100;background:#04060f;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.6s ease;}
+#splash.hide{opacity:0;pointer-events:none;}
+.sp-logo{width:88px;height:88px;border-radius:26px;background:linear-gradient(135deg,#ff6b6b,#ffd93d);display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 0 60px rgba(255,107,107,0.5),0 0 120px rgba(255,107,107,0.18);animation:spPop 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards;margin-bottom:26px;}
+@keyframes spPop{from{transform:scale(0.2);opacity:0;}to{transform:scale(1);opacity:1;}}
+.sp-title{font-size:34px;font-weight:800;background:linear-gradient(90deg,#ff6b6b,#ffd93d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:fU 0.7s 0.4s both;}
+.sp-sub{font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:0.2em;margin-top:7px;animation:fU 0.7s 0.6s both;}
+.sp-feats{display:flex;flex-direction:column;gap:9px;margin-top:36px;width:250px;animation:fU 0.7s 0.8s both;}
+.sp-feat{display:flex;align-items:center;gap:11px;font-size:12.5px;color:rgba(255,255,255,0.48);}
+.sp-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#ff6b6b,#ffd93d);flex-shrink:0;}
+.sp-btn{margin-top:40px;padding:15px 46px;background:linear-gradient(135deg,#ff6b6b,#ff9500);border:none;border-radius:50px;color:#fff;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;letter-spacing:0.07em;cursor:pointer;box-shadow:0 8px 30px rgba(255,107,107,0.4);animation:fU 0.7s 1s both;transition:transform 0.15s,box-shadow 0.15s;}
+.sp-btn:active{transform:scale(0.96);}
+.sp-ver{font-size:9px;color:rgba(255,255,255,0.14);margin-top:18px;letter-spacing:0.1em;animation:fU 0.7s 1.1s both;}
+@keyframes fU{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 17px;padding-top:max(12px,env(safe-area-inset-top));background:rgba(4,6,20,0.68);border-bottom:1px solid rgba(255,255,255,0.07);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);position:relative;z-index:12;flex-shrink:0;}
+.logo-wrap{display:flex;align-items:center;gap:9px;}
+.logo-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#ff6b6b,#ffd93d);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 4px 14px rgba(255,107,107,0.4);flex-shrink:0;}
+.app-name{font-size:15px;font-weight:800;letter-spacing:0.04em;background:linear-gradient(90deg,#ff6b6b,#ffd93d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.app-sub{font-size:7.5px;color:rgba(255,255,255,0.25);letter-spacing:0.15em;margin-top:1px;}
+.hstats{display:flex;gap:12px;}
+.hstat{text-align:center;}
+.hval{display:block;font-size:14px;font-weight:700;color:rgba(255,255,255,0.32);transition:color 0.3s;line-height:1;}
+.hval.lit{color:#ff6b6b;}
+.hval.gold{color:#ffd93d;}
+.hlbl{font-size:6.5px;color:rgba(255,255,255,0.2);letter-spacing:0.1em;margin-top:2px;}
+
+/* MIC */
+.mic-sec{display:flex;flex-direction:column;align-items:center;padding:24px 20px 10px;position:relative;z-index:4;flex-shrink:0;}
+.orb-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:124px;height:124px;cursor:pointer;}
+.orb-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(255,107,107,0.3);animation:orbOut 2s ease-out infinite;display:none;}
+.orb-ring.r1{width:100px;height:100px;animation-delay:0s;}
+.orb-ring.r2{width:116px;height:116px;animation-delay:0.5s;}
+.orb-ring.r3{width:135px;height:135px;animation-delay:1s;}
+.orb-ring.on{display:block;}
+@keyframes orbOut{0%{transform:scale(0.85);opacity:0.6;}100%{transform:scale(1.1);opacity:0;}}
+.orb-core{width:82px;height:82px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1a1a30,#080810);border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;position:relative;z-index:2;box-shadow:0 8px 32px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.08);transition:all 0.3s;}
+.orb-core.on{border-color:rgba(255,107,107,0.6);box-shadow:0 0 0 1px rgba(255,107,107,0.3),0 8px 40px rgba(255,107,107,0.3),inset 0 1px 0 rgba(255,255,255,0.1);background:radial-gradient(circle at 35% 35%,#2a1520,#0f0810);animation:orbGlow 2s ease-in-out infinite alternate;}
+@keyframes orbGlow{from{box-shadow:0 0 0 1px rgba(255,107,107,0.3),0 8px 40px rgba(255,107,107,0.3);}to{box-shadow:0 0 0 1px rgba(255,107,107,0.5),0 8px 60px rgba(255,107,107,0.5);}}
+.orb-inner{width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 40% 30%,rgba(255,255,255,0.05),transparent);display:flex;align-items:center;justify-content:center;}
+.orb-emoji{font-size:32px;}
+.brain-pulse{font-size:27px;animation:brainPop 0.8s ease-in-out infinite alternate;}
+@keyframes brainPop{from{transform:scale(0.9);filter:brightness(0.8);}to{transform:scale(1.1);filter:brightness(1.2);}}
+.orb-lbl{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:9.5px;font-weight:700;letter-spacing:0.14em;}
+.orb-lbl.live{color:#ff6b6b;}
+.orb-lbl.idle{color:rgba(255,255,255,0.26);}
+.waveform{display:flex;align-items:center;gap:2.5px;height:30px;margin-top:32px;width:100%;}
+.wv{width:3px;border-radius:3px;background:rgba(255,255,255,0.1);height:5px;flex-shrink:0;}
+.wv.on{background:linear-gradient(to top,#ff6b6b,#ffd93d);animation:wvA 0.6s ease-in-out infinite alternate;}
+@keyframes wvA{0%{height:4px;}100%{height:24px;}}
+.end-btn{margin-top:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);color:rgba(255,255,255,0.38);padding:5px 16px;border-radius:18px;font-size:9.5px;cursor:pointer;letter-spacing:0.08em;font-family:'Syne',sans-serif;display:none;}
+.end-btn.on{display:block;}
+
+/* TRANSCRIPT BAR */
+.tr-bar{margin:0 13px 7px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:11px;padding:8px 12px;display:none;align-items:center;position:relative;z-index:4;flex-shrink:0;}
+.tr-bar.on{display:flex;}
+.tr-dot{font-size:9px;color:#ff6b6b;margin-right:7px;}
+.tr-txt{font-size:11px;color:rgba(255,255,255,0.42);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ai-spin{font-size:9.5px;color:#ffd93d;margin-left:7px;display:none;}
+.ai-spin.on{display:inline;}
+
+/* TABS */
+.tab-bar{display:flex;border-bottom:1px solid rgba(255,255,255,0.07);position:relative;z-index:4;flex-shrink:0;}
+.tab-btn{flex:1;padding:10px 3px;background:none;border:none;color:rgba(255,255,255,0.26);font-family:'Syne',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:0.04em;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:3px;}
+.tab-btn.on{color:#fff;border-bottom-color:#ff6b6b;}
+.tbadge{background:#ff6b6b;color:#fff;font-size:7.5px;padding:1px 5px;border-radius:8px;font-weight:800;display:none;}
+.tbadge.on{display:inline;}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:10px 13px 40px;position:relative;z-index:4;}
+.tab-panel{display:none;}
+.tab-panel.on{display:block;}
+
+/* EMPTY STATE */
+.empty-state{display:flex;flex-direction:column;align-items:center;padding:28px 14px;gap:9px;text-align:center;}
+.empty-icon{font-size:48px;margin-bottom:5px;}
+.empty-title{font-size:18px;font-weight:800;background:linear-gradient(90deg,#ff6b6b,#c77dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.empty-desc{font-size:11.5px;color:rgba(255,255,255,0.3);line-height:1.7;max-width:260px;}
+.ex-chips{margin-top:14px;display:flex;flex-direction:column;gap:6px;width:100%;}
+.ex-chip{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:9px;padding:8px 13px;font-size:11.5px;color:rgba(255,255,255,0.35);text-align:left;font-family:'Lora',serif;font-style:italic;}
+
+/* REBUTTAL CARD */
+.rcard{background:rgba(8,10,24,0.88);border:1px solid rgba(255,255,255,0.08);border-radius:15px;padding:14px;animation:cardIn 0.4s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden;margin-bottom:12px;}
+.rcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cc),transparent);opacity:0.5;}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(0.96);}to{opacity:1;transform:translateY(0) scale(1);}}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;}
+.card-left{display:flex;align-items:center;gap:7px;}
+.type-pill{font-size:9.5px;font-weight:700;padding:3px 9px;border-radius:16px;font-family:'Syne',sans-serif;letter-spacing:0.04em;}
+.udot{width:6.5px;height:6.5px;border-radius:50%;background:#ff6b6b;animation:udotP 1s ease-in-out infinite;display:none;}
+.udot.on{display:block;}
+@keyframes udotP{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.6);}50%{box-shadow:0 0 0 4px rgba(255,107,107,0);}}
+.card-right{display:flex;align-items:center;gap:7px;}
+.card-time{font-size:9.5px;color:rgba(255,255,255,0.2);}
+.card-acts{display:flex;gap:5px;}
+.act-btn{background:none;border:none;cursor:pointer;font-size:13px;padding:2px;opacity:0.45;transition:opacity 0.2s;}
+.act-btn:hover{opacity:1;}
+.obj-bubble{background:rgba(255,255,255,0.04);border-radius:8px;padding:8px 10px;margin-bottom:11px;border:1px solid rgba(255,255,255,0.06);font-size:11.5px;color:rgba(255,255,255,0.5);font-style:italic;line-height:1.6;font-family:'Lora',serif;}
+.qm{color:rgba(255,255,255,0.26);font-size:17px;font-family:Georgia,serif;vertical-align:middle;}
+.div-g{height:1px;background:linear-gradient(90deg,var(--cc) 0%,rgba(255,255,255,0.05) 60%,transparent 100%);margin-bottom:9px;opacity:0.4;}
+.reb-lbl{font-size:8.5px;letter-spacing:0.18em;margin-bottom:7px;font-family:'Syne',sans-serif;opacity:0.8;}
+.reb-txt{font-size:13.5px;color:rgba(255,255,255,0.9);line-height:1.75;font-family:'Lora',Georgia,serif;}
+.urg-ban{margin-top:9px;padding:5px 10px;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.25);border-radius:7px;font-size:9.5px;color:#ff6b6b;font-weight:700;letter-spacing:0.05em;display:none;}
+.urg-ban.on{display:block;}
+
+/* HISTORY */
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;}
+.sec-lbl{font-size:9.5px;color:rgba(255,255,255,0.24);letter-spacing:0.13em;}
+.clr-btn{background:none;border:none;color:rgba(255,255,255,0.18);font-size:9.5px;cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0.05em;}
+.hist-empty{text-align:center;padding:40px 20px;color:rgba(255,255,255,0.18);font-size:12px;}
+
+/* TRACKER */
+.tracker{display:flex;flex-direction:column;gap:12px;}
+.trk-hero{background:rgba(8,10,24,0.88);border:1px solid rgba(255,255,255,0.08);border-radius:15px;padding:18px;text-align:center;}
+.wr-circle{position:relative;width:124px;height:124px;margin:0 auto 12px;}
+.wr-circle svg{transform:rotate(-90deg);}
+.wr-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:26px;font-weight:800;color:#fff;}
+.wr-lbl{font-size:8.5px;color:rgba(255,255,255,0.28);letter-spacing:0.15em;}
+.trk-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.trk-card{background:rgba(8,10,24,0.88);border:1px solid rgba(255,255,255,0.08);border-radius:13px;padding:13px;text-align:center;}
+.tc-val{font-size:22px;font-weight:800;margin-bottom:3px;}
+.tc-lbl{font-size:8.5px;color:rgba(255,255,255,0.28);letter-spacing:0.09em;}
+.obj-bk{background:rgba(8,10,24,0.88);border:1px solid rgba(255,255,255,0.08);border-radius:13px;padding:14px;}
+.ob-t{font-size:8.5px;color:rgba(255,255,255,0.22);letter-spacing:0.14em;margin-bottom:11px;}
+.ob-row{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+.ob-name{font-size:10.5px;color:rgba(255,255,255,0.55);width:68px;flex-shrink:0;}
+.ob-bw{flex:1;height:5.5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;}
+.ob-bar{height:100%;border-radius:3px;transition:width 0.8s ease;}
+.ob-cnt{font-size:9.5px;color:rgba(255,255,255,0.28);width:14px;text-align:right;}
+.trk-btns{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.tr-btn{padding:11px;border-radius:11px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.55);font-family:'Syne',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer;letter-spacing:0.05em;transition:all 0.2s;}
+.tr-btn.win{border-color:rgba(29,209,161,0.4);color:#1dd1a1;}
+.tr-btn.loss{border-color:rgba(255,107,107,0.4);color:#ff6b6b;}
+.tr-btn:active{transform:scale(0.97);}
+.ses-note{text-align:center;font-size:9.5px;color:rgba(255,255,255,0.18);letter-spacing:0.05em;}
+
+/* TIPS */
+.tips-list{display:flex;flex-direction:column;gap:9px;}
+.tips-hdr{font-size:8.5px;color:rgba(255,255,255,0.2);letter-spacing:0.15em;margin-bottom:3px;}
+.tip-card{display:flex;gap:11px;align-items:flex-start;background:rgba(8,10,24,0.88);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;}
+.tip-icon{font-size:22px;min-width:30px;}
+.tip-title{font-size:11.5px;font-weight:700;color:rgba(255,255,255,0.8);margin-bottom:3px;}
+.tip-desc{font-size:10.5px;color:rgba(255,255,255,0.36);line-height:1.6;}
+
+/* SHARE MODAL */
+#share-modal{position:fixed;inset:0;z-index:90;display:none;align-items:flex-end;background:rgba(0,0,0,0.72);}
+#share-modal.on{display:flex;}
+.sh-sheet{background:#0c0f1e;border-radius:22px 22px 0 0;padding:22px 18px 38px;width:100%;max-width:480px;margin:0 auto;animation:shUp 0.3s cubic-bezier(0.34,1.3,0.64,1);}
+@keyframes shUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.sh-handle{width:34px;height:4px;background:rgba(255,255,255,0.13);border-radius:2px;margin:0 auto 18px;}
+.sh-title{font-size:13px;font-weight:700;margin-bottom:5px;color:#fff;}
+.sh-text{font-size:12.5px;color:rgba(255,255,255,0.48);font-family:'Lora',serif;font-style:italic;background:rgba(255,255,255,0.04);border-radius:9px;padding:11px;margin-bottom:16px;line-height:1.6;border:1px solid rgba(255,255,255,0.07);}
+.sh-btns{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.sh-btn{padding:12px;border-radius:11px;border:none;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:0.04em;display:flex;align-items:center;justify-content:center;gap:7px;transition:transform 0.15s;}
+.sh-btn:active{transform:scale(0.96);}
+.sh-copy{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.1);}
+.sh-sms{background:linear-gradient(135deg,#1dd1a1,#007aff);color:#fff;}
+.sh-email{background:linear-gradient(135deg,#ff9f43,#ff6b6b);color:#fff;}
+.sh-close{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.38);border:1px solid rgba(255,255,255,0.08);}
+
+/* TOAST */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#0e1e0e;border:1px solid rgba(29,209,161,0.3);border-radius:11px;padding:10px 16px;font-size:11.5px;color:#1dd1a1;display:none;align-items:center;gap:7px;box-shadow:0 8px 32px rgba(0,0,0,0.6);z-index:200;white-space:nowrap;}
+.toast.on{display:flex;}
+.toast.err{background:#1a0808;border-color:rgba(255,107,107,0.3);color:#ff6b6b;}
+
+/* FLASH */
+.flash{position:fixed;inset:0;background:rgba(255,107,107,0.1);z-index:50;pointer-events:none;opacity:0;}
+.flash.go{animation:flashGo 0.5s ease-out forwards;}
+@keyframes flashGo{0%{opacity:1;}100%{opacity:0;}}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- SVG BACKGROUND — Professional Sales Scene -->
+<svg id="svg-bg" viewBox="0 0 400 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Room gradients -->
+    <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#050a18"/>
+      <stop offset="50%" stop-color="#080e22"/>
+      <stop offset="100%" stop-color="#0c1430"/>
+    </linearGradient>
+    <linearGradient id="gFloor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1628"/>
+      <stop offset="100%" stop-color="#060a14"/>
+    </linearGradient>
+    <linearGradient id="gWall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090e1e"/>
+      <stop offset="100%" stop-color="#0a1224"/>
+    </linearGradient>
+    <!-- Desk -->
+    <linearGradient id="gDesk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c2640"/>
+      <stop offset="60%" stop-color="#101828"/>
+      <stop offset="100%" stop-color="#080e1a"/>
+    </linearGradient>
+    <linearGradient id="gDeskRefl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2540" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#080e1a" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Glass wall -->
+    <linearGradient id="gGlass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b8d4ff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#6090ff" stop-opacity="0.02"/>
+    </linearGradient>
+    <!-- Monitor glows -->
+    <radialGradient id="gM1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2060ff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#061a40" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gM2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff5060" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#200010" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Ambient room light from monitors -->
+    <radialGradient id="gAmbient" cx="40%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#1030a0" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Person suit -->
+    <linearGradient id="gSuit" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#1e2d4a"/>
+      <stop offset="100%" stop-color="#0d1828"/>
+    </linearGradient>
+    <linearGradient id="gSuitHL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2a3d5e"/>
+      <stop offset="100%" stop-color="#1e2d4a"/>
+    </linearGradient>
+    <!-- Chart bars -->
+    <linearGradient id="gB1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="100%" stop-color="#cc2020"/>
+    </linearGradient>
+    <linearGradient id="gB2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd93d"/>
+      <stop offset="100%" stop-color="#cc8800"/>
+    </linearGradient>
+    <linearGradient id="gB3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#48dbfb"/>
+      <stop offset="100%" stop-color="#0055cc"/>
+    </linearGradient>
+    <linearGradient id="gB4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1dd1a1"/>
+      <stop offset="100%" stop-color="#006644"/>
+    </linearGradient>
+    <!-- Phone glow -->
+    <radialGradient id="gPh" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff6b6b" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ff6b6b" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Holographic panel -->
+    <linearGradient id="gHolo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a80ff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#1a80ff" stop-opacity="0.03"/>
+    </linearGradient>
+    <!-- City glow -->
+    <radialGradient id="gCity" cx="50%" cy="80%" r="60%">
+      <stop offset="0%" stop-color="#ff6030" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Floor reflection -->
+    <linearGradient id="gFloorRefl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1030a0" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000510" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Clip paths -->
+    <clipPath id="cWin"><rect x="0" y="0" width="400" height="320"/></clipPath>
+    <clipPath id="cMon1"><rect x="104" y="196" width="116" height="76"/></clipPath>
+    <clipPath id="cMon2"><rect x="240" y="204" width="96" height="68"/></clipPath>
+  </defs>
+
+  <!-- ══ BASE ROOM ══ -->
+  <rect width="400" height="700" fill="url(#gSky)"/>
+  <ellipse cx="180" cy="280" rx="280" ry="220" fill="url(#gAmbient)"/>
+
+  <!-- ══ FLOOR-TO-CEILING GLASS WALL (left) ══ -->
+  <!-- Glass panels -->
+  <rect x="0" y="0" width="250" height="340" fill="url(#gGlass)"/>
+  <!-- Vertical frame bars -->
+  <rect x="0" y="0" width="2" height="340" fill="#1e3060" opacity="0.8"/>
+  <rect x="83" y="0" width="2" height="340" fill="#1e3060" opacity="0.6"/>
+  <rect x="166" y="0" width="2" height="340" fill="#1e3060" opacity="0.6"/>
+  <rect x="249" y="0" width="2" height="340" fill="#1e3060" opacity="0.8"/>
+  <!-- Horizontal frame bars -->
+  <rect x="0" y="0" width="252" height="2" fill="#1e3060" opacity="0.7"/>
+  <rect x="0" y="113" width="252" height="1.5" fill="#1e3060" opacity="0.4"/>
+  <rect x="0" y="226" width="252" height="1.5" fill="#1e3060" opacity="0.4"/>
+  <rect x="0" y="339" width="252" height="2" fill="#1e3060" opacity="0.7"/>
+
+  <!-- ══ CITY SKYLINE (through glass) ══ -->
+  <g clip-path="url(#cWin)" opacity="0.9">
+    <!-- City glow horizon -->
+    <ellipse cx="125" cy="320" rx="200" ry="40" fill="url(#gCity)"/>
+    <!-- Far background buildings (very faint) -->
+    <rect x="5" y="200" width="12" height="130" fill="#0a1020" opacity="0.7"/>
+    <rect x="20" y="180" width="16" height="150" fill="#0b1222" opacity="0.7"/>
+    <rect x="40" y="195" width="10" height="135" fill="#0a1020" opacity="0.7"/>
+    <rect x="54" y="165" width="20" height="165" fill="#0c1428" opacity="0.8"/>
+    <rect x="78" y="175" width="14" height="155" fill="#0b1222" opacity="0.7"/>
+    <rect x="96" y="155" width="24" height="175" fill="#0d1530" opacity="0.8"/>
+    <rect x="125" y="170" width="18" height="160" fill="#0b1222" opacity="0.7"/>
+    <rect x="147" y="150" width="22" height="180" fill="#0e1632" opacity="0.8"/>
+    <rect x="173" y="165" width="16" height="165" fill="#0c1428" opacity="0.7"/>
+    <rect x="193" y="145" width="28" height="185" fill="#0d1530" opacity="0.8"/>
+    <rect x="226" y="160" width="20" height="170" fill="#0b1222" opacity="0.7"/>
+
+    <!-- Mid buildings (medium) -->
+    <rect x="8" y="220" width="14" height="115" fill="#0e1830" opacity="0.9"/>
+    <rect x="26" y="200" width="18" height="135" fill="#0f1a34" opacity="0.9"/>
+    <rect x="48" y="215" width="12" height="120" fill="#0e1830" opacity="0.9"/>
+    <rect x="64" y="190" width="22" height="145" fill="#101c36" opacity="0.9"/>
+    <rect x="90" y="200" width="16" height="135" fill="#0f1a34" opacity="0.9"/>
+    <rect x="110" y="180" width="26" height="155" fill="#111e38" opacity="0.9"/>
+    <rect x="140" y="195" width="20" height="140" fill="#101c36" opacity="0.9"/>
+    <rect x="164" y="175" width="24" height="160" fill="#121f3a" opacity="0.9"/>
+    <rect x="192" y="190" width="18" height="145" fill="#101c36" opacity="0.9"/>
+    <rect x="214" y="170" width="30" height="165" fill="#111e38" opacity="0.9"/>
+
+    <!-- Building windows — far -->
+    <rect x="57" y="172" width="3" height="3" fill="#ffd93d" opacity="0.7" style="animation:cG 2s infinite"/>
+    <rect x="63" y="172" width="3" height="3" fill="#ffd93d" opacity="0.4"/>
+    <rect x="57" y="180" width="3" height="3" fill="#4fc3f7" opacity="0.6" style="animation:cG 2.5s infinite 0.4s"/>
+    <rect x="63" y="180" width="3" height="3" fill="#ffd93d" opacity="0.5"/>
+    <rect x="99" y="163" width="4" height="3" fill="#4fc3f7" opacity="0.8" style="animation:cG 2.2s infinite"/>
+    <rect x="106" y="163" width="4" height="3" fill="#4fc3f7" opacity="0.5"/>
+    <rect x="113" y="163" width="4" height="3" fill="#ffd93d" opacity="0.7"/>
+    <rect x="99" y="173" width="4" height="3" fill="#ffd93d" opacity="0.4"/>
+    <rect x="106" y="173" width="4" height="3" fill="#ff6b6b" opacity="0.8" style="animation:cG 1.6s infinite"/>
+    <rect x="113" y="173" width="4" height="3" fill="#4fc3f7" opacity="0.6"/>
+    <rect x="151" y="153" width="4" height="3" fill="#ffd93d" opacity="0.9" style="animation:cG 1.9s infinite"/>
+    <rect x="158" y="153" width="4" height="3" fill="#4fc3f7" opacity="0.6"/>
+    <rect x="165" y="153" width="4" height="3" fill="#ff6b6b" opacity="0.7" style="animation:cG 2.7s infinite"/>
+    <rect x="151" y="163" width="4" height="3" fill="#4fc3f7" opacity="0.8"/>
+    <rect x="158" y="163" width="4" height="3" fill="#ffd93d" opacity="0.5" style="animation:cG 3.1s infinite"/>
+    <rect x="196" y="148" width="5" height="4" fill="#ffd93d" opacity="0.9" style="animation:cG 2.3s infinite"/>
+    <rect x="204" y="148" width="5" height="4" fill="#ff6b6b" opacity="0.7"/>
+    <rect x="212" y="148" width="5" height="4" fill="#4fc3f7" opacity="0.8" style="animation:cG 1.7s infinite"/>
+    <rect x="218" y="175" width="5" height="4" fill="#ffd93d" opacity="0.7" style="animation:cG 2.6s infinite"/>
+    <rect x="228" y="165" width="5" height="4" fill="#4fc3f7" opacity="0.9"/>
+    <rect x="235" y="165" width="5" height="4" fill="#ff6b6b" opacity="0.6" style="animation:cG 2s infinite 0.8s"/>
+
+    <!-- Horizon glow line -->
+    <rect x="0" y="322" width="250" height="2" fill="#1a3060" opacity="0.4"/>
+    <rect x="0" y="310" width="250" height="14" fill="#0a1528" opacity="0.95"/>
+  </g>
+
+  <!-- ══ RIGHT WALL (solid, dark) ══ -->
+  <rect x="250" y="0" width="150" height="700" fill="url(#gWall)"/>
+
+  <!-- Wall accent panels -->
+  <rect x="268" y="20" width="112" height="6" rx="2" fill="#1a2840" opacity="0.8"/>
+  <rect x="268" y="36" width="112" height="230" rx="3" fill="#0d1628" stroke="#1a2840" stroke-width="1"/>
+
+  <!-- Large monitor on right wall -->
+  <!-- Screen outer bezel -->
+  <rect x="272" y="42" width="104" height="72" rx="4" fill="#06101e" stroke="#1e3060" stroke-width="1.5"/>
+  <!-- Screen inner -->
+  <rect x="275" y="45" width="98" height="66" rx="2" fill="#04080f"/>
+  <!-- Screen glow -->
+  <ellipse cx="324" cy="78" rx="48" ry="32" fill="url(#gM2)" opacity="0.7" style="animation:scF 2.5s infinite"/>
+  <!-- Screen content — CRM dashboard -->
+  <rect x="275" y="45" width="98" height="10" fill="#080e1e"/>
+  <rect x="278" y="47" width="28" height="6" rx="2" fill="#1a2d50"/>
+  <circle cx="366" cy="50" r="3" fill="#ff5060" opacity="0.9" style="animation:pP 1s infinite"/>
+  <circle cx="358" cy="50" r="3" fill="#ffd93d" opacity="0.7"/>
+  <!-- Live call waveform -->
+  <polyline points="278,70 283,63 289,76 295,60 301,72 307,64 313,78 319,58 325,72 331,62 337,75 343,63 349,70 355,65 361,72 367,66" fill="none" stroke="#ff5060" stroke-width="1.5" opacity="0.9" style="animation:scF 1.5s infinite"/>
+  <!-- Contact card lines -->
+  <rect x="278" y="82" width="45" height="4" rx="1" fill="#1a3060" opacity="0.8"/>
+  <rect x="278" y="89" width="30" height="3" rx="1" fill="#1a3060" opacity="0.5"/>
+  <rect x="278" y="95" width="38" height="3" rx="1" fill="#ff5060" opacity="0.4"/>
+  <text x="324" y="108" font-family="monospace" font-size="5" fill="#ff5060" text-anchor="middle" opacity="0.95">● LIVE CALL  02:34</text>
+  <!-- Screen power dot -->
+  <circle cx="324" cy="117" r="1.5" fill="#ff4455" opacity="0.9" style="animation:pP 1s infinite"/>
+  <!-- Monitor stand -->
+  <rect x="318" y="116" width="12" height="10" rx="2" fill="#0d1628"/>
+  <rect x="310" y="125" width="28" height="4" rx="2" fill="#0d1628"/>
+
+  <!-- Wall art piece — abstract -->
+  <rect x="272" y="160" width="104" height="88" rx="3" fill="#0a1420" stroke="#1a2840" stroke-width="1"/>
+  <rect x="276" y="164" width="96" height="80" rx="2" fill="#060e1c"/>
+  <!-- Abstract upward chart — bold, professional -->
+  <polyline points="280,236 294,224 310,230 326,210 342,196 358,182 368,170" fill="none" stroke="url(#gB1)" stroke-width="2" stroke-linecap="round"/>
+  <polyline points="280,240 294,232 310,236 326,218 342,206 358,194 368,184" fill="none" stroke="url(#gB3)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <!-- Grid lines on chart -->
+  <line x1="280" y1="220" x2="370" y2="220" stroke="#1a2840" stroke-width="0.5"/>
+  <line x1="280" y1="200" x2="370" y2="200" stroke="#1a2840" stroke-width="0.5"/>
+  <line x1="280" y1="180" x2="370" y2="180" stroke="#1a2840" stroke-width="0.5"/>
+  <text x="324" y="246" font-family="monospace" font-size="5.5" fill="#ff6b6b" text-anchor="middle" opacity="0.8">REVENUE ▲ 32%</text>
+
+  <!-- ══ CONFERENCE TABLE ══ -->
+  <!-- Table top surface — large, elegant -->
+  <ellipse cx="200" cy="356" rx="185" ry="22" fill="url(#gDesk)" stroke="#1e2e4a" stroke-width="1"/>
+  <!-- Table surface highlight (glass-like) -->
+  <ellipse cx="200" cy="350" rx="170" ry="12" fill="#1e2e4a" opacity="0.3"/>
+  <ellipse cx="175" cy="347" rx="80" ry="5" fill="#2a4070" opacity="0.15"/>
+  <!-- Table edge -->
+  <ellipse cx="200" cy="358" rx="185" ry="22" fill="none" stroke="#253550" stroke-width="1"/>
+  <!-- Table leg center -->
+  <rect x="188" y="375" width="24" height="60" rx="3" fill="#0d1628"/>
+  <ellipse cx="200" cy="436" rx="40" ry="8" fill="#0a1020" opacity="0.8"/>
+
+  <!-- Monitor reflection on table -->
+  <ellipse cx="168" cy="363" rx="50" ry="6" fill="#1a3a8a" opacity="0.18"/>
+  <ellipse cx="288" cy="363" rx="38" ry="5" fill="#400a14" opacity="0.12"/>
+
+  <!-- ══ LEFT MONITOR (main analytics) ══ -->
+  <!-- Stand -->
+  <rect x="156" y="340" width="12" height="16" rx="2" fill="#0d1e3a"/>
+  <rect x="148" y="352" width="28" height="5" rx="2" fill="#0d1e3a"/>
+  <!-- Bezel -->
+  <rect x="102" y="188" width="120" height="152" rx="6" fill="#0a1425" stroke="#1a2e50" stroke-width="1.5"/>
+  <!-- Screen -->
+  <rect x="106" y="192" width="112" height="144" rx="4" fill="#030810"/>
+  <!-- Screen glow -->
+  <ellipse cx="162" cy="264" rx="54" ry="38" fill="url(#gM1)" opacity="0.65" style="animation:scF 3s infinite"/>
+  <!-- Header bar -->
+  <rect x="106" y="192" width="112" height="13" fill="#080e1e"/>
+  <rect x="109" y="195" width="32" height="7" rx="2" fill="#1a2e50"/>
+  <rect x="146" y="195" width="18" height="7" rx="2" fill="#ff6b6b" opacity="0.7"/>
+  <rect x="168" y="195" width="18" height="7" rx="2" fill="#1a2e50"/>
+  <rect x="194" y="197" width="6" height="5" rx="1" fill="#ffd93d" opacity="0.5"/>
+  <!-- KPI cards row -->
+  <rect x="108" y="207" width="32" height="18" rx="2" fill="#0d1828" stroke="#1a2840" stroke-width="0.5"/>
+  <text x="124" y="214" font-family="monospace" font-size="5" fill="#1dd1a1" text-anchor="middle">WON</text>
+  <text x="124" y="221" font-family="monospace" font-size="6" fill="#ffffff" text-anchor="middle" font-weight="bold">24</text>
+  <rect x="143" y="207" width="32" height="18" rx="2" fill="#0d1828" stroke="#1a2840" stroke-width="0.5"/>
+  <text x="159" y="214" font-family="monospace" font-size="5" fill="#ff6b6b" text-anchor="middle">LOST</text>
+  <text x="159" y="221" font-family="monospace" font-size="6" fill="#ffffff" text-anchor="middle" font-weight="bold">8</text>
+  <rect x="178" y="207" width="38" height="18" rx="2" fill="#0d1828" stroke="#1a2840" stroke-width="0.5"/>
+  <text x="197" y="214" font-family="monospace" font-size="5" fill="#ffd93d" text-anchor="middle">WIN %</text>
+  <text x="197" y="221" font-family="monospace" font-size="6" fill="#ffd93d" text-anchor="middle" font-weight="bold">75%</text>
+  <!-- Chart bars — premium look -->
+  <rect x="112" y="262" width="11" height="38" rx="2" fill="url(#gB3)" opacity="0.9" style="animation:fC 2.2s infinite"/>
+  <rect x="127" y="248" width="11" height="52" rx="2" fill="url(#gB1)" opacity="0.9" style="animation:fC 2.2s infinite 0.25s"/>
+  <rect x="142" y="254" width="11" height="46" rx="2" fill="url(#gB2)" opacity="0.9" style="animation:fC 2.2s infinite 0.5s"/>
+  <rect x="157" y="238" width="11" height="62" rx="2" fill="url(#gB3)" opacity="0.9" style="animation:fC 2.2s infinite 0.75s"/>
+  <rect x="172" y="243" width="11" height="57" rx="2" fill="url(#gB4)" opacity="0.9" style="animation:fC 2.2s infinite 0.4s"/>
+  <rect x="187" y="230" width="11" height="70" rx="2" fill="url(#gB1)" opacity="0.9" style="animation:fC 2.2s infinite 0.6s"/>
+  <rect x="202" y="236" width="11" height="64" rx="2" fill="url(#gB2)" opacity="0.9" style="animation:fC 2.2s infinite 0.2s"/>
+  <!-- Trend line over bars -->
+  <polyline points="117,255 132,242 147,247 162,232 177,237 192,224 207,229" fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="3 2" opacity="0.4"/>
+  <!-- Stats footer -->
+  <text x="162" y="310" font-family="monospace" font-size="5.5" fill="#4a7aff" text-anchor="middle" opacity="0.9">SALES PIPELINE — Q4</text>
+  <text x="162" y="318" font-family="monospace" font-size="5" fill="#ff6b6b" text-anchor="middle">▲ 32.4%  VS LAST QUARTER</text>
+  <!-- Power light -->
+  <circle cx="162" cy="336" r="2" fill="#1a6fff" opacity="0.9" style="animation:scF 2s infinite"/>
+
+  <!-- ══ RIGHT MONITOR (CRM / pipeline) ══ -->
+  <!-- Stand -->
+  <rect x="276" y="340" width="12" height="16" rx="2" fill="#0d1e3a"/>
+  <rect x="268" y="352" width="28" height="5" rx="2" fill="#0d1e3a"/>
+  <!-- Bezel -->
+  <rect x="238" y="196" width="100" height="140" rx="6" fill="#0a1425" stroke="#1a2e50" stroke-width="1.5"/>
+  <!-- Screen -->
+  <rect x="242" y="200" width="92" height="132" rx="4" fill="#030810"/>
+  <!-- Screen glow -->
+  <ellipse cx="288" cy="266" rx="44" ry="34" fill="url(#gM2)" opacity="0.55" style="animation:scF 2.8s infinite 0.5s"/>
+  <!-- Header -->
+  <rect x="242" y="200" width="92" height="12" fill="#08101e"/>
+  <rect x="245" y="202" width="26" height="8" rx="2" fill="#1a2e50"/>
+  <circle cx="326" cy="206" r="3.5" fill="#ff5060" opacity="0.95" style="animation:pP 1s infinite"/>
+  <circle cx="319" cy="206" r="3.5" fill="#ffd93d" opacity="0.7"/>
+  <!-- Pipeline stages -->
+  <rect x="244" y="214" width="16" height="28" rx="2" fill="#1a3060" opacity="0.8"/>
+  <text x="252" y="224" font-family="monospace" font-size="4" fill="#4a7aff" text-anchor="middle">LEAD</text>
+  <text x="252" y="232" font-family="monospace" font-size="5" fill="#ffffff" text-anchor="middle" font-weight="bold">12</text>
+  <rect x="263" y="214" width="16" height="28" rx="2" fill="#1a3060" opacity="0.8"/>
+  <text x="271" y="224" font-family="monospace" font-size="4" fill="#ffd93d" text-anchor="middle">QUAL</text>
+  <text x="271" y="232" font-family="monospace" font-size="5" fill="#ffffff" text-anchor="middle" font-weight="bold">8</text>
+  <rect x="282" y="214" width="16" height="28" rx="2" fill="#1a3060" opacity="0.8"/>
+  <text x="290" y="224" font-family="monospace" font-size="4" fill="#ff9f43" text-anchor="middle">PROP</text>
+  <text x="290" y="232" font-family="monospace" font-size="5" fill="#ffffff" text-anchor="middle" font-weight="bold">5</text>
+  <rect x="301" y="214" width="18" height="28" rx="2" fill="#1a3060" opacity="0.8"/>
+  <text x="310" y="224" font-family="monospace" font-size="4" fill="#1dd1a1" text-anchor="middle">CLOSE</text>
+  <text x="310" y="232" font-family="monospace" font-size="5" fill="#1dd1a1" text-anchor="middle" font-weight="bold">3</text>
+  <!-- Pipeline funnel lines -->
+  <line x1="260" y1="228" x2="263" y2="228" stroke="#4a7aff" stroke-width="1" opacity="0.5"/>
+  <line x1="279" y1="228" x2="282" y2="228" stroke="#ffd93d" stroke-width="1" opacity="0.5"/>
+  <line x1="298" y1="228" x2="301" y2="228" stroke="#ff9f43" stroke-width="1" opacity="0.5"/>
+  <!-- Objection list on CRM -->
+  <rect x="244" y="246" width="88" height="6" rx="1" fill="#150a10" stroke="#3a1020" stroke-width="0.5"/>
+  <rect x="246" y="247" width="22" height="4" rx="1" fill="#ff5060" opacity="0.8"/>
+  <text x="279" y="251" font-family="monospace" font-size="4" fill="#888" text-anchor="middle">Price objection</text>
+  <rect x="244" y="255" width="88" height="6" rx="1" fill="#0a1020" stroke="#1a2840" stroke-width="0.5"/>
+  <rect x="246" y="256" width="16" height="4" rx="1" fill="#ffd93d" opacity="0.6"/>
+  <text x="279" y="260" font-family="monospace" font-size="4" fill="#666" text-anchor="middle">Timing concern</text>
+  <rect x="244" y="264" width="88" height="6" rx="1" fill="#0a1020" stroke="#1a2840" stroke-width="0.5"/>
+  <rect x="246" y="265" width="20" height="4" rx="1" fill="#1dd1a1" opacity="0.6"/>
+  <text x="279" y="269" font-family="monospace" font-size="4" fill="#666" text-anchor="middle">Handled ✓</text>
+  <!-- Revenue donut -->
+  <circle cx="288" cy="298" r="20" fill="none" stroke="#1a2840" stroke-width="6"/>
+  <circle cx="288" cy="298" r="20" fill="none" stroke="#ff5060" stroke-width="6" stroke-dasharray="75 51" stroke-linecap="round" transform="rotate(-90 288 298)" style="animation:scF 3s infinite"/>
+  <circle cx="288" cy="298" r="20" fill="none" stroke="#1dd1a1" stroke-width="6" stroke-dasharray="30 96" stroke-linecap="round" transform="rotate(163 288 298)" opacity="0.7"/>
+  <text x="288" y="294" font-family="monospace" font-size="5.5" fill="#ffffff" text-anchor="middle" font-weight="bold">$82K</text>
+  <text x="288" y="302" font-family="monospace" font-size="4" fill="#888" text-anchor="middle">PIPELINE</text>
+  <!-- Power light -->
+  <circle cx="288" cy="330" r="2" fill="#ff4455" opacity="0.9" style="animation:pP 1s infinite"/>
+
+  <!-- ══ KEYBOARD ══ -->
+  <rect x="130" y="349" width="108" height="10" rx="3" fill="#0d1e3a" stroke="#1a2d50" stroke-width="0.5"/>
+  <!-- Key rows -->
+  <rect x="133" y="351" width="8" height="3" rx="1" fill="#1a3060" opacity="0.8"/>
+  <rect x="143" y="351" width="8" height="3" rx="1" fill="#1a3060" opacity="0.8"/>
+  <rect x="153" y="351" width="8" height="3" rx="1" fill="#ff6b6b" opacity="0.5"/>
+  <rect x="163" y="351" width="8" height="3" rx="1" fill="#1a3060" opacity="0.8"/>
+  <rect x="173" y="351" width="8" height="3" rx="1" fill="#1a3060" opacity="0.8"/>
+  <rect x="183" y="351" width="8" height="3" rx="1" fill="#ffd93d" opacity="0.4"/>
+  <rect x="193" y="351" width="8" height="3" rx="1" fill="#1a3060" opacity="0.8"/>
+  <rect x="203" y="351" width="8" height="3" rx="1" fill="#1a3060" opacity="0.8"/>
+  <rect x="135" y="356" width="64" height="2" rx="1" fill="#1a3060" opacity="0.5"/>
+
+  <!-- ══ HEADSET (premium) ══ -->
+  <path d="M80,335 Q100,318 120,335" fill="none" stroke="#1e3060" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="78" cy="338" rx="9" ry="7" fill="#0e1e3a" stroke="#1e3060" stroke-width="1.2"/>
+  <ellipse cx="122" cy="338" rx="9" ry="7" fill="#0e1e3a" stroke="#1e3060" stroke-width="1.2"/>
+  <ellipse cx="100" cy="342" rx="24" ry="9" fill="#0d1830" stroke="#1a2d50" stroke-width="0.8"/>
+  <!-- Headset glow -->
+  <ellipse cx="100" cy="342" rx="28" ry="13" fill="url(#gPh)" opacity="0.25" style="animation:pP 1.8s infinite"/>
+  <!-- Mic boom -->
+  <path d="M78,342 Q68,348 66,355" fill="none" stroke="#1a2d50" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="65" cy="357" r="3" fill="#0d1628" stroke="#1a2d50" stroke-width="1"/>
+  <circle cx="65" cy="357" r="1.5" fill="#ff6b6b" opacity="0.8" style="animation:pP 1s infinite"/>
+
+  <!-- ══ COFFEE MUG (premium) ══ -->
+  <rect x="315" y="328" width="24" height="24" rx="5" fill="#0e1e3a" stroke="#1a2e50" stroke-width="1.2"/>
+  <path d="M339,333 Q349,333 349,339 Q349,345 339,345" fill="none" stroke="#1a2e50" stroke-width="1.8"/>
+  <!-- Closeify logo on mug -->
+  <text x="327" y="343" font-family="monospace" font-size="6" fill="#ff6b6b" text-anchor="middle" opacity="0.8">⚡</text>
+  <!-- Steam wisps -->
+  <path d="M320,326 Q322,320 320,314" fill="none" stroke="#4a7aff" stroke-width="1.2" stroke-linecap="round" opacity="0.35" style="animation:cG 2.2s infinite"/>
+  <path d="M327,324 Q329,318 327,312" fill="none" stroke="#4a7aff" stroke-width="1.2" stroke-linecap="round" opacity="0.25" style="animation:cG 2.2s infinite 0.6s"/>
+  <path d="M334,326 Q336,320 334,314" fill="none" stroke="#4a7aff" stroke-width="1.2" stroke-linecap="round" opacity="0.2" style="animation:cG 2.2s infinite 1.1s"/>
+
+  <!-- ══ SEATED SALES PROFESSIONAL ══ -->
+  <!-- Executive chair back -->
+  <rect x="164" y="380" width="72" height="100" rx="10" fill="#0c1830" stroke="#182840" stroke-width="1.2"/>
+  <rect x="168" y="384" width="64" height="92" rx="8" fill="#0a1428"/>
+  <!-- Chair headrest -->
+  <rect x="172" y="372" width="56" height="16" rx="8" fill="#0c1830" stroke="#182840" stroke-width="1"/>
+  <!-- Chair seat -->
+  <rect x="156" y="476" width="88" height="22" rx="6" fill="#0c1830" stroke="#182840" stroke-width="1"/>
+  <!-- Chair arm rests -->
+  <rect x="153" y="428" width="14" height="40" rx="4" fill="#0c1830"/>
+  <rect x="233" y="428" width="14" height="40" rx="4" fill="#0c1830"/>
+  <!-- Chair base -->
+  <rect x="195" y="496" width="10" height="28" fill="#0c1830"/>
+  <ellipse cx="200" cy="525" rx="36" ry="7" fill="#080e1a"/>
+
+  <!-- PERSON — torso (premium navy suit) -->
+  <path d="M170,460 Q166,442 172,418 L200,406 L228,418 Q234,442 230,460 Z" fill="url(#gSuit)"/>
+  <!-- Suit highlight (left lapel light) -->
+  <path d="M170,460 Q168,442 174,420 L200,408 L200,460Z" fill="url(#gSuitHL)" opacity="0.5"/>
+  <!-- Suit jacket lapels -->
+  <path d="M193,406 L186,428 L194,434" fill="#162038" stroke="#1e2e48" stroke-width="0.5"/>
+  <path d="M207,406 L214,428 L206,434" fill="#162038" stroke="#1e2e48" stroke-width="0.5"/>
+  <!-- White dress shirt -->
+  <path d="M193,406 L200,406 L207,406 L204,432 L200,435 L196,432 Z" fill="#e8eef8"/>
+  <!-- Tie — Closeify orange-red -->
+  <path d="M198,406 L202,406 L204,414 L201,436 L200,438 L199,436 L196,414 Z" fill="#cc3020"/>
+  <rect x="199" y="420" width="2" height="12" rx="1" fill="#aa2818"/>
+  <!-- Suit buttons -->
+  <circle cx="200" cy="444" r="1.5" fill="#1a2840"/>
+  <circle cx="200" cy="452" r="1.5" fill="#1a2840"/>
+
+  <!-- PERSON — neck & head -->
+  <rect x="196" y="394" width="8" height="14" rx="2" fill="#c8906a"/>
+  <!-- Head -->
+  <ellipse cx="200" cy="382" rx="17" ry="19" fill="#c8906a"/>
+  <!-- Hair — short professional dark -->
+  <path d="M183,378 Q183,360 200,358 Q217,360 217,378 Q214,368 200,367 Q186,368 183,378Z" fill="#1a1008"/>
+  <path d="M183,375 Q181,366 185,362" fill="none" stroke="#1a1008" stroke-width="3" stroke-linecap="round"/>
+  <path d="M217,375 Q219,366 215,362" fill="none" stroke="#1a1008" stroke-width="3" stroke-linecap="round"/>
+  <!-- Ear -->
+  <ellipse cx="183" cy="382" rx="3" ry="5" fill="#b87a5a"/>
+  <ellipse cx="217" cy="382" rx="3" ry="5" fill="#b87a5a"/>
+  <!-- Eyes -->
+  <ellipse cx="193" cy="379" rx="3" ry="3.5" fill="#2a1a0a"/>
+  <ellipse cx="207" cy="379" rx="3" ry="3.5" fill="#2a1a0a"/>
+  <ellipse cx="193" cy="379" rx="1.5" ry="1.5" fill="#4a3020"/>
+  <ellipse cx="207" cy="379" rx="1.5" ry="1.5" fill="#4a3020"/>
+  <!-- Eyebrows -->
+  <path d="M189,374 Q193,372 197,374" fill="none" stroke="#1a1008" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M203,374 Q207,372 211,374" fill="none" stroke="#1a1008" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Professional glasses -->
+  <rect x="188" y="376" width="10" height="7" rx="3" fill="none" stroke="#2a3a5a" stroke-width="1.2" opacity="0.9"/>
+  <rect x="202" y="376" width="10" height="7" rx="3" fill="none" stroke="#2a3a5a" stroke-width="1.2" opacity="0.9"/>
+  <line x1="198" y1="379" x2="202" y2="379" stroke="#2a3a5a" stroke-width="1.2" opacity="0.9"/>
+  <line x1="188" y1="379" x2="185" y2="378" stroke="#2a3a5a" stroke-width="1.2" opacity="0.9"/>
+  <line x1="212" y1="379" x2="215" y2="378" stroke="#2a3a5a" stroke-width="1.2" opacity="0.9"/>
+  <!-- Confident slight smile -->
+  <path d="M195,387 Q200,391 205,387" fill="none" stroke="#a06848" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- PERSON — arms (suit sleeves) -->
+  <!-- Left arm — reaching toward keyboard -->
+  <path d="M172,435 Q158,445 148,455" fill="none" stroke="#0d1828" stroke-width="13" stroke-linecap="round"/>
+  <path d="M172,435 Q158,445 148,455" fill="none" stroke="#1e2d4a" stroke-width="10" stroke-linecap="round"/>
+  <path d="M172,435 Q158,445 148,455" fill="none" stroke="#c8906a" stroke-width="5" stroke-linecap="round"/>
+  <!-- Right arm -->
+  <path d="M228,435 Q244,445 254,452" fill="none" stroke="#0d1828" stroke-width="13" stroke-linecap="round"/>
+  <path d="M228,435 Q244,445 254,452" fill="none" stroke="#1e2d4a" stroke-width="10" stroke-linecap="round"/>
+  <path d="M228,435 Q244,445 254,452" fill="none" stroke="#c8906a" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- HEADSET on ear -->
+  <path d="M183,380 Q177,375 177,383 Q177,392 183,390" fill="none" stroke="#1a2e50" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="177" cy="383" r="5" fill="#0e1e3a" stroke="#1a3060" stroke-width="1"/>
+  <circle cx="177" cy="383" r="2.5" fill="#ff6b6b" opacity="0.8" style="animation:pP 1s infinite"/>
+  <!-- Mic boom from headset -->
+  <path d="M177,388 Q170,396 168,402" fill="none" stroke="#1a2e50" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="167" cy="404" r="3.5" fill="#0e1e3a" stroke="#1a3060" stroke-width="1"/>
+  <circle cx="167" cy="404" r="1.8" fill="#ff6b6b" opacity="0.7" style="animation:pP 0.8s infinite"/>
+
+  <!-- ══ HOLOGRAPHIC DATA OVERLAY (floating panel) ══ -->
+  <!-- Floating panel above desk -->
+  <rect x="30" y="290" width="90" height="52" rx="6" fill="url(#gHolo)" stroke="#1a5fff" stroke-width="0.8" opacity="0.8"/>
+  <!-- Panel header -->
+  <rect x="30" y="290" width="90" height="10" rx="6" fill="#1a5fff" opacity="0.15"/>
+  <text x="75" y="298" font-family="monospace" font-size="5" fill="#4a9fff" text-anchor="middle" opacity="0.9">AI ANALYSIS</text>
+  <!-- Objection type bars -->
+  <text x="36" y="308" font-family="monospace" font-size="4.5" fill="#888">Price</text>
+  <rect x="52" y="304" width="50" height="4" rx="2" fill="#1a2840"/>
+  <rect x="52" y="304" width="38" height="4" rx="2" fill="#ff6b6b" opacity="0.8"/>
+  <text x="36" y="316" font-family="monospace" font-size="4.5" fill="#888">Timing</text>
+  <rect x="52" y="312" width="50" height="4" rx="2" fill="#1a2840"/>
+  <rect x="52" y="312" width="22" height="4" rx="2" fill="#ffd93d" opacity="0.8"/>
+  <text x="36" y="324" font-family="monospace" font-size="4.5" fill="#888">Trust</text>
+  <rect x="52" y="320" width="50" height="4" rx="2" fill="#1a2840"/>
+  <rect x="52" y="320" width="14" height="4" rx="2" fill="#1dd1a1" opacity="0.8"/>
+  <text x="36" y="332" font-family="monospace" font-size="4.5" fill="#888">Comp.</text>
+  <rect x="52" y="328" width="50" height="4" rx="2" fill="#1a2840"/>
+  <rect x="52" y="328" width="30" height="4" rx="2" fill="#c77dff" opacity="0.8"/>
+  <!-- Floating panel glow -->
+  <rect x="30" y="290" width="90" height="52" rx="6" fill="none" stroke="#4a9fff" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- ══ FLOOR ══ -->
+  <rect x="0" y="495" width="400" height="205" fill="url(#gFloor)"/>
+  <!-- Floor reflection glow -->
+  <ellipse cx="200" cy="500" rx="200" ry="25" fill="url(#gFloorRefl)"/>
+  <!-- Floor tiles (subtle) -->
+  <line x1="0" y1="540" x2="400" y2="540" stroke="#0d1628" stroke-width="0.5" opacity="0.6"/>
+  <line x1="0" y1="580" x2="400" y2="580" stroke="#0d1628" stroke-width="0.5" opacity="0.4"/>
+  <line x1="100" y1="495" x2="100" y2="700" stroke="#0d1628" stroke-width="0.5" opacity="0.3"/>
+  <line x1="200" y1="495" x2="200" y2="700" stroke="#0d1628" stroke-width="0.5" opacity="0.3"/>
+  <line x1="300" y1="495" x2="300" y2="700" stroke="#0d1628" stroke-width="0.5" opacity="0.3"/>
+  <!-- Chair wheel shadows -->
+  <ellipse cx="200" cy="530" rx="45" ry="8" fill="#050a14" opacity="0.7"/>
+
+  <!-- ══ AMBIENT LIGHT SOURCES ══ -->
+  <!-- Overhead light strip -->
+  <rect x="100" y="0" width="200" height="3" rx="1" fill="#2a4070" opacity="0.6"/>
+  <ellipse cx="200" cy="0" rx="180" ry="80" fill="#1a3060" opacity="0.06"/>
+  <!-- Monitor ambient glow on ceiling -->
+  <ellipse cx="162" cy="100" rx="60" ry="30" fill="#1a4fff" opacity="0.04"/>
+  <ellipse cx="288" cy="110" rx="50" ry="25" fill="#ff3050" opacity="0.03"/>
+
+  <!-- Top overlay for header readability -->
+  <rect x="0" y="0" width="400" height="55" fill="rgba(4,6,20,0.32)"/>
+</svg>
+<div id="bg-overlay"></div>
+
+<!-- NEURAL -->
+<svg id="neural-bg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+  <defs><radialGradient id="ng" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="#ff6b6b" stop-opacity="0.5"/><stop offset="100%" stop-color="#1a1a2e" stop-opacity="0"/></radialGradient></defs>
+  <line x1="10" y1="15" x2="30" y2="40" stroke="url(#ng)" stroke-width="0.3" class="nl"/>
+  <line x1="30" y1="40" x2="60" y2="20" stroke="url(#ng)" stroke-width="0.3" class="nl"/>
+  <line x1="60" y1="20" x2="80" y2="45" stroke="url(#ng)" stroke-width="0.3" class="nl"/>
+  <line x1="80" y1="45" x2="50" y2="70" stroke="url(#ng)" stroke-width="0.3" class="nl"/>
+  <line x1="50" y1="70" x2="20" y2="80" stroke="url(#ng)" stroke-width="0.3" class="nl"/>
+  <line x1="20" y1="80" x2="70" y2="85" stroke="url(#ng)" stroke-width="0.3" class="nl"/>
+  <line x1="10" y1="15" x2="60" y2="20" stroke="url(#ng)" stroke-width="0.3" class="nl"/>
+  <line x1="60" y1="20" x2="55" y2="35" stroke="url(#ng)" stroke-width="0.3" class="nl"/>
+  <circle cx="10" cy="15" r="1.2" fill="#ff6b6b" opacity="0.5" class="nn"/>
+  <circle cx="30" cy="40" r="0.7" fill="#ff6b6b" opacity="0.5" class="nn" style="animation-delay:.3s"/>
+  <circle cx="60" cy="20" r="0.7" fill="#ff6b6b" opacity="0.5" class="nn" style="animation-delay:.6s"/>
+  <circle cx="80" cy="45" r="1.2" fill="#ff6b6b" opacity="0.5" class="nn" style="animation-delay:.9s"/>
+  <circle cx="55" cy="35" r="0.7" fill="#ff6b6b" opacity="0.5" class="nn" style="animation-delay:.7s"/>
+</svg>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sp-logo">⚡</div>
+  <div class="sp-title">Closeify</div>
+  <div class="sp-sub">CLOSE EVERY CALL WITH AI</div>
+  <div class="sp-feats">
+    <div class="sp-feat"><div class="sp-dot"></div>Live mic objection detection</div>
+    <div class="sp-feat"><div class="sp-dot"></div>Instant AI-powered rebuttals</div>
+    <div class="sp-feat"><div class="sp-dot"></div>Win rate tracker &amp; history log</div>
+    <div class="sp-feat"><div class="sp-dot"></div>Sound alerts + share via SMS &amp; email</div>
+  </div>
+  <button class="sp-btn" onclick="startApp()">GET STARTED</button>
+  <div class="sp-ver">v2.0 — All Features Unlocked</div>
+  <div style="margin-top:14px;font-size:10px;color:rgba(255,255,255,0.2);text-align:center;padding:0 30px;line-height:1.6;">
+    By using Closeify you agree to our
+    <a href="https://closeify.app/terms" target="_blank" style="color:#ff6b6b;text-decoration:none;">Terms &amp; Conditions</a>
+    including call recording consent laws.<br/>
+    <a href="https://closeify.app/terms" target="_blank" style="color:rgba(255,255,255,0.3);font-size:9px;text-decoration:none;">closeify.app/terms</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="logo-wrap">
+    <div class="logo-mark">⚡</div>
+    <div><div class="app-name">Closeify</div><div class="app-sub">CLOSE EVERY CALL WITH AI</div></div>
+  </div>
+  <div class="hstats">
+    <div class="hstat"><span class="hval" id="timerVal">00:00</span><div class="hlbl">CALL</div></div>
+    <div class="hstat"><span class="hval" id="objVal">0</span><div class="hlbl">ALERTS</div></div>
+    <div class="hstat"><span class="hval" id="winVal">—</span><div class="hlbl">WIN%</div></div>
+  </div>
+</div>
+
+<!-- MIC -->
+<div class="mic-sec">
+  <div class="orb-wrap" id="orbWrap" onclick="toggleListen()">
+    <div class="orb-ring r1" id="ring1"></div>
+    <div class="orb-ring r2" id="ring2"></div>
+    <div class="orb-ring r3" id="ring3"></div>
+    <div class="orb-core" id="orbCore">
+      <div class="orb-inner"><span class="orb-emoji" id="orbEmoji">🎤</span></div>
+    </div>
+    <div class="orb-lbl idle" id="orbLbl">TAP TO START</div>
+  </div>
+  <div class="waveform" id="waveform"></div>
+  <button class="end-btn" id="endBtn" onclick="endCall()">✕ END CALL</button>
+</div>
+
+<!-- TRANSCRIPT BAR -->
+<div class="tr-bar" id="trBar">
+  <span class="tr-dot">●</span>
+  <span class="tr-txt" id="trTxt">Listening...</span>
+  <span class="ai-spin" id="aiSpin">🧠</span>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn on" id="tab-live" onclick="switchTab('live')">⚡ Live <span class="tbadge" id="liveBadge">0</span></button>
+  <button class="tab-btn" id="tab-history" onclick="switchTab('history')">📋 Log</button>
+  <button class="tab-btn" id="tab-tracker" onclick="switchTab('tracker')">📊 Stats</button>
+  <button class="tab-btn" id="tab-tips" onclick="switchTab('tips')">💡 Tips</button>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- LIVE TAB -->
+  <div class="tab-panel on" id="panel-live">
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">🛡️</div>
+      <div class="empty-title">Ready for Battle</div>
+      <div class="empty-desc">Tap the mic and start your call. Rebuttal cards appear the moment an objection is detected.</div>
+      <div class="ex-chips">
+        <div class="ex-chip">"It's too expensive"</div>
+        <div class="ex-chip">"We already use a competitor"</div>
+        <div class="ex-chip">"I need to think about it"</div>
+        <div class="ex-chip">"I don't have the budget"</div>
+      </div>
+    </div>
+    <div id="rebWrap" style="display:none">
+      <div class="sec-hdr">
+        <span class="sec-lbl" id="rebCount">0 REBUTTALS</span>
+        <button class="clr-btn" onclick="clearRebuttals()">Clear all</button>
+      </div>
+      <div id="rebList"></div>
+    </div>
+  </div>
+
+  <!-- HISTORY TAB -->
+  <div class="tab-panel" id="panel-history">
+    <div class="sec-hdr">
+      <span class="sec-lbl" id="histCount">0 SESSIONS</span>
+      <button class="clr-btn" onclick="clearHistory()">Clear all</button>
+    </div>
+    <div id="histList"><div class="hist-empty">No history yet. Complete a call to see logs here.</div></div>
+  </div>
+
+  <!-- TRACKER TAB -->
+  <div class="tab-panel" id="panel-tracker">
+    <div class="tracker">
+      <div class="trk-hero">
+        <div class="wr-circle">
+          <svg width="124" height="124" viewBox="0 0 124 124">
+            <circle cx="62" cy="62" r="52" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="9"/>
+            <circle cx="62" cy="62" r="52" fill="none" stroke="url(#wg)" stroke-width="9" stroke-linecap="round" id="winCircle" stroke-dasharray="326.7" stroke-dashoffset="326.7"/>
+            <defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1dd1a1"/><stop offset="100%" stop-color="#48dbfb"/></linearGradient></defs>
+          </svg>
+          <div class="wr-num" id="wrNum">—</div>
+        </div>
+        <div class="wr-lbl">OVERALL WIN RATE</div>
+      </div>
+      <div class="trk-row">
+        <div class="trk-card"><div class="tc-val" style="color:#1dd1a1" id="tcWins">0</div><div class="tc-lbl">CALLS WON</div></div>
+        <div class="trk-card"><div class="tc-val" style="color:#ff6b6b" id="tcLosses">0</div><div class="tc-lbl">CALLS LOST</div></div>
+        <div class="trk-card"><div class="tc-val" style="color:#ffd93d" id="tcTotal">0</div><div class="tc-lbl">TOTAL CALLS</div></div>
+        <div class="trk-card"><div class="tc-val" style="color:#c77dff" id="tcHandled">0</div><div class="tc-lbl">OBJ. HANDLED</div></div>
+      </div>
+      <div class="obj-bk">
+        <div class="ob-t">OBJECTION BREAKDOWN</div>
+        <div id="bkRows"><div style="color:rgba(255,255,255,0.18);font-size:11px;text-align:center;padding:8px 0;">No data yet</div></div>
+      </div>
+      <div class="ses-note">Log outcomes after each call</div>
+      <div class="trk-btns">
+        <button class="tr-btn win" onclick="logOutcome('win')">✅ LOG WIN</button>
+        <button class="tr-btn loss" onclick="logOutcome('loss')">❌ LOG LOSS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPS TAB -->
+  <div class="tab-panel" id="panel-tips">
+    <div class="tips-list">
+      <div class="tips-hdr">HOW TO USE</div>
+      <div class="tip-card"><div class="tip-icon">🎤</div><div><div class="tip-title">Start before your call</div><div class="tip-desc">Tap the orb and allow microphone access. Works best on Chrome &amp; Safari.</div></div></div>
+      <div class="tip-card"><div class="tip-icon">📱</div><div><div class="tip-title">Hold near both parties</div><div class="tip-desc">Keep your phone between you and the customer so both voices are captured.</div></div></div>
+      <div class="tip-card"><div class="tip-icon">⚡</div><div><div class="tip-title">Use rebuttals instantly</div><div class="tip-desc">Glance at the card and weave the rebuttal naturally into conversation.</div></div></div>
+      <div class="tip-card"><div class="tip-icon">🔔</div><div><div class="tip-title">Sound alerts</div><div class="tip-desc">A chime plays every time an objection is detected so you never miss one.</div></div></div>
+      <div class="tip-card"><div class="tip-icon">📤</div><div><div class="tip-title">Share rebuttals</div><div class="tip-desc">Tap 📤 on any card to send the rebuttal via SMS or email to your team.</div></div></div>
+      <div class="tip-card"><div class="tip-icon">📊</div><div><div class="tip-title">Track your win rate</div><div class="tip-desc">After each call tap Log Win or Log Loss in the Stats tab to build your record.</div></div></div>
+      <div class="tip-card"><div class="tip-icon">🏠</div><div><div class="tip-title">Add to Home Screen</div><div class="tip-desc">Chrome: tap ⋮ → Add to Home Screen for a fullscreen native app experience.</div></div></div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<!-- SHARE MODAL -->
+<div id="share-modal" onclick="closeShare(event)">
+  <div class="sh-sheet">
+    <div class="sh-handle"></div>
+    <div class="sh-title">📤 Share Rebuttal</div>
+    <div class="sh-text" id="shText">—</div>
+    <div class="sh-btns">
+      <button class="sh-btn sh-copy" onclick="copyReb()">📋 Copy</button>
+      <button class="sh-btn sh-sms" onclick="shareSMS()">💬 SMS</button>
+      <button class="sh-btn sh-email" onclick="shareEmail()">✉️ Email</button>
+      <button class="sh-btn sh-close" onclick="closeShare()">✕ Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span id="toastMsg">Done!</span></div>
+
+<!-- T&C Footer -->
+<div style="position:relative;z-index:4;text-align:center;padding:7px 14px 12px;border-top:1px solid rgba(255,255,255,0.05);background:rgba(4,6,20,0.6);flex-shrink:0;">
+  <span style="font-size:9px;color:rgba(255,255,255,0.18);font-family:'Syne',sans-serif;letter-spacing:0.04em;">
+    By using Closeify you agree to our <a href="https://closeify.app/terms" target="_blank" style="color:#ff6b6b;text-decoration:none;font-weight:700;">Terms &amp; Conditions</a>
+    &nbsp;·&nbsp; You are responsible for all required recording consents
+  </span>
+</div>
+
+<!-- FLASH -->
+<div class="flash" id="flashEl"></div>
+
+<script>
+const PROMPT=`You are an elite sales coach AI. Detect customer objections and provide powerful rebuttals.
+Respond ONLY with valid JSON (no markdown):
+{"objection_detected":true/false,"objection_type":"price"|"timing"|"competitor"|"trust"|"need"|"authority"|"other"|null,"objection_summary":"brief summary or null","rebuttal":"confident empathetic 2-3 sentence rebuttal or null","tone":"empathetic"|"assertive"|"curious"|"social_proof","urgency":"high"|"medium"|"low"}
+Only flag real buying objections. Keep rebuttals conversational.`;
+
+const TC={
+  price:{color:"#ff6b6b",bg:"rgba(255,107,107,0.15)",icon:"💰",label:"Price"},
+  timing:{color:"#ffd93d",bg:"rgba(255,217,61,0.15)",icon:"⏰",label:"Timing"},
+  competitor:{color:"#c77dff",bg:"rgba(199,125,255,0.15)",icon:"⚔️",label:"Competitor"},
+  trust:{color:"#ff9f43",bg:"rgba(255,159,67,0.15)",icon:"🤝",label:"Trust"},
+  need:{color:"#48dbfb",bg:"rgba(72,219,251,0.15)",icon:"❓",label:"Need"},
+  authority:{color:"#1dd1a1",bg:"rgba(29,209,161,0.15)",icon:"👔",label:"Authority"},
+  other:{color:"#a29bfe",bg:"rgba(162,155,254,0.15)",icon:"💬",label:"Objection"},
+};
+const TM={empathetic:"💙",assertive:"⚡",curious:"🔍",social_proof:"⭐"};
+
+let listening=false,recog=null,callTimer=null,analyzeTO=null;
+let dur=0,objCnt=0,rebuttals=[],lastAn="",transcript="";
+let history=[];let stats={wins:0,losses:0,objTypes:{}};
+let shareText="";
+
+try{history=JSON.parse(localStorage.getItem('clf_h')||'[]');}catch(e){}
+try{stats=JSON.parse(localStorage.getItem('clf_s')||'{"wins":0,"losses":0,"objTypes":{}}');}catch(e){}
+
+// AUDIO
+function chime(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    [[880,0],[1108,0.12],[1320,0.24]].forEach(([f,d])=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);o.frequency.value=f;o.type='sine';
+      const t=ctx.currentTime+d;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.15,t+0.04);g.gain.linearRampToValueAtTime(0,t+0.22);
+      o.start(t);o.stop(t+0.25);
+    });
+  }catch(e){}
+}
+
+// WAVEFORM
+const wf=document.getElementById('waveform');
+for(let i=0;i<26;i++){const b=document.createElement('div');b.className='wv';b.style.animationDelay=`${(i*0.07)%0.8}s`;wf.appendChild(b);}
+
+// SPLASH
+function startApp(){const s=document.getElementById('splash');s.classList.add('hide');setTimeout(()=>s.style.display='none',650);}
+
+// LISTEN
+function toggleListen(){listening?stopListen():startListen();}
+
+function startListen(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('Use Chrome or Safari for mic','err');return;}
+  recog=new SR();recog.continuous=true;recog.interimResults=true;recog.lang='en-US';recog._on=true;
+  recog.onresult=e=>{
+    let interim='',final='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t=e.results[i][0].transcript;
+      if(e.results[i].isFinal)final+=t+' ';else interim+=t;
+    }
+    document.getElementById('trTxt').textContent=interim||transcript.slice(-65)||'Listening...';
+    document.getElementById('trBar').classList.add('on');
+    if(final){transcript+=final;clearTimeout(analyzeTO);analyzeTO=setTimeout(()=>analyze(final.trim()),750);}
+  };
+  recog.onerror=e=>{if(e.error!=='aborted')toast('Mic: '+e.error,'err');};
+  recog.onend=()=>{if(recog._on)recog.start();};
+  recog.start();
+  listening=true;setOrb(true);
+  dur=0;tickTimer();callTimer=setInterval(()=>{dur++;tickTimer();},1000);
+}
+
+function stopListen(){
+  if(recog){recog._on=false;recog.stop();recog=null;}
+  clearInterval(callTimer);listening=false;setOrb(false);
+}
+
+function endCall(){
+  if(rebuttals.length){
+    const s={date:new Date().toLocaleDateString(),time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),dur:fmt(dur),count:rebuttals.length,items:rebuttals.map(r=>({type:r.objection_type,sum:r.objection_summary,reb:r.rebuttal}))};
+    history.unshift(s);if(history.length>50)history.pop();
+    try{localStorage.setItem('clf_h',JSON.stringify(history));}catch(e){}
+    renderHistory();
+  }
+  stopListen();
+  document.getElementById('trBar').classList.remove('on');
+  toast('📋 Call saved to history');
+}
+
+function setOrb(on){
+  document.getElementById('orbCore').classList.toggle('on',on);
+  document.getElementById('orbEmoji').textContent=on?'🎙️':'🎤';
+  document.getElementById('orbLbl').className='orb-lbl '+(on?'live':'idle');
+  document.getElementById('orbLbl').textContent=on?'● LIVE':'TAP TO START';
+  ['ring1','ring2','ring3'].forEach(id=>document.getElementById(id).classList.toggle('on',on));
+  document.getElementById('endBtn').classList.toggle('on',on);
+  document.getElementById('timerVal').classList.toggle('lit',on);
+  document.querySelectorAll('.wv').forEach(b=>b.classList.toggle('on',on));
+}
+
+// ANALYZE
+async function analyze(text){
+  if(!text.trim()||text===lastAn||text.split(' ').length<4)return;
+  lastAn=text;
+  document.getElementById('aiSpin').classList.add('on');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,system:PROMPT,messages:[{role:'user',content:`Analyze: "${text}"`}]})
+    });
+    const data=await res.json();
+    const raw=data.content?.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const r=JSON.parse(raw);
+    if(r.objection_detected&&r.rebuttal){
+      chime();flash();objCnt++;
+      document.getElementById('objVal').textContent=objCnt;
+      document.getElementById('objVal').classList.add('gold');
+      const t=r.objection_type||'other';
+      stats.objTypes[t]=(stats.objTypes[t]||0)+1;
+      try{localStorage.setItem('clf_s',JSON.stringify(stats));}catch(e){}
+      const card={id:Date.now(),...r,ts:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})};
+      rebuttals.push(card);addCard(card);switchTab('live');renderBK();
+    }
+  }catch(e){console.error(e);}
+  finally{document.getElementById('aiSpin').classList.remove('on');}
+}
+
+// CARDS
+function addCard(r){
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('rebWrap').style.display='block';
+  const cfg=TC[r.objection_type]||TC.other;
+  const tone=TM[r.tone]||'';
+  const d=document.createElement('div');
+  d.className='rcard';d.id='c'+r.id;
+  d.style.setProperty('--cc',cfg.color);d.style.borderLeft=`3px solid ${cfg.color}`;
+  d.innerHTML=`<div class="card-top">
+    <div class="card-left"><div class="type-pill" style="background:${cfg.bg};border:1px solid ${cfg.color}44;color:${cfg.color}">${cfg.icon} ${cfg.label}</div><div class="udot ${r.urgency==='high'?'on':''}"></div></div>
+    <div class="card-right"><span class="card-time">${r.ts}</span><div class="card-acts"><button class="act-btn" onclick="openShare(${r.id})">📤</button><button class="act-btn" onclick="dimCard(${r.id})">✕</button></div></div>
+  </div>
+  <div class="obj-bubble"><span class="qm">"</span>${esc(r.objection_summary||'')}<span class="qm">"</span></div>
+  <div class="div-g"></div>
+  <div class="reb-lbl" style="color:${cfg.color}">${tone} YOUR REBUTTAL</div>
+  <div class="reb-txt">${esc(r.rebuttal||'')}</div>
+  <div class="urg-ban ${r.urgency==='high'?'on':''}">🔥 Address this objection now</div>`;
+  document.getElementById('rebList').appendChild(d);
+  d.scrollIntoView({behavior:'smooth',block:'end'});
+  const b=document.getElementById('liveBadge');b.textContent=rebuttals.length;b.classList.add('on');
+  document.getElementById('rebCount').textContent=rebuttals.length+' REBUTTAL'+(rebuttals.length!==1?'S':'');
+}
+
+function dimCard(id){
+  rebuttals=rebuttals.filter(r=>r.id!==id);
+  const el=document.getElementById('c'+id);if(el)el.remove();
+  if(!rebuttals.length){document.getElementById('rebWrap').style.display='none';document.getElementById('emptyState').style.display='flex';document.getElementById('liveBadge').classList.remove('on');}
+  document.getElementById('liveBadge').textContent=rebuttals.length;
+  document.getElementById('rebCount').textContent=rebuttals.length+' REBUTTAL'+(rebuttals.length!==1?'S':'');
+}
+
+function clearRebuttals(){
+  rebuttals=[];document.getElementById('rebList').innerHTML='';
+  document.getElementById('rebWrap').style.display='none';document.getElementById('emptyState').style.display='flex';
+  document.getElementById('liveBadge').classList.remove('on');document.getElementById('liveBadge').textContent='0';
+}
+
+// HISTORY
+function renderHistory(){
+  const el=document.getElementById('histList');
+  document.getElementById('histCount').textContent=history.length+' SESSION'+(history.length!==1?'S':'');
+  if(!history.length){el.innerHTML='<div class="hist-empty">No history yet. Complete a call to see logs.</div>';return;}
+  el.innerHTML=history.map((s,i)=>`<div class="rcard" style="--cc:#a29bfe;border-left:3px solid #a29bfe;margin-bottom:11px;">
+    <div class="card-top">
+      <div class="card-left"><div class="type-pill" style="background:rgba(162,155,254,0.15);border:1px solid #a29bfe44;color:#a29bfe">📋 ${s.date}</div></div>
+      <div class="card-right"><span class="card-time">${s.time} · ${s.dur}</span><button class="act-btn" onclick="delHist(${i})">✕</button></div>
+    </div>
+    <div style="display:flex;gap:12px;margin:7px 0 9px;font-size:10.5px;color:rgba(255,255,255,0.38);">
+      <span>⚡ ${s.count} objection${s.count!==1?'s':''}</span><span>⏱ ${s.dur}</span>
+    </div>
+    ${s.items.slice(0,2).map(it=>`<div class="obj-bubble" style="margin-bottom:5px;font-size:10.5px;">${(TC[it.type]||TC.other).icon} <em>${esc(it.sum||'')}</em></div>`).join('')}
+    ${s.items.length>2?`<div style="font-size:9.5px;color:rgba(255,255,255,0.22);text-align:center;">+${s.items.length-2} more</div>`:''}
+  </div>`).join('');
+}
+
+function delHist(i){history.splice(i,1);try{localStorage.setItem('clf_h',JSON.stringify(history));}catch(e){}renderHistory();}
+function clearHistory(){history=[];try{localStorage.setItem('clf_h','[]');}catch(e){}renderHistory();}
+
+// TRACKER
+function logOutcome(t){
+  if(t==='win')stats.wins++;else stats.losses++;
+  try{localStorage.setItem('clf_s',JSON.stringify(stats));}catch(e){}
+  updateTracker();toast(t==='win'?'✅ Win logged!':'❌ Loss logged.');
+}
+
+function updateTracker(){
+  const total=stats.wins+stats.losses;
+  const pct=total?Math.round(stats.wins/total*100):null;
+  document.getElementById('tcWins').textContent=stats.wins;
+  document.getElementById('tcLosses').textContent=stats.losses;
+  document.getElementById('tcTotal').textContent=total;
+  document.getElementById('tcHandled').textContent=Object.values(stats.objTypes).reduce((a,b)=>a+b,0);
+  document.getElementById('wrNum').textContent=pct!==null?pct+'%':'—';
+  const wv=document.getElementById('winVal');wv.textContent=pct!==null?pct+'%':'—';if(pct!==null)wv.classList.add('gold');
+  const c=document.getElementById('winCircle');
+  if(c&&pct!==null)c.style.strokeDashoffset=326.7*(1-pct/100);
+  renderBK();
+}
+
+function renderBK(){
+  const el=document.getElementById('bkRows');
+  const entries=Object.entries(stats.objTypes).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length){el.innerHTML='<div style="color:rgba(255,255,255,0.18);font-size:11px;text-align:center;padding:8px 0;">No data yet</div>';return;}
+  const mx=Math.max(...entries.map(e=>e[1]));
+  el.innerHTML=entries.map(([type,count])=>{
+    const cfg=TC[type]||TC.other;
+    return`<div class="ob-row"><div class="ob-name">${cfg.icon} ${cfg.label}</div><div class="ob-bw"><div class="ob-bar" style="width:${Math.round(count/mx*100)}%;background:${cfg.color}"></div></div><div class="ob-cnt">${count}</div></div>`;
+  }).join('');
+}
+
+// SHARE
+function openShare(id){
+  const r=rebuttals.find(x=>x.id===id);if(!r)return;
+  shareText=r.rebuttal||'';
+  document.getElementById('shText').textContent=shareText;
+  document.getElementById('share-modal').classList.add('on');
+}
+function closeShare(e){if(!e||e.target===document.getElementById('share-modal'))document.getElementById('share-modal').classList.remove('on');}
+function copyReb(){navigator.clipboard?.writeText(shareText).then(()=>toast('📋 Copied!')).catch(()=>toast('Copy failed','err'));closeShare();}
+function shareSMS(){window.open('sms:?body='+encodeURIComponent('Sales rebuttal: '+shareText));closeShare();}
+function shareEmail(){window.open('mailto:?subject=Sales+Rebuttal&body='+encodeURIComponent(shareText));closeShare();}
+
+// TABS
+function switchTab(t){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('tab-'+t).classList.add('on');
+  document.getElementById('panel-'+t).classList.add('on');
+}
+
+// HELPERS
+function tickTimer(){const m=String(Math.floor(dur/60)).padStart(2,'0');const s=String(dur%60).padStart(2,'0');document.getElementById('timerVal').textContent=m+':'+s;}
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function flash(){const f=document.getElementById('flashEl');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+let tTO=null;
+function toast(msg,type='ok'){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.className='toast on'+(type==='err'?' err':'');clearTimeout(tTO);tTO=setTimeout(()=>t.classList.remove('on'),2400);}
+
+// INIT
+renderHistory();
+updateTracker();
+</script>
+</body>
+</html>
