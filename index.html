@@ -297,7 +297,7 @@ function analyze(text){
   document.getElementById("aispin").classList.add("on");
   fetch("https://api.anthropic.com/v1/messages",{
     method:"POST",
-    headers:{"Content-Type":"application/json","x-api-key":"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","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+    headers:{"Content-Type":"application/json","x-api-key":"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","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
     body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:600,system:getPrompt(),messages:[{role:"user",content:"Customer just said: "+text}]})
   }).then(function(r){return r.json();}).then(function(data){
     var raw=(data.content||[]).map(function(b){return b.text||"";}).join("").replace(/```json|```/g,"").trim();
