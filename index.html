@@ -261,6 +261,75 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
   background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:12px;
   font-family:'Inter',sans-serif;font-weight:600;letter-spacing:0.04em;
 }
+
+/* CALL ANALYSIS OVERLAY */
+#analysis-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(6,10,18,0.98);
+  display:none;flex-direction:column;
+  overflow-y:auto;
+}
+#analysis-overlay.on{display:flex;}
+#analysis-header{
+  padding:20px 20px 0;flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+}
+#analysis-title{
+  font-size:18px;font-weight:800;color:#fff;
+  letter-spacing:-0.02em;
+}
+#analysis-subtitle{font-size:11px;color:rgba(148,163,184,0.5);margin-top:3px;}
+#analysis-close{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  color:rgba(148,163,184,0.6);font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;padding:7px 14px;border-radius:20px;cursor:pointer;
+}
+#analysis-body{padding:20px;flex:1;}
+.analysis-section{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:16px;margin-bottom:12px;
+}
+.analysis-section-title{
+  font-size:10px;font-weight:700;letter-spacing:0.12em;
+  margin-bottom:12px;display:flex;align-items:center;gap:7px;
+}
+.analysis-score{
+  display:flex;align-items:center;gap:12px;margin-bottom:14px;
+}
+.score-circle{
+  width:64px;height:64px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:800;flex-shrink:0;
+  border:2.5px solid;
+}
+.score-label{font-size:11px;color:rgba(148,163,184,0.5);margin-top:2px;}
+.analysis-item{
+  display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;
+}
+.analysis-dot{
+  width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;
+}
+.analysis-text{font-size:13px;color:rgba(220,235,255,0.85);line-height:1.6;}
+.analysis-loading{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 20px;gap:14px;
+}
+.analysis-loading-spinner{
+  width:36px;height:36px;border-radius:50%;
+  border:3px solid rgba(59,130,246,0.2);
+  border-top-color:#3b82f6;
+  animation:spin 0.8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.analysis-loading-text{font-size:13px;color:rgba(148,163,184,0.5);}
+#analysis-cta{
+  margin:4px 20px 32px;
+  padding:14px;border-radius:12px;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+  border:none;color:#fff;font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:700;cursor:pointer;width:calc(100% - 40px);
+  letter-spacing:0.04em;
+}
 </style>
 </head>
 <body>
@@ -393,6 +462,10 @@ function stopListen(){if(recog){recog._on=false;recog.stop();recog=null;}clearIn
 function endCall(){
   if(rebs.length){var s={date:new Date().toLocaleDateString(),time:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),dur:fmt(dur),count:rebs.length,items:rebs.map(function(r){return{type:r.objection_type,sum:r.objection_summary,reb:r.rebuttal};})};hist.unshift(s);if(hist.length>50)hist.pop();try{localStorage.setItem("clf_h",JSON.stringify(hist));}catch(e){}renderHist();}
   stopListen();document.getElementById("trbar").classList.remove("on");showToast("Call saved!");
+  // Run call analysis if we had any objections
+  if(rebs.length>0){
+    setTimeout(function(){runCallAnalysis();},800);
+  }
 }
 
 function setBtn(on){
@@ -628,6 +701,110 @@ function overlayEndCall(e){if(e)e.stopPropagation();
   endCall();
 }
 
+
+function closeAnalysis(){
+  document.getElementById('analysis-overlay').classList.remove('on');
+}
+
+function runCallAnalysis(){
+  if(!rebs.length)return;
+  // Build call summary for AI
+  var callSummary = rebs.map(function(r,i){
+    return 'Objection '+(i+1)+': ['+r.objection_type+'] "'+r.objection_summary+'" | Rebuttal used: '+(r.bullets?r.bullets.join(' | '):r.rebuttal);
+  }).join('\n');
+  var callDuration = fmt(dur);
+  var objCount = rebs.length;
+  var prodCtx = prod.name ? 'Product: '+prod.name+'. '+(prod.desc||'') : 'No product set.';
+
+  // Show overlay with loading state
+  document.getElementById('analysis-overlay').classList.add('on');
+  document.getElementById('analysis-loading').style.display='flex';
+  document.getElementById('analysis-content').style.display='none';
+
+  var prompt = 'You are an elite sales coach reviewing a completed sales call. Analyze the call data and provide honest, actionable coaching.\n\nCALL DATA:\n'+prodCtx+'\nCall duration: '+callDuration+'\nTotal objections handled: '+objCount+'\n\nOBJECTIONS & REBUTTALS:\n'+callSummary+'\n\nProvide analysis in this exact JSON format (no markdown):\n{"overall_score":75,"score_label":"Good","what_went_well":["point 1","point 2","point 3"],"what_was_missed":["specific thing missed","another gap","coaching note"],"power_moves":["actionable tip 1","actionable tip 2","actionable tip 3"],"one_thing":"The single most important thing to improve next call in one sentence."}\n\nBe specific, honest and direct. Reference the actual objections from the call. Score 0-100.';
+
+  fetch('https://closeify-api.robert-slauson.workers.dev',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-5',
+      max_tokens:1000,
+      system:prompt,
+      messages:[{role:'user',content:'Analyze this sales call and give me honest coaching.'}]
+    })
+  }).then(function(r){return r.json();}).then(function(data){
+    var raw=(data.content||[]).map(function(b){return b.text||'';}).join('').replace(/```json|```/g,'').trim();
+    var result;try{result=JSON.parse(raw);}catch(e){
+      document.getElementById('analysis-loading').style.display='none';
+      document.getElementById('analysis-content').style.display='block';
+      document.getElementById('analysis-content').innerHTML='<div style="color:rgba(148,163,184,0.5);text-align:center;padding:20px">Could not generate analysis. Try again after your next call.</div>';
+      return;
+    }
+    renderAnalysis(result);
+  }).catch(function(){
+    document.getElementById('analysis-loading').style.display='none';
+    document.getElementById('analysis-content').innerHTML='<div style="color:rgba(148,163,184,0.5);text-align:center;padding:20px">Network error. Please try again.</div>';
+    document.getElementById('analysis-content').style.display='block';
+  });
+}
+
+function renderAnalysis(r){
+  document.getElementById('analysis-loading').style.display='none';
+  var score=r.overall_score||0;
+  var scoreColor=score>=80?'#22c55e':score>=60?'#f59e0b':'#ef4444';
+  var scoreBg=score>=80?'rgba(34,197,94,0.1)':score>=60?'rgba(245,158,11,0.1)':'rgba(239,68,68,0.1)';
+
+  var html='';
+
+  // Score card
+  html+='<div class="analysis-section">';
+  html+='<div class="analysis-score">';
+  html+='<div class="score-circle" style="color:'+scoreColor+';border-color:'+scoreColor+';background:'+scoreBg+'">'+score+'</div>';
+  html+='<div><div style="font-size:16px;font-weight:700;color:'+scoreColor+'">'+esc(r.score_label||'')+'</div><div class="score-label">CALL PERFORMANCE SCORE</div></div>';
+  html+='</div>';
+  // One thing
+  if(r.one_thing){
+    html+='<div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:12px 14px;">';
+    html+='<div style="font-size:9px;color:#60a5fa;letter-spacing:0.12em;font-weight:700;margin-bottom:5px;">⚡ FOCUS ON THIS NEXT CALL</div>';
+    html+='<div style="font-size:14px;color:#fff;line-height:1.6;">'+esc(r.one_thing)+'</div>';
+    html+='</div>';
+  }
+  html+='</div>';
+
+  // What went well
+  if(r.what_went_well&&r.what_went_well.length){
+    html+='<div class="analysis-section">';
+    html+='<div class="analysis-section-title" style="color:#22c55e">✅ WHAT YOU DID WELL</div>';
+    r.what_went_well.forEach(function(item){
+      html+='<div class="analysis-item"><div class="analysis-dot" style="background:#22c55e"></div><div class="analysis-text">'+esc(item)+'</div></div>';
+    });
+    html+='</div>';
+  }
+
+  // What was missed
+  if(r.what_was_missed&&r.what_was_missed.length){
+    html+='<div class="analysis-section">';
+    html+='<div class="analysis-section-title" style="color:#ef4444">🎯 WHAT YOU MISSED</div>';
+    r.what_was_missed.forEach(function(item){
+      html+='<div class="analysis-item"><div class="analysis-dot" style="background:#ef4444"></div><div class="analysis-text">'+esc(item)+'</div></div>';
+    });
+    html+='</div>';
+  }
+
+  // Power moves
+  if(r.power_moves&&r.power_moves.length){
+    html+='<div class="analysis-section">';
+    html+='<div class="analysis-section-title" style="color:#f59e0b">⚡ POWER MOVES FOR NEXT TIME</div>';
+    r.power_moves.forEach(function(item){
+      html+='<div class="analysis-item"><div class="analysis-dot" style="background:#f59e0b"></div><div class="analysis-text">'+esc(item)+'</div></div>';
+    });
+    html+='</div>';
+  }
+
+  document.getElementById('analysis-content').innerHTML=html;
+  document.getElementById('analysis-content').style.display='block';
+}
+
 document.addEventListener("DOMContentLoaded",function(){
   var wf=document.getElementById("wf");
   for(var i=0;i<22;i++){var b=document.createElement("div");b.className="wv";b.style.animationDelay=((i*0.07)%0.8)+"s";wf.appendChild(b);}
@@ -660,5 +837,25 @@ document.addEventListener("DOMContentLoaded",function(){
   <!-- Previous rebuttals stack -->
   <div id="overlay-stack"></div>
 </div>
+
+<!-- CALL ANALYSIS OVERLAY -->
+<div id="analysis-overlay">
+  <div id="analysis-header">
+    <div>
+      <div id="analysis-title">📊 Call Analysis</div>
+      <div id="analysis-subtitle">AI-powered coaching based on your call</div>
+    </div>
+    <button id="analysis-close" onclick="closeAnalysis()">✕ Close</button>
+  </div>
+  <div id="analysis-body">
+    <div class="analysis-loading" id="analysis-loading">
+      <div class="analysis-loading-spinner"></div>
+      <div class="analysis-loading-text">Analyzing your call...</div>
+    </div>
+    <div id="analysis-content" style="display:none"></div>
+  </div>
+  <button id="analysis-cta" onclick="closeAnalysis()">✓ Got It — Back to Dashboard</button>
+</div>
+
 </body>
 </html>
