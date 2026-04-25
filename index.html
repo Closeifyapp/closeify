@@ -447,7 +447,14 @@ function startListen(){
     for(var i=e.resultIndex;i<e.results.length;i++){var t=e.results[i][0].transcript;if(e.results[i].isFinal)final+=t+" ";else interim+=t;}
     document.getElementById("trtxt").textContent=interim||transcript.slice(-60)||"Listening...";
     document.getElementById("trbar").classList.add("on");
-    if(final){transcript+=final;clearTimeout(aTO);aTO=setTimeout(function(){analyze(final.trim());},2000);}
+    if(final){
+      transcript+=final;
+      clearTimeout(aTO);
+      aTO=setTimeout(function(){analyze(final.trim());},400);
+    } else if(interim&&interim.split(" ").length>=6){
+      clearTimeout(aTO);
+      aTO=setTimeout(function(){analyze(interim.trim());},700);
+    }
   };
   recog.onerror=function(e){if(e.error!=="aborted")showToast("Mic: "+e.error,"err");};
   recog.onend=function(){if(recog._on)recog.start();};
@@ -480,7 +487,7 @@ var lastCardTime=0;
 function analyze(text){
   if(!text.trim())return;
   var now=Date.now();
-  if(now-lastCardTime<15000)return;
+  if(now-lastCardTime<8000)return;
   document.getElementById("aispin").classList.add("on");
   var payload={model:"claude-sonnet-4-5",max_tokens:600,system:getPrompt(),messages:[{role:"user",content:"Customer just said: "+text}]};
   fetch("https://closeify-api.robert-slauson.workers.dev",{
