@@ -503,37 +503,43 @@ function showToast(msg,type){var t=document.getElementById("toast");document.get
 var overlayCard=null;
 
 function showOverlay(r){
-  var cfg=TC[r.objection_type]||TC.other;
   var overlay=document.getElementById('card-overlay');
-  // If overlay already open, push current to stack first
+  // If overlay already open — just push new card to queue, don't interrupt
   if(overlay.classList.contains('on')&&overlayCard){
-    pushToStack(overlayCard);
+    pushToStack(r);
+    // Flash the queue to notify
+    var stack=document.getElementById('overlay-stack');
+    stack.style.transition='background 0.2s';
+    stack.style.background='rgba(59,130,246,0.08)';
+    setTimeout(function(){stack.style.background='';},400);
+    return;
   }
-  // Update main display
+  // First rebuttal — show full screen
+  var cfg=TC[r.objection_type]||TC.other;
   var pill=document.getElementById('overlay-pill');
   pill.textContent=cfg.icon+' '+cfg.label;
   pill.style.cssText='background:'+cfg.bg+';border:1px solid '+cfg.color+'44;color:'+cfg.color+';font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;';
   document.getElementById('overlay-time').textContent=r.ts;
   document.getElementById('overlay-obj').textContent=r.objection_summary||'';
   var rebEl=document.getElementById('overlay-rebuttal');
-   var blist=r.bullets&&r.bullets.length?r.bullets:(r.rebuttal||'').split('\n').map(function(b){return b.replace(/^[\u2022\-\*\d\.\)]\s*/,'').trim();}).filter(Boolean);
-   if(blist.length>0){
-     rebEl.innerHTML=blist.map(function(b){
-       return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">'+
-         '<div style="width:7px;height:7px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:7px"></div>'+
-         '<span style="font-size:20px;color:#fff;line-height:1.5;font-family:DM Sans,sans-serif;font-weight:500">'+esc(b)+'</span>'+
-       '</div>';
-     }).join('');
-   }else{
-     rebEl.textContent=r.rebuttal||'';
-   }
-   document.getElementById('overlay-lbl').style.color=cfg.color;
+  var blist=r.bullets&&r.bullets.length?r.bullets:(r.rebuttal||'').split('\n').map(function(b){return b.replace(/^[\u2022\-\*\d\.\)]\s*/,'').trim();}).filter(Boolean);
+  if(blist.length>0){
+    rebEl.innerHTML=blist.map(function(b){
+      return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">'+
+        '<div style="width:7px;height:7px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:7px"></div>'+
+        '<span style="font-size:20px;color:#fff;line-height:1.5;font-family:DM Sans,sans-serif;font-weight:500">'+esc(b)+'</span>'+
+      '</div>';
+    }).join('');
+  }else{
+    rebEl.textContent=r.rebuttal||'';
+  }
+  document.getElementById('overlay-lbl').style.color=cfg.color;
   document.getElementById('overlay-bar').style.setProperty('--oc',cfg.color);
-  document.getElementById('overlay-rebuttal').style.setProperty('--bullet-c',cfg.color);
   document.getElementById('overlay-counter').textContent='\u26a1 '+objCnt+' caught';
   overlayCard=r;
   overlay.classList.add('on');
 }
+
 
 function formatBullets(text, color){
   var lines=text.split('\n').filter(function(l){return l.trim();});
@@ -547,40 +553,55 @@ function formatBullets(text, color){
 function pushToStack(r){
   var cfg=TC[r.objection_type]||TC.other;
   var stack=document.getElementById('overlay-stack');
-  // Add divider if stack has items
+  // Add header label if first item
   if(stack.children.length===0){
     var lbl=document.createElement('div');
-    lbl.style.cssText='font-size:9px;color:rgba(148,163,184,0.3);letter-spacing:0.1em;padding:4px 0 2px;font-weight:600;';
-    lbl.textContent='PREVIOUS REBUTTALS';
+    lbl.style.cssText='font-size:9px;color:rgba(148,163,184,0.35);letter-spacing:0.1em;padding:6px 0 4px;font-weight:600;display:flex;align-items:center;gap:6px;';
+    lbl.innerHTML='QUEUE <span id="queue-count" style="background:rgba(59,130,246,0.2);color:#60a5fa;border-radius:8px;padding:1px 6px;font-size:9px;">1</span>';
     stack.appendChild(lbl);
+  } else {
+    // Update count badge
+    var badge=document.getElementById('queue-count');
+    if(badge) badge.textContent=stack.children.length;
   }
   var el=document.createElement('div');
   el.className='stack-card';
+  el.style.animation='cin 0.3s cubic-bezier(0.34,1.3,0.64,1)';
+  var blist=r.bullets&&r.bullets.length?r.bullets:[];
   el.innerHTML=
     '<div class="stack-card-header">'+
-      '<div>'+
-        '<div class="stack-type" style="color:'+cfg.color+'">'+cfg.icon+' '+cfg.label+' — <span style="color:rgba(148,163,184,0.5);font-weight:400">'+r.ts+'</span></div>'+
+      '<div style="flex:1;min-width:0">'+
+        '<div style="display:flex;align-items:center;gap:6px">'+
+          '<div class="stack-type" style="color:'+cfg.color+'">'+cfg.icon+' '+cfg.label+'</div>'+
+          '<div style="font-size:8px;background:rgba(59,130,246,0.2);color:#60a5fa;border-radius:8px;padding:1px 6px;font-weight:700;">NEW</div>'+
+          '<span style="font-size:9px;color:rgba(148,163,184,0.35);margin-left:auto">'+r.ts+'</span>'+
+        '</div>'+
         '<div class="stack-summary">'+esc(r.objection_summary||'')+'</div>'+
       '</div>'+
-      '<span class="stack-arr">▼</span>'+
+      '<span class="stack-arr" style="margin-left:8px">&#9660;</span>'+
     '</div>'+
     '<div class="stack-card-body">'+
-      (function(){
-        var sb=r.bullets&&r.bullets.length?r.bullets:(r.rebuttal||'').split('\n').map(function(b){return b.replace(/^[•\-\*]\s*/,'').trim();}).filter(Boolean);
-        if(sb.length>0){
-          return '<div class="stack-rebuttal">'+sb.map(function(b){
-            return '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">'+
-              '<div style="width:5px;height:5px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:6px"></div>'+
-              '<span style="font-size:13px;color:rgba(240,248,255,0.85);line-height:1.5">'+esc(b)+'</span>'+
-            '</div>';
-          }).join('')+'</div>';
-        }
-        return '<div class="stack-rebuttal">'+esc(r.rebuttal||'')+'</div>';
-      })()+
+      (blist.length?blist.map(function(b){
+        return '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">'+
+          '<div style="width:5px;height:5px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:5px"></div>'+
+          '<span style="font-size:13px;color:rgba(240,248,255,0.85);line-height:1.5">'+esc(b)+'</span>'+
+        '</div>';
+      }).join(''):('<span style="font-size:13px;color:rgba(240,248,255,0.7)">'+esc(r.rebuttal||'')+'</span>'))+
     '</div>';
-  el.addEventListener('click',function(){el.classList.toggle('open');});
-  stack.insertBefore(el, stack.children[1]||null);
+  el.addEventListener('click',function(){
+    el.classList.toggle('open');
+    // Remove NEW badge when opened
+    var nb=el.querySelector('[style*="NEW"]');
+    if(nb)nb.style.display='none';
+  });
+  // Insert at top of stack (after label)
+  if(stack.children.length>1){
+    stack.insertBefore(el, stack.children[1]);
+  } else {
+    stack.appendChild(el);
+  }
 }
+
 
 function closeOverlay(e){
   if(e)e.stopPropagation();
