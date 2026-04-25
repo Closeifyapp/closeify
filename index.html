@@ -247,9 +247,8 @@ var listening=false,recog=null,cTimer=null,aTO=null,dur=0,objCnt=0,rebs=[],lastA
 
 function getPrompt(){
   var hp=prod.name.trim().length>0;
-  var ctx=hp?" PRODUCT: "+prod.name+". "+(prod.desc||"")+" Tailor every rebuttal to this product.":" Give strong general sales rebuttals.";
-  var ex='{"objection_detected":true,"objection_type":"price","objection_summary":"summary","rebuttal":"rebuttal","tone":"empathetic","urgency":"high"}';
-  return "You are an elite real-time sales coach. Detect ANY sales objection or hesitation."+ctx+" Reply ONLY with valid JSON like this: "+ex+" Use types: price,timing,competitor,trust,need,authority,other. Set objection_detected to false only if there is truly no objection.";
+  var ctx=hp?" PRODUCT BEING SOLD: "+prod.name+". "+(prod.desc||"")+" Mention the product by name in the rebuttal.":" Give strong general sales rebuttals.";
+  return "You are an aggressive real-time sales objection detector. ALWAYS look for objections. Even slight hesitation, price mentions, competitor mentions, timing delays, or doubts count as objections."+ctx+" You MUST reply with ONLY a raw JSON object, no markdown, no explanation, nothing else. JSON format: {objection_detected:true or false, objection_type: one of price/timing/competitor/trust/need/authority/other, objection_summary: what the customer said, rebuttal: a powerful 2 sentence comeback, tone: empathetic, urgency: high or medium}. Be very sensitive - detect objections aggressively.";
 }
 
 function chime(){try{var c=new(window.AudioContext||window.webkitAudioContext)();[[880,0],[1108,0.1],[1320,0.2]].forEach(function(f){var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f[0];o.type="sine";var t=c.currentTime+f[1];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.13,t+0.04);g.gain.linearRampToValueAtTime(0,t+0.2);o.start(t);o.stop(t+0.22);});}catch(e){}}
@@ -292,13 +291,12 @@ function setBtn(on){
 }
 
 function analyze(text){
-  if(!text.trim()||text.split(" ").length<2)return;
-  lastAn=text;
+  if(!text.trim())return;
   document.getElementById("aispin").classList.add("on");
   fetch("https://closeify-api.robert-slauson.workers.dev",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:600,system:getPrompt(),messages:[{role:"user",content:"Customer just said: "+text}]})
+    body:JSON.stringify({model:"claude-opus-4-6",max_tokens:600,system:getPrompt(),messages:[{role:"user",content:"Customer just said: "+text}]})
   }).then(function(r){return r.json();}).then(function(data){
     var raw=(data.content||[]).map(function(b){return b.text||"";}).join("").replace(/```json|```/g,"").trim();
     var r;try{r=JSON.parse(raw);}catch(e){console.log("Parse error:",raw);return;}
