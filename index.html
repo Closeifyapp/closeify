@@ -206,6 +206,31 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 /* CIRCLE BADGE HELPER */
 .cbadge{display:inline-flex;align-items:center;gap:6px;}
 .cbadge-dot{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* CALL SUMMARY MODAL */
+#summary-modal{position:fixed;inset:0;z-index:350;display:none;align-items:flex-end;background:rgba(0,0,0,0.7);}
+#summary-modal.on{display:flex;}
+#summary-sheet{background:#0d1526;border-radius:20px 20px 0 0;padding:20px 18px 36px;width:100%;max-width:480px;margin:0 auto;animation:shu 0.3s cubic-bezier(0.34,1.3,0.64,1);border-top:1px solid rgba(255,255,255,0.08);max-height:85vh;overflow-y:auto;}
+#sum-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+#sum-title{font-size:16px;font-weight:800;color:#e2e8f0;}
+#sum-close{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(148,163,184,0.6);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;padding:6px 12px;border-radius:16px;cursor:pointer;}
+#sum-sub{font-size:11px;color:rgba(148,163,184,0.4);margin-bottom:16px;}
+.sum-section{margin-bottom:14px;}
+.sum-sec-lbl{font-size:8px;color:rgba(148,163,184,0.35);letter-spacing:0.14em;font-weight:700;margin-bottom:8px;}
+.sum-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:9px;margin-bottom:5px;border:1px solid rgba(255,255,255,0.06);}
+.sum-row-lbl{font-size:11px;color:rgba(148,163,184,0.6);}
+.sum-row-val{font-size:12px;font-weight:700;color:#e2e8f0;}
+.sum-obj-item{background:rgba(255,255,255,0.04);border-radius:10px;padding:10px 12px;margin-bottom:7px;border:1px solid rgba(255,255,255,0.06);}
+.sum-obj-type{font-size:10px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.sum-obj-q{font-size:11px;color:rgba(148,163,184,0.55);margin-bottom:5px;font-style:italic;}
+.sum-obj-r{font-size:11px;color:rgba(220,235,255,0.8);line-height:1.5;}
+.sum-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+.sum-btn{padding:11px;border-radius:10px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+.sum-btn-copy{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(200,220,255,0.8);}
+.sum-btn-sms{background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);color:#4ade80;}
+.sum-btn-email{background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);color:#fbbf24;}
+.sum-btn-pdf{background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:#60a5fa;}
+
 </style>
 </head>
 <body>
@@ -244,7 +269,7 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
     <div class="chips"><div class="chip">"It's too expensive"</div><div class="chip">"We already use a competitor"</div><div class="chip">"I need to think about it"</div></div></div>
     <div id="rebWrap" style="display:none"><div class="sh"><span class="sla" id="rebCount">0 REBUTTALS</span><button class="clr" onclick="clearRebs()">Clear</button></div><div id="rebList"></div></div>
   </div>
-  <div class="pnl" id="panel-history"><div class="sh"><span class="sla" id="histCount">0 SESSIONS</span><button class="clr" onclick="clearHist()">Clear</button></div><div id="histList"><div class="he">No history yet.</div></div></div>
+  <div class="pnl" id="panel-history"><div class="sh"><span class="sla" id="histCount">0 SESSIONS</span><div style="display:flex;gap:6px"><button class="clr" onclick="openSummary()" id="sumBtn" style="color:rgba(129,140,248,0.6);display:none">&#128203; Summary</button><button class="clr" onclick="clearHist()">Clear</button></div></div><div id="histList"><div class="he">No history yet.</div></div></div>
   <div class="pnl" id="panel-tracker">
     <div class="trk">
       <div class="th2"><div class="wrc"><svg width="95" height="95" viewBox="0 0 95 95"><circle cx="47.5" cy="47.5" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/><circle cx="47.5" cy="47.5" r="40" fill="none" stroke="url(#wg)" stroke-width="8" stroke-linecap="round" id="winCircle" stroke-dasharray="251" stroke-dashoffset="251"/><defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs></svg><div class="wrn" id="wrNum">--</div></div><div class="wrl">WIN RATE</div></div>
@@ -296,6 +321,9 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
   <div id="an-actbar">
     <button class="an-btn an-btn-share" onclick="shareAnalysis()">Share</button>
     <button class="an-btn an-btn-pdf" onclick="downloadPDF()">Download PDF</button>
+  </div>
+  <div id="an-actbar2" style="display:none;padding:0 20px 0;gap:8px;">
+    <button class="an-btn" style="background:rgba(129,140,248,0.12);border:1px solid rgba(129,140,248,0.25);color:#a78bfa;width:100%" onclick="openSummary()">&#128203; View &amp; Save Call Summary</button>
   </div>
   <div id="an-body">
     <div class="an-loading" id="an-loading"><div class="an-spinner"></div><div class="an-loading-txt">Analyzing your call...</div></div>
@@ -608,6 +636,7 @@ function runCallAnalysis(){
   document.getElementById('an-loading').style.display='flex';
   document.getElementById('an-content').style.display='none';
   document.getElementById('an-actbar').style.display='none';
+  if(document.getElementById('an-actbar2'))document.getElementById('an-actbar2').style.display='none';
   var fmt2='{"overall_score":75,"score_label":"Good","what_went_well":["point"],"what_was_missed":["gap"],"power_moves":["tip"],"one_thing":"single improvement"}';
   fetch("https://closeify-api.robert-slauson.workers.dev",{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,
@@ -640,10 +669,12 @@ function renderAnalysis(r){
   document.getElementById('an-content').innerHTML=html;
   document.getElementById('an-content').style.display='block';
   document.getElementById('an-actbar').style.display='flex';
+  document.getElementById('an-actbar2').style.display='flex';
 }
 function closeAnalysis(){
   document.getElementById('analysis-overlay').classList.remove('on');
   document.getElementById('an-actbar').style.display='none';
+  if(document.getElementById('an-actbar2'))document.getElementById('an-actbar2').style.display='none';
 }
 function shareAnalysis(){
   if(!lastAnalysis)return;
@@ -683,11 +714,243 @@ function downloadPDF(){
   showToast('PDF downloaded!');
 }
 
+
+var summaryText = "";
+
+function buildSummary(){
+  var date = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var time = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  var dur2 = fmt(dur);
+  var lines = [];
+  lines.push("CLOSEIFY CALL SUMMARY");
+  lines.push("=====================");
+  lines.push("Date: " + date);
+  lines.push("Time: " + time);
+  lines.push("Duration: " + dur2);
+  lines.push("Product: " + (prod.name||"Not set"));
+  if(prod.comp) lines.push("vs Competitors: " + prod.comp);
+  lines.push("Total Objections: " + rebs.length);
+  lines.push("");
+  if(rebs.length){
+    lines.push("OBJECTIONS & REBUTTALS");
+    lines.push("----------------------");
+    rebs.forEach(function(r,i){
+      var cfg = TC[r.objection_type]||TC.other;
+      lines.push("");
+      lines.push((i+1)+". ["+cfg.label.toUpperCase()+"] at "+r.ts);
+      lines.push('Customer: "'+r.objection_summary+'"');
+      if(r.bullets&&r.bullets.length){
+        lines.push("Rebuttals:");
+        r.bullets.forEach(function(b){ lines.push("  • "+b); });
+      } else if(r.rebuttal){
+        lines.push("Rebuttal: "+r.rebuttal);
+      }
+    });
+  }
+  lines.push("");
+  if(lastAnalysis){
+    lines.push("CALL ANALYSIS");
+    lines.push("-------------");
+    lines.push("Score: "+lastAnalysis.overall_score+"/100 — "+(lastAnalysis.score_label||""));
+    if(lastAnalysis.one_thing) lines.push("Key Focus: "+lastAnalysis.one_thing);
+    if(lastAnalysis.what_went_well&&lastAnalysis.what_went_well.length){
+      lines.push("What Went Well:");
+      lastAnalysis.what_went_well.forEach(function(x){ lines.push("  • "+x); });
+    }
+    if(lastAnalysis.what_was_missed&&lastAnalysis.what_was_missed.length){
+      lines.push("What Was Missed:");
+      lastAnalysis.what_was_missed.forEach(function(x){ lines.push("  • "+x); });
+    }
+    if(lastAnalysis.power_moves&&lastAnalysis.power_moves.length){
+      lines.push("Power Moves:");
+      lastAnalysis.power_moves.forEach(function(x){ lines.push("  • "+x); });
+    }
+  }
+  lines.push("");
+  lines.push("Generated by Closeify — closeifyapp.github.io/closeify");
+  return lines.join("\n");
+}
+
+function buildSummaryHTML(){
+  var date = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var html = '';
+  // Stats row
+  html += '<div class="sum-section">';
+  html += '<div class="sum-sec-lbl">CALL DETAILS</div>';
+  html += '<div class="sum-row"><span class="sum-row-lbl">Date</span><span class="sum-row-val">'+date+'</span></div>';
+  html += '<div class="sum-row"><span class="sum-row-lbl">Duration</span><span class="sum-row-val">'+fmt(dur)+'</span></div>';
+  html += '<div class="sum-row"><span class="sum-row-lbl">Product</span><span class="sum-row-val">'+(prod.name||'Not set')+'</span></div>';
+  if(prod.comp) html += '<div class="sum-row"><span class="sum-row-lbl">vs</span><span class="sum-row-val">'+esc(prod.comp)+'</span></div>';
+  html += '<div class="sum-row"><span class="sum-row-lbl">Objections Handled</span><span class="sum-row-val" style="color:#4ade80">'+rebs.length+'</span></div>';
+  if(lastAnalysis) html += '<div class="sum-row"><span class="sum-row-lbl">Performance Score</span><span class="sum-row-val" style="color:'+(lastAnalysis.overall_score>=80?'#4ade80':lastAnalysis.overall_score>=60?'#fbbf24':'#f87171')+'">'+lastAnalysis.overall_score+'/100</span></div>';
+  html += '</div>';
+  // Objections
+  if(rebs.length){
+    html += '<div class="sum-section">';
+    html += '<div class="sum-sec-lbl">OBJECTIONS &amp; REBUTTALS</div>';
+    rebs.forEach(function(r){
+      var cfg=TC[r.objection_type]||TC.other;
+      html += '<div class="sum-obj-item">';
+      html += '<div class="sum-obj-type" style="color:'+cfg.color+'"><span class="cbadge-dot" style="background:'+cfg.color+';display:inline-block;width:7px;height:7px;border-radius:50%"></span>'+cfg.label+' <span style="color:rgba(148,163,184,0.35);font-weight:400;font-size:9px">at '+r.ts+'</span></div>';
+      html += '<div class="sum-obj-q">"'+esc(r.objection_summary||'')+'"</div>';
+      if(r.bullets&&r.bullets.length){
+        html += '<div style="display:flex;flex-direction:column;gap:4px">';
+        r.bullets.forEach(function(b){
+          var isAsk=b.toLowerCase().startsWith('ask:');
+          var txt=isAsk?b.replace(/^ask:\s*/i,''):b;
+          html += '<div style="font-size:11px;color:'+(isAsk?'#93c5fd':'rgba(220,235,255,0.8)')+';display:flex;gap:6px"><span style="color:'+(isAsk?'#3b82f6':cfg.color)+';flex-shrink:0">'+(isAsk?'Ask:':'•')+'</span>'+esc(txt)+'</div>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+  // Analysis snippet
+  if(lastAnalysis){
+    html += '<div class="sum-section">';
+    html += '<div class="sum-sec-lbl">CALL ANALYSIS HIGHLIGHTS</div>';
+    if(lastAnalysis.one_thing) html += '<div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:9px;padding:10px 12px;margin-bottom:8px"><div style="font-size:8px;color:#60a5fa;letter-spacing:0.1em;font-weight:700;margin-bottom:4px">KEY FOCUS</div><div style="font-size:12px;color:#fff">'+esc(lastAnalysis.one_thing)+'</div></div>';
+    if(lastAnalysis.what_was_missed&&lastAnalysis.what_was_missed.length){
+      html += '<div class="sum-sec-lbl" style="margin-top:8px;color:#f87171">WHAT WAS MISSED</div>';
+      lastAnalysis.what_was_missed.forEach(function(x){
+        html += '<div style="display:flex;gap:7px;margin-bottom:6px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;margin-top:4px"></span><div style="font-size:11px;color:rgba(220,235,255,0.8)">'+esc(x)+'</div></div>';
+      });
+    }
+    html += '</div>';
+  }
+  return html;
+}
+
+function openSummary(){
+  summaryText = buildSummary();
+  document.getElementById('sum-body').innerHTML = buildSummaryHTML();
+  document.getElementById('summary-modal').classList.add('on');
+}
+
+function closeSummary(){
+  document.getElementById('summary-modal').classList.remove('on');
+}
+
+function copySummary(){
+  if(navigator.clipboard) navigator.clipboard.writeText(summaryText).then(function(){showToast('Summary copied!');});
+  else showToast('Copy not supported','err');
+}
+
+function smsSummary(){
+  window.open('sms:?body='+encodeURIComponent(summaryText));
+}
+
+function emailSummary(){
+  var sub = 'Call Summary — '+(prod.name||'Closeify')+' — '+new Date().toLocaleDateString();
+  window.open('mailto:?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(summaryText));
+}
+
+function pdfSummary(){
+  if(typeof window.jspdf==='undefined'){showToast('PDF not available','err');return;}
+  var doc = new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  var W=210, mg=18, y=20, lh=6.5;
+  // Header
+  doc.setFillColor(13,21,38);doc.rect(0,0,W,38,'F');
+  doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('Closeify',mg,17);
+  doc.setFontSize(10);doc.setFont('helvetica','normal');doc.setTextColor(148,163,184);
+  doc.text('Call Summary Report',mg,25);
+  doc.text(new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),mg,32);
+  y = 48;
+  // Stats box
+  doc.setFillColor(20,30,50);doc.roundedRect(mg,y,W-mg*2,32,3,3,'F');
+  var stats2 = [
+    ['Product', prod.name||'Not set'],
+    ['Duration', fmt(dur)],
+    ['Objections', String(rebs.length)],
+    ['Score', lastAnalysis?(lastAnalysis.overall_score+'/100'):'—']
+  ];
+  var col1=mg+4, col2=mg+60, col3=mg+(W-mg*2)/2+4, col4=mg+(W-mg*2)/2+54;
+  doc.setFontSize(8);doc.setTextColor(100,120,150);doc.setFont('helvetica','normal');
+  doc.text('PRODUCT',col1,y+8);doc.text('DURATION',col2,y+8);doc.text('OBJECTIONS',col3,y+8);doc.text('SCORE',col4,y+8);
+  doc.setFontSize(11);doc.setTextColor(220,235,255);doc.setFont('helvetica','bold');
+  doc.text((prod.name||'Not set').slice(0,16),col1,y+17);doc.text(fmt(dur),col2,y+17);doc.text(String(rebs.length),col3,y+17);
+  if(lastAnalysis){var sc2=lastAnalysis.overall_score;doc.setTextColor(sc2>=80?34:sc2>=60?245:239,sc2>=80?197:sc2>=60?158:68,sc2>=80?94:sc2>=60?11:68);doc.text(sc2+'/100',col4,y+17);}
+  y += 40;
+  // Objections
+  if(rebs.length){
+    doc.setTextColor(148,163,184);doc.setFontSize(9);doc.setFont('helvetica','bold');
+    doc.text('OBJECTIONS & REBUTTALS',mg,y);y+=7;
+    rebs.forEach(function(r,i){
+      var cfg=TC[r.objection_type]||TC.other;
+      if(y>255){doc.addPage();y=20;}
+      doc.setFillColor(20,30,50);doc.roundedRect(mg,y,W-mg*2,6,'F');
+      var rgb=cfg.color.replace('#','');
+      var ri=parseInt(rgb.slice(0,2),16),gi=parseInt(rgb.slice(2,4),16),bi=parseInt(rgb.slice(4,6),16);
+      doc.setFillColor(ri,gi,bi);doc.circle(mg+3.5,y+3,2,'F');
+      doc.setTextColor(ri,gi,bi);doc.setFontSize(9);doc.setFont('helvetica','bold');
+      doc.text(cfg.label+' — '+r.ts,mg+8,y+4.5);y+=8;
+      doc.setTextColor(100,120,160);doc.setFontSize(8.5);doc.setFont('helvetica','italic');
+      var qlines=doc.splitTextToSize('"'+r.objection_summary+'"',W-mg*2-4);doc.text(qlines,mg+2,y);y+=qlines.length*5+2;
+      if(r.bullets&&r.bullets.length){
+        r.bullets.forEach(function(b){
+          if(y>265){doc.addPage();y=20;}
+          doc.setTextColor(180,200,230);doc.setFontSize(8.5);doc.setFont('helvetica','normal');
+          var isAsk=b.toLowerCase().startsWith('ask:');
+          var txt=(isAsk?'Ask: ':'• ')+b.replace(/^ask:\s*/i,'');
+          var blines=doc.splitTextToSize(txt,W-mg*2-6);doc.text(blines,mg+4,y);y+=blines.length*5+1;
+        });
+      }
+      y+=3;
+    });
+  }
+  // Analysis
+  if(lastAnalysis){
+    if(y>240){doc.addPage();y=20;}
+    doc.setTextColor(148,163,184);doc.setFontSize(9);doc.setFont('helvetica','bold');doc.text('CALL ANALYSIS',mg,y);y+=6;
+    if(lastAnalysis.one_thing){
+      doc.setFillColor(20,40,80);doc.roundedRect(mg,y,W-mg*2,12,2,2,'F');
+      doc.setTextColor(96,165,250);doc.setFontSize(7.5);doc.setFont('helvetica','bold');doc.text('KEY FOCUS',mg+3,y+4.5);
+      doc.setTextColor(200,220,255);doc.setFontSize(8.5);doc.setFont('helvetica','normal');
+      var fl2=doc.splitTextToSize(lastAnalysis.one_thing,W-mg*2-10);doc.text(fl2,mg+3,y+9.5);y+=12+(fl2.length-1)*4+4;
+    }
+    if(lastAnalysis.power_moves&&lastAnalysis.power_moves.length){
+      doc.setTextColor(245,158,11);doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.text('POWER MOVES',mg,y);y+=5;
+      lastAnalysis.power_moves.forEach(function(x){
+        if(y>270){doc.addPage();y=20;}
+        doc.setFillColor(245,158,11);doc.circle(mg+2,y-1,1.5,'F');
+        doc.setTextColor(40,55,80);doc.setFontSize(8.5);doc.setFont('helvetica','normal');
+        var plines=doc.splitTextToSize(x,W-mg*2-6);doc.text(plines,mg+6,y);y+=plines.length*5+2;
+      });
+    }
+  }
+  // Footer
+  doc.setFillColor(13,21,38);doc.rect(0,282,W,15,'F');
+  doc.setTextColor(100,116,139);doc.setFontSize(8);doc.setFont('helvetica','normal');
+  doc.text('Generated by Closeify',W/2,290,{align:'center'});
+  doc.save('Closeify-Call-Summary-'+new Date().toISOString().slice(0,10)+'.pdf');
+  showToast('PDF saved!');
+}
+
 document.addEventListener("DOMContentLoaded",function(){
   var wf=document.getElementById("wf");
   for(var i=0;i<22;i++){var b=document.createElement("div");b.className="wv";b.style.animationDelay=((i*0.07)%0.8)+"s";wf.appendChild(b);}
   renderHist();updateTracker();updateProdBar();
 });
 </script>
+
+<!-- CALL SUMMARY MODAL -->
+<div id="summary-modal">
+  <div id="summary-sheet">
+    <div id="sum-header">
+      <div id="sum-title">&#128203; Call Summary</div>
+      <button id="sum-close" onclick="closeSummary()">&#10005; Close</button>
+    </div>
+    <div id="sum-sub">Full recap of your call</div>
+    <div id="sum-body"></div>
+    <div class="sum-actions">
+      <button class="sum-btn sum-btn-copy" onclick="copySummary()">&#128203; Copy</button>
+      <button class="sum-btn sum-btn-sms" onclick="smsSummary()">&#128172; SMS</button>
+      <button class="sum-btn sum-btn-email" onclick="emailSummary()">&#9993; Email</button>
+      <button class="sum-btn sum-btn-pdf" onclick="pdfSummary()">&#128196; PDF</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
