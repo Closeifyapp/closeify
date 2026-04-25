@@ -265,7 +265,7 @@ function startListen(){
     for(var i=e.resultIndex;i<e.results.length;i++){var t=e.results[i][0].transcript;if(e.results[i].isFinal)final+=t+" ";else interim+=t;}
     document.getElementById("trtxt").textContent=interim||transcript.slice(-60)||"Listening...";
     document.getElementById("trbar").classList.add("on");
-    if(final){transcript+=final;clearTimeout(aTO);aTO=setTimeout(function(){analyze(final.trim());},600);}
+    if(final){transcript+=final;clearTimeout(aTO);aTO=setTimeout(function(){analyze(final.trim());},2000);}
   };
   recog.onerror=function(e){if(e.error!=="aborted")showToast("Mic: "+e.error,"err");};
   recog.onend=function(){if(recog._on)recog.start();};
@@ -290,8 +290,11 @@ function setBtn(on){
   document.querySelectorAll(".wv").forEach(function(b){b.classList.toggle("on",on);});
 }
 
+var lastCardTime=0;
 function analyze(text){
   if(!text.trim())return;
+  var now=Date.now();
+  if(now-lastCardTime<15000)return;
   document.getElementById("aispin").classList.add("on");
   var payload={model:"claude-sonnet-4-5",max_tokens:600,system:getPrompt(),messages:[{role:"user",content:"Customer just said: "+text}]};
   fetch("https://closeify-api.robert-slauson.workers.dev",{
@@ -305,7 +308,7 @@ function analyze(text){
     var raw=(data.content||[]).map(function(b){return b.text||"";}).join("").replace(/```json|```/g,"").trim();
     var r;try{r=JSON.parse(raw);}catch(e){return;}
     if(r.objection_detected&&r.rebuttal){
-      chime();doFlash();objCnt++;
+      doFlash();objCnt++;
       document.getElementById("objVal").textContent=objCnt;
       document.getElementById("objVal").classList.add("gold");
       document.getElementById("objctr").textContent=objCnt+" caught";
@@ -313,7 +316,7 @@ function analyze(text){
       stats.objTypes[tp]=(stats.objTypes[tp]||0)+1;
       try{localStorage.setItem("clf_s",JSON.stringify(stats));}catch(e){}
       var card=Object.assign({id:Date.now(),ts:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})},r);
-      rebs.push(card);addCard(card);switchTab("live");renderBK();
+      lastCardTime=Date.now();rebs.push(card);addCard(card);switchTab("live");renderBK();
     }
   }).catch(function(e){console.error(e);
   }).finally(function(){document.getElementById("aispin").classList.remove("on");});
