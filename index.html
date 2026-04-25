@@ -237,6 +237,22 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 </head>
 <body>
 <div id="app">
+<!-- FULLSCREEN CARD OVERLAY -->
+<div id="card-overlay" onclick="handleOverlayClick(event)">
+  <div id="overlay-counter">&#9889; 0 caught</div>
+  <div id="overlay-inner">
+    <div id="overlay-type"><div id="overlay-pill"></div><span id="overlay-time"></span></div>
+    <div id="overlay-obj"></div>
+    <div id="overlay-bar"></div>
+    <div id="overlay-lbl">YOUR REBUTTAL</div>
+    <div id="overlay-rebuttal"></div>
+    <div style="margin-top:32px;display:flex;gap:10px;">
+      <button id="overlay-share" onclick="overlayShare(event)">&#128228; Share</button>
+      <button id="overlay-dismiss" onclick="closeOverlay(event)">&#10003; Got It</button>
+    </div>
+  </div>
+  <button id="overlay-end" onclick="overlayEndCall(event)">&#9632; END CALL</button>
+</div>
 <div id="photo"><div id="photo-fade"></div></div>
 <div id="panel">
 <div id="hdr">
@@ -498,19 +514,26 @@ function showOverlay(r){
   document.getElementById('card-overlay').classList.add('on');
 }
 
-function closeOverlay(){
+function closeOverlay(e){
+  if(e)e.stopPropagation();
   document.getElementById('card-overlay').classList.remove('on');
   overlayCard=null;
 }
+function handleOverlayClick(e){
+  // Tap background to close
+  if(e.target.id==='card-overlay'||e.target.id==='overlay-inner'||e.target.id==='overlay-rebuttal'||e.target.id==='overlay-obj'){
+    closeOverlay(e);
+  }
+}
 
-function overlayShare(){
+function overlayShare(e){if(e)e.stopPropagation();
   if(!overlayCard)return;
   shareText=overlayCard.rebuttal||'';
   document.getElementById('shText').textContent=shareText;
   document.getElementById('share-modal').classList.add('on');
 }
 
-function overlayEndCall(){
+function overlayEndCall(e){if(e)e.stopPropagation();
   closeOverlay();
   endCall();
 }
