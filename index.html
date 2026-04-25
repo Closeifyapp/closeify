@@ -676,6 +676,30 @@ function pushToStack(r){
 }
 
 
+
+function clearRebs(){
+  rebs=[];
+  document.getElementById("rebList").innerHTML="";
+  document.getElementById("rebWrap").style.display="none";
+  document.getElementById("empty").style.display="flex";
+  document.getElementById("liveBadge").classList.remove("on");
+  document.getElementById("liveBadge").textContent="0";
+  document.getElementById("rebCount").textContent="0 REBUTTALS";
+}
+
+function dimCard(id){
+  rebs=rebs.filter(function(r){return r.id!==id;});
+  var el=document.getElementById("c"+id);
+  if(el)el.remove();
+  if(!rebs.length){
+    document.getElementById("rebWrap").style.display="none";
+    document.getElementById("empty").style.display="flex";
+    document.getElementById("liveBadge").classList.remove("on");
+  }
+  document.getElementById("liveBadge").textContent=rebs.length;
+  document.getElementById("rebCount").textContent=rebs.length+" REBUTTAL"+(rebs.length!==1?"S":"");
+}
+
 function closeOverlay(e){
   if(e)e.stopPropagation();
   document.getElementById('card-overlay').classList.remove('on');
