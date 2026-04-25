@@ -292,24 +292,18 @@ function setBtn(on){
 
 function analyze(text){
   if(!text.trim())return;
-  dbg("Analyzing: "+text);
   document.getElementById("aispin").classList.add("on");
   var payload={model:"claude-sonnet-4-5",max_tokens:600,system:getPrompt(),messages:[{role:"user",content:"Customer just said: "+text}]};
-  dbg("Calling worker...");
   fetch("https://closeify-api.robert-slauson.workers.dev",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify(payload)
   }).then(function(r){
-    dbg("Got response: "+r.status);
     return r.json();
   }).then(function(data){
-    dbg("Data: "+JSON.stringify(data).slice(0,120));
-    if(data.error){dbg("API ERROR: "+data.error.message);return;}
+    if(data.error){console.error("API ERROR:",data.error.message);return;}
     var raw=(data.content||[]).map(function(b){return b.text||"";}).join("").replace(/```json|```/g,"").trim();
-    dbg("Raw: "+raw.slice(0,100));
-    var r;try{r=JSON.parse(raw);}catch(e){dbg("Parse fail: "+raw.slice(0,80));return;}
-    dbg("Detected: "+r.objection_detected);
+    var r;try{r=JSON.parse(raw);}catch(e){return;}
     if(r.objection_detected&&r.rebuttal){
       chime();doFlash();objCnt++;
       document.getElementById("objVal").textContent=objCnt;
@@ -321,19 +315,10 @@ function analyze(text){
       var card=Object.assign({id:Date.now(),ts:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})},r);
       rebs.push(card);addCard(card);switchTab("live");renderBK();
     }
-  }).catch(function(e){dbg("FETCH ERROR: "+e.message);
+  }).catch(function(e){console.error(e);
   }).finally(function(){document.getElementById("aispin").classList.remove("on");});
 }
 
-function dbg(msg){
-  var el=document.getElementById("debugLog");
-  if(!el)return;
-  var line=document.createElement("div");
-  line.textContent=new Date().toLocaleTimeString()+": "+msg;
-  line.style.cssText="font-size:10px;color:#4ade80;padding:1px 0;border-bottom:1px solid rgba(255,255,255,0.05);";
-  el.insertBefore(line,el.firstChild);
-  if(el.children.length>8)el.removeChild(el.lastChild);
-}
 
 function addCard(r){
   document.getElementById("empty").style.display="none";document.getElementById("rebWrap").style.display="block";
