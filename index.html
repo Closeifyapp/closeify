@@ -393,7 +393,7 @@ try{prod=JSON.parse(localStorage.getItem("clf_prod")||'{}');prod.name=prod.name|
 var hist=[];try{hist=JSON.parse(localStorage.getItem("clf_h")||"[]");}catch(e){}
 var stats={wins:0,losses:0,objTypes:{}};try{stats=JSON.parse(localStorage.getItem("clf_s")||'{"wins":0,"losses":0,"objTypes":{}}');}catch(e){}
 
-var listening=false,recog=null,cTimer=null,aTO=null,dur=0,objCnt=0,rebs=[],lastCardTime=0,transcript="",shareText="",overlayCard=null,lastAnalysis=null;
+var listening=false,recog=null,cTimer=null,aTO=null,dur=0,objCnt=0,rebs=[],lastCardTime=0,transcript="",shareText="",overlayCard=null,lastAnalysis=null,recentObjTypes=[];
 
 function getPrompt(){
   var name=prod.name||"";
@@ -401,9 +401,24 @@ function getPrompt(){
   var comp=prod.comp||"";
   var cust=prod.cust||"";
   var price=prod.price||"";
-  var ctx=name?"PRODUCT: "+name+". "+(adv?"ADVANTAGES: "+adv+". ":" ")+(comp?"COMPETITORS: "+comp+". ":" ")+(cust?"IDEAL BUYER: "+cust+". ":" ")+(price?"PRICING: "+price+".":" "):"No product set.";
-  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"brief","bullets":["Ask: NEPQ question","product advantage","competitor weakness","urgency point"],"tone":"empathetic","urgency":"high"}';
-  return "You are an elite real-time sales coach."+ctx+" Detect REAL objections only — clear resistance, hesitation, price concerns, competitor mentions, timing pushback. Ignore small talk. Generate 4 UNIQUE bullets each serving a different purpose: 1) Start with Ask: then a soft NEPQ-style discovery question using Out of curiosity or Help me understand. 2) Specific advantage of the product that counters this objection. 3) Competitor weakness or gap vs the product. 4) Urgency or cost of inaction. Max 12 words per bullet. No duplicate ideas. Reply ONLY with raw JSON: "+fmt+" Types: price timing competitor trust need authority other.";
+
+  var ctx="";
+  if(name){
+    ctx+="PRODUCT: "+name+".\n";
+    if(adv)  ctx+="OUR ADVANTAGES: "+adv+".\n";
+    if(comp) ctx+="COMPETITORS: "+comp+".\n";
+    if(cust) ctx+="IDEAL CUSTOMER: "+cust+".\n";
+    if(price)ctx+="PRICING: "+price+".\n";
+  } else {
+    ctx="No product set.\n";
+  }
+
+  var recent=recentObjTypes.length?"OBJECTION TYPES ALREADY HANDLED THIS CALL: "+recentObjTypes.join(", ")+". Avoid repeating the same type unless the customer says something distinctly new.\n":"";
+  var prevBullets=rebs.length?"BULLET POINTS ALREADY USED THIS CALL — DO NOT REPEAT THESE IDEAS:\n"+rebs.slice(-3).map(function(r){return r.bullets?r.bullets.join(" | "):r.rebuttal;}).join("\n")+"\n":"";
+
+  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"brief","bullets":["Ask: question","advantage","competitor gap","urgency"],"tone":"empathetic","urgency":"high"}';
+
+  return "You are an elite real-time sales coach listening to a live sales call.\n"+ctx+recent+prevBullets+"\nYour job:\n1. Detect REAL objections only — clear resistance, price concerns, competitor mentions, timing hesitation, trust or authority issues. Ignore small talk, filler words and agreement.\n2. When you detect an objection, generate 4 bullets using this exact structure:\n\nBULLET 1 — ASK (most important): A NEPQ discovery question that responds DIRECTLY to the exact words the customer just said. Do not ask a generic question — mirror their specific concern back to them. Use openers like: 'Out of curiosity...' / 'Help me understand...' / 'When you say [their exact word], what do you mean by that?' / 'What would have to be true for...' / 'So if I'm hearing you right...'. The question must make them elaborate on THEIR specific objection, not a general sales topic. Max 14 words.\n\nBULLET 2 — PRODUCT ADVANTAGE: One specific feature or benefit of "+( name||"the product")+" that directly addresses their exact concern. Be concrete — no vague claims.\n\nBULLET 3 — COMPETITOR GAP: Expose a specific weakness of the competitor they mentioned (or the most likely alternative) vs your product. Name the competitor if known. Be factual and sharp.\n\nBULLET 4 — CONSEQUENCE: What it costs them to delay, switch, or choose wrong — tied to their specific situation. Connect to a real business outcome.\n\nCritical rules: Zero duplicate ideas across bullets. Zero repeat of previous bullets. Max 12 words each. Reply ONLY with raw JSON: "+fmt+" Types: price timing competitor trust need authority other. Set objection_detected false if no real objection.";
 }
 
 function startApp(){var s=document.getElementById("splash");s.classList.add("hide");setTimeout(function(){s.style.display="none";},600);}
@@ -453,9 +468,9 @@ function setBtn(on){
   document.querySelectorAll(".wv").forEach(function(b){b.classList.toggle("on",on);});
 }
 function analyze(text){
-  if(!text||!text.trim()||text.split(" ").length<4)return;
+  if(!text||!text.trim()||text.split(" ").length<5)return;
   var now=Date.now();
-  if(now-lastCardTime<12000)return;
+  if(now-lastCardTime<20000)return;
   document.getElementById("aispin").classList.add("on");
   fetch("https://closeify-api.robert-slauson.workers.dev",{
     method:"POST",headers:{"Content-Type":"application/json"},
@@ -473,6 +488,7 @@ function analyze(text){
       stats.objTypes[tp]=(stats.objTypes[tp]||0)+1;
       try{localStorage.setItem("clf_s",JSON.stringify(stats));}catch(e){}
       lastCardTime=Date.now();
+      recentObjTypes.push(tp);if(recentObjTypes.length>3)recentObjTypes.shift();
       var card=Object.assign({id:Date.now(),ts:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})},r);
       rebs.push(card);addCard(card);switchTab("live");renderBK();
     }
