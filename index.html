@@ -238,7 +238,7 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 <div id="photo"><div id="photo-fade"></div></div>
 <div id="panel">
 <div id="hdr">
-  <div class="lrow"><div class="lbox">&#9889;</div><div><div class="aname">Closeify</div><div class="asub">CLOSE EVERY CALL WITH AI</div></div></div>
+  <div class="lrow"><div class="lbox"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M15.5 3L8 14.5h6L9.5 23l10.5-12H14z" fill="currentColor"/></svg></div><div><div class="aname">Closeify</div><div class="asub">CLOSE EVERY CALL WITH AI</div></div></div>
   <div class="stats">
     <div><span class="sv" id="timerVal">00:00</span><div class="sl">CALL</div></div>
     <div><span class="sv" id="objVal">0</span><div class="sl">ALERTS</div></div>
@@ -249,42 +249,42 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 <div id="recwrap">
   <div id="recbtn" onclick="toggleListen()"><div id="recdot"></div><span id="reclbl">TAP TO LISTEN</span></div>
   <div id="wf"></div>
-  <button id="endbtn" onclick="endCall()">&#9632; STOP LISTENING</button>
+  <button id="endbtn" onclick="endCall()"><svg width="13" height="13" viewBox="0 0 26 26" fill="none"><rect x="5" y="5" width="16" height="16" rx="4" fill="currentColor"/></svg> STOP LISTENING</button>
 </div>
-<div id="trbar"><span style="font-size:8px;color:#ef4444;margin-right:5px">&#9679;</span><span id="trtxt">Listening...</span><span id="aispin">&#129504;</span></div>
+<div id="trbar"><span style="font-size:8px;color:#ef4444;margin-right:5px"><svg width="10" height="10" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="9" fill="currentColor" opacity="0.9"/><circle cx="13" cy="13" r="5" fill="currentColor"/></svg></span><span id="trtxt">Listening...</span><span id="aispin"><svg width="14" height="14" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="17" r="2.2" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="17" r="2.2" stroke="currentColor" stroke-width="1.5"/><line x1="10.5" y1="10.5" x2="7.8" y2="14.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="15.5" y1="10.5" x2="18.2" y2="14.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span></div>
 <div id="prodbar" onclick="openProd()">
-  <span style="font-size:13px">&#128230;</span>
+  <span style="font-size:13px"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M13 3l9 5v10l-9 5-9-5V8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 13.5l2.5 2.5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
   <div style="flex:1;min-width:0"><div id="prodlbl">SELLING</div><div id="prodnm" class="empty">Tap to set your product</div></div>
-  <span style="font-size:10px;color:rgba(96,165,250,0.4)">&#9999;</span>
+  <span style="font-size:10px;color:rgba(96,165,250,0.4)"><svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M17.5 4.5l4 4-11 11L5 21l1.5-5.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><line x1="15" y1="7" x2="19" y2="11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
 </div>
 <div id="tabbar">
-  <button class="tb on" id="tab-live" onclick="switchTab('live')">&#9889; Live <span class="tbdg on" id="liveBadge">0</span></button>
-  <button class="tb" id="tab-history" onclick="switchTab('history')">&#128203; Log</button>
-  <button class="tb" id="tab-tracker" onclick="switchTab('tracker')">&#128202; Stats</button>
-  <button class="tb" id="tab-tips" onclick="switchTab('tips')">&#128161; Tips</button>
+  <button class="tb on" id="tab-live" onclick="switchTab('live')"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M15.5 3L8 14.5h6L9.5 23l10.5-12H14z" fill="currentColor"/></svg> Live <span class="tbdg on" id="liveBadge">0</span></button>
+  <button class="tb" id="tab-history" onclick="switchTab('history')"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="19" x2="13.5" y2="19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Log</button>
+  <button class="tb" id="tab-tracker" onclick="switchTab('tracker')"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><line x1="3.5" y1="22" x2="22.5" y2="22" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.4"/><rect x="4" y="15" width="4" height="7" rx="1.2" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="10" width="4" height="12" rx="1.2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="5" width="4" height="17" rx="1.2" stroke="currentColor" stroke-width="1.5"/></svg> Stats</button>
+  <button class="tb" id="tab-tips" onclick="switchTab('tips')"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M13 4a5.5 5.5 0 0 1 3.5 9.7c-.5.4-.8 1-.8 1.6v.2h-5.4v-.2c0-.6-.3-1.2-.8-1.6A5.5 5.5 0 0 1 13 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><line x1="10.5" y1="17.5" x2="15.5" y2="17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="11.2" y1="19.5" x2="14.8" y2="19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Tips</button>
 </div>
 <div id="content">
   <div class="pnl on" id="panel-live">
-    <div id="empty"><div style="font-size:34px;margin-bottom:3px">&#128737;</div><div class="etitle">Ready to Close</div><div class="edesc">Tap Listen. Rebuttal cards appear when your customer objects.</div>
+    <div id="empty"><div style="font-size:34px;margin-bottom:3px"><svg width="18" height="18" viewBox="0 0 26 26" fill="none"><path d="M13 3l9 4v7c0 5.5-4 9.5-9 11C8 23.5 4 19.5 4 14V7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14.5 9.5L11 14h3l-1.5 3.5 4.5-5.5H14z" fill="currentColor"/></svg></div><div class="etitle">Ready to Close</div><div class="edesc">Tap Listen. Rebuttal cards appear when your customer objects.</div>
     <div class="chips"><div class="chip">"It's too expensive"</div><div class="chip">"We already use a competitor"</div><div class="chip">"I need to think about it"</div></div></div>
     <div id="rebWrap" style="display:none"><div class="sh"><span class="sla" id="rebCount">0 REBUTTALS</span><button class="clr" onclick="clearRebs()">Clear</button></div><div id="rebList"></div></div>
   </div>
-  <div class="pnl" id="panel-history"><div class="sh"><span class="sla" id="histCount">0 SESSIONS</span><div style="display:flex;gap:6px"><button class="clr" onclick="openSummary()" id="sumBtn" style="color:rgba(129,140,248,0.6);display:none">&#128203; Summary</button><button class="clr" onclick="clearHist()">Clear</button></div></div><div id="histList"><div class="he">No history yet.</div></div></div>
+  <div class="pnl" id="panel-history"><div class="sh"><span class="sla" id="histCount">0 SESSIONS</span><div style="display:flex;gap:6px"><button class="clr" onclick="openSummary()" id="sumBtn" style="color:rgba(129,140,248,0.6);display:none"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="19" x2="13.5" y2="19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Summary</button><button class="clr" onclick="clearHist()">Clear</button></div></div><div id="histList"><div class="he">No history yet.</div></div></div>
   <div class="pnl" id="panel-tracker">
     <div class="trk">
       <div class="th2"><div class="wrc"><svg width="95" height="95" viewBox="0 0 95 95"><circle cx="47.5" cy="47.5" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/><circle cx="47.5" cy="47.5" r="40" fill="none" stroke="url(#wg)" stroke-width="8" stroke-linecap="round" id="winCircle" stroke-dasharray="251" stroke-dashoffset="251"/><defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs></svg><div class="wrn" id="wrNum">--</div></div><div class="wrl">WIN RATE</div></div>
       <div class="tr2"><div class="tc"><div class="tv" style="color:#4ade80" id="tcWins">0</div><div class="tl">WON</div></div><div class="tc"><div class="tv" style="color:#f87171" id="tcLosses">0</div><div class="tl">LOST</div></div><div class="tc"><div class="tv" style="color:#fbbf24" id="tcTotal">0</div><div class="tl">TOTAL</div></div><div class="tc"><div class="tv" style="color:#818cf8" id="tcHandled">0</div><div class="tl">OBJ.</div></div></div>
       <div class="ob"><div class="ot">BREAKDOWN</div><div id="bkRows"><div style="color:rgba(148,163,184,0.25);font-size:10px;text-align:center;padding:5px">No data yet</div></div></div>
       <div class="sn">Log outcomes after each call</div>
-      <div class="tbs"><button class="trb win" onclick="logO('win')">&#9989; WIN</button><button class="trb loss" onclick="logO('loss')">&#10060; LOSS</button></div>
+      <div class="tbs"><button class="trb win" onclick="logO('win')"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 13l3 3 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg> WIN</button><button class="trb loss" onclick="logO('loss')"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 9.5l7 7M16.5 9.5l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> LOSS</button></div>
     </div>
   </div>
   <div class="pnl" id="panel-tips">
     <div class="tps"><div class="tph">HOW TO USE</div>
-    <div class="tpc"><div class="tpi">&#127908;</div><div><div class="tpt">Tap Listen &amp; set your product first</div><div class="tpd">Fill in product, advantages and competitors for tailored rebuttals.</div></div></div>
-    <div class="tpc"><div class="tpi">&#9889;</div><div><div class="tpt">Rebuttals fire automatically</div><div class="tpd">Full screen card appears — read the bullets, deliver naturally.</div></div></div>
-    <div class="tpc"><div class="tpi">&#128202;</div><div><div class="tpt">Log wins and losses</div><div class="tpd">Track your win rate in the Stats tab after each call.</div></div></div>
-    <div class="tpc"><div class="tpi">&#128202;</div><div><div class="tpt">Get call analysis</div><div class="tpd">After stopping, AI analyzes what you missed and how to improve.</div></div></div>
+    <div class="tpc"><div class="tpi"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><rect x="9.5" y="3" width="7" height="11" rx="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M6 13.5a7 7 0 0 0 14 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="13" y1="20.5" x2="13" y2="23" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="10" y1="23" x2="16" y2="23" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div><div><div class="tpt">Tap Listen &amp; set your product first</div><div class="tpd">Fill in product, advantages and competitors for tailored rebuttals.</div></div></div>
+    <div class="tpc"><div class="tpi"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M15.5 3L8 14.5h6L9.5 23l10.5-12H14z" fill="currentColor"/></svg></div><div><div class="tpt">Rebuttals fire automatically</div><div class="tpd">Full screen card appears — read the bullets, deliver naturally.</div></div></div>
+    <div class="tpc"><div class="tpi"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><line x1="3.5" y1="22" x2="22.5" y2="22" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.4"/><rect x="4" y="15" width="4" height="7" rx="1.2" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="10" width="4" height="12" rx="1.2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="5" width="4" height="17" rx="1.2" stroke="currentColor" stroke-width="1.5"/></svg></div><div><div class="tpt">Log wins and losses</div><div class="tpd">Track your win rate in the Stats tab after each call.</div></div></div>
+    <div class="tpc"><div class="tpi"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><line x1="3.5" y1="22" x2="22.5" y2="22" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.4"/><rect x="4" y="15" width="4" height="7" rx="1.2" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="10" width="4" height="12" rx="1.2" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="5" width="4" height="17" rx="1.2" stroke="currentColor" stroke-width="1.5"/></svg></div><div><div class="tpt">Get call analysis</div><div class="tpd">After stopping, AI analyzes what you missed and how to improve.</div></div></div>
     </div>
   </div>
 </div>
@@ -295,8 +295,8 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 <!-- FULLSCREEN REBUTTAL OVERLAY -->
 <div id="card-overlay">
   <div id="ov-topbar">
-    <div id="ov-counter">&#9889; 0 caught</div>
-    <button id="ov-end" onclick="overlayEnd()">&#9632; END CALL</button>
+    <div id="ov-counter"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M15.5 3L8 14.5h6L9.5 23l10.5-12H14z" fill="currentColor"/></svg> 0 caught</div>
+    <button id="ov-end" onclick="overlayEnd()"><svg width="13" height="13" viewBox="0 0 26 26" fill="none"><rect x="5" y="5" width="16" height="16" rx="4" fill="currentColor"/></svg> END CALL</button>
   </div>
   <div id="ov-inner">
     <div id="ov-type"><div id="ov-pill"></div><span id="ov-time"></span></div>
@@ -306,8 +306,8 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
     <div id="ov-rebuttal"></div>
   </div>
   <div id="ov-actions">
-    <button id="ov-share" onclick="ovShare()">&#128228; Share</button>
-    <button id="ov-got" onclick="closeOverlay()">&#10003; Got It</button>
+    <button id="ov-share" onclick="ovShare()"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.8" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.8" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.8" stroke="currentColor" stroke-width="1.6"/><line x1="8.7" y1="11.5" x2="17.4" y2="7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="8.7" y1="14.5" x2="17.4" y2="18.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Share</button>
+    <button id="ov-got" onclick="closeOverlay()"><svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Got It</button>
   </div>
   <div id="ov-stack"></div>
 </div>
@@ -316,25 +316,25 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 <div id="analysis-overlay">
   <div id="an-header">
     <div><div id="an-title">Call Analysis</div><div id="an-sub">AI coaching based on your call</div></div>
-    <button id="an-close" onclick="closeAnalysis()">&#10005; Close</button>
+    <button id="an-close" onclick="closeAnalysis()"><svg width="12" height="12" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Close</button>
   </div>
   <div id="an-actbar">
     <button class="an-btn an-btn-share" onclick="shareAnalysis()">Share</button>
     <button class="an-btn an-btn-pdf" onclick="downloadPDF()">Download PDF</button>
   </div>
   <div id="an-actbar2" style="display:none;padding:0 20px 0;gap:8px;">
-    <button class="an-btn" style="background:rgba(129,140,248,0.12);border:1px solid rgba(129,140,248,0.25);color:#a78bfa;width:100%" onclick="openSummary()">&#128203; View &amp; Save Call Summary</button>
+    <button class="an-btn" style="background:rgba(129,140,248,0.12);border:1px solid rgba(129,140,248,0.25);color:#a78bfa;width:100%" onclick="openSummary()"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="19" x2="13.5" y2="19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> View &amp; Save Call Summary</button>
   </div>
   <div id="an-body">
     <div class="an-loading" id="an-loading"><div class="an-spinner"></div><div class="an-loading-txt">Analyzing your call...</div></div>
     <div id="an-content" style="display:none"></div>
   </div>
-  <button id="an-cta" onclick="closeAnalysis()">&#10003; Got It &mdash; Back to Dashboard</button>
+  <button id="an-cta" onclick="closeAnalysis()"><svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Got It &mdash; Back to Dashboard</button>
 </div>
 
 <!-- SPLASH -->
 <div id="splash">
-  <div class="slogo">&#9889;</div><div class="stit">Closeify</div><div class="ssub2">CLOSE EVERY CALL WITH AI</div>
+  <div class="slogo"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M15.5 3L8 14.5h6L9.5 23l10.5-12H14z" fill="currentColor"/></svg></div><div class="stit">Closeify</div><div class="ssub2">CLOSE EVERY CALL WITH AI</div>
   <div class="sfeats"><div class="sfeat"><div class="sdot"></div>Real-time objection detection</div><div class="sfeat"><div class="sdot"></div>Instant AI-powered rebuttals</div><div class="sfeat"><div class="sdot"></div>NEPQ + product-specific responses</div><div class="sfeat"><div class="sdot"></div>Post-call coaching analysis</div></div>
   <button class="sbtn" onclick="startApp()">GET STARTED</button>
   <div class="sver">v2.0 &mdash; All Features Unlocked</div>
@@ -347,7 +347,7 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
     <div class="handle"></div>
     <div class="stitle">Your Product Setup</div>
     <div class="ssub">The more detail you add, the sharper your rebuttals will be.</div>
-    <div id="prodBadge" style="display:none"><div class="actv">&#9989; Active &mdash; Rebuttals personalized</div></div>
+    <div id="prodBadge" style="display:none"><div class="actv"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 13l3 3 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg> Active &mdash; Rebuttals personalized</div></div>
     <label class="flbl">PRODUCT / SERVICE NAME</label>
     <input class="finp" id="prodName" type="text" placeholder="e.g. 2022 Toyota Camry, HubSpot CRM..."/>
     <label class="flbl">KEY ADVANTAGES <span>what makes you better?</span></label>
@@ -358,16 +358,16 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
     <input class="finp" id="prodCust" type="text" placeholder="e.g. Families needing reliable transport"/>
     <label class="flbl">PRICE / DEAL INFO <span>optional</span></label>
     <input class="finp" id="prodPrice" type="text" placeholder="e.g. $18,500, financing from $299/mo"/>
-    <div class="fhint">&#128161; Add competitors for the sharpest comparison rebuttals.</div>
-    <button class="fsave" onclick="saveProd()">&#128190; SAVE &amp; ACTIVATE</button>
+    <div class="fhint"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M13 4a5.5 5.5 0 0 1 3.5 9.7c-.5.4-.8 1-.8 1.6v.2h-5.4v-.2c0-.6-.3-1.2-.8-1.6A5.5 5.5 0 0 1 13 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><line x1="10.5" y1="17.5" x2="15.5" y2="17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="11.2" y1="19.5" x2="14.8" y2="19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Add competitors for the sharpest comparison rebuttals.</div>
+    <button class="fsave" onclick="saveProd()"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><path d="M13 4v12M8.5 12l4.5 4.5 4.5-4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 18v2a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 21 20v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> SAVE &amp; ACTIVATE</button>
   </div>
 </div>
 
 <!-- SHARE MODAL -->
 <div class="modal" id="share-modal" onclick="closeSM(event)">
-  <div class="sheet"><div class="handle"></div><div class="stitle">&#128228; Share Rebuttal</div>
+  <div class="sheet"><div class="handle"></div><div class="stitle"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.8" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.8" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.8" stroke="currentColor" stroke-width="1.6"/><line x1="8.7" y1="11.5" x2="17.4" y2="7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="8.7" y1="14.5" x2="17.4" y2="18.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Share Rebuttal</div>
   <div id="shText" style="font-size:12px;color:rgba(148,163,184,0.6);font-family:'DM Sans',sans-serif;background:rgba(255,255,255,0.04);border-radius:8px;padding:10px;margin-bottom:13px;line-height:1.6;border:1px solid rgba(255,255,255,0.07)"></div>
-  <div class="sh2"><button class="sb sbc" onclick="copyReb()">&#128203; Copy</button><button class="sb sbs" onclick="shareSMS()">&#128172; SMS</button><button class="sb sbe" onclick="shareEmail()">&#9993; Email</button><button class="sb sbx" onclick="closeSM()">&#10005; Close</button></div>
+  <div class="sh2"><button class="sb sbc" onclick="copyReb()"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="19" x2="13.5" y2="19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Copy</button><button class="sb sbs" onclick="shareSMS()"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><path d="M4.5 4.5h17a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 5V6.5a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="12" r="1.3" fill="currentColor"/><circle cx="13" cy="12" r="1.3" fill="currentColor"/><circle cx="17" cy="12" r="1.3" fill="currentColor"/></svg> SMS</button><button class="sb sbe" onclick="shareEmail()"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><rect x="3.5" y="6" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8.5l9.5 7 9.5-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Email</button><button class="sb sbx" onclick="closeSM()"><svg width="12" height="12" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Close</button></div>
   </div>
 </div>
 
@@ -525,11 +525,11 @@ function addCard(r){
       '</div>'+
       '<div style="display:flex;align-items:center;gap:7px">'+
         '<span style="font-size:9px;color:rgba(148,163,184,0.3)">'+r.ts+'</span>'+
-        '<button class="clr" onclick="openShare('+r.id+')" style="position:relative;z-index:5">&#128228;</button>'+
-        '<button class="clr" onclick="dimCard('+r.id+')" style="position:relative;z-index:5">&#10005;</button>'+
+        '<button class="clr" onclick="openShare('+r.id+')" style="position:relative;z-index:5"><svg width=\"15\" height=\"15\" viewBox=\"0 0 26 26\" fill=\"none\"><circle cx=\"20\" cy=\"6\" r=\"2.8\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"6\" cy=\"13\" r=\"2.8\" stroke=\"currentColor\" stroke-width=\"1.6\"/><circle cx=\"20\" cy=\"20\" r=\"2.8\" stroke=\"currentColor\" stroke-width=\"1.6\"/><line x1=\"8.7\" y1=\"11.5\" x2=\"17.4\" y2=\"7.5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><line x1=\"8.7\" y1=\"14.5\" x2=\"17.4\" y2=\"18.5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg></button>'+
+        '<button class="clr" onclick="dimCard('+r.id+')" style="position:relative;z-index:5"><svg width=\"12\" height=\"12\" viewBox=\"0 0 26 26\" fill=\"none\"><path d=\"M7 7l12 12M19 7L7 19\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></button>'+
       '</div>'+
     '</div>'+
-    '<div class="collapse-hint">&#9660; tap to expand</div>'+
+    '<div class="collapse-hint"><svg width=\"11\" height=\"11\" viewBox=\"0 0 26 26\" fill=\"none\"><path d=\"M6 9l7 8 7-8\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> tap to expand</div>'+
     '<div class="card-body">'+
       '<div class="oq">'+esc(r.objection_summary||'')+'</div>'+
       '<div class="dv"></div>'+
@@ -576,7 +576,7 @@ function pushToStack(r){
       '<span style="font-size:8px;background:rgba(59,130,246,0.2);color:#60a5fa;border-radius:6px;padding:1px 6px;font-weight:700">NEW</span>'+
       '<span style="font-size:10px;color:rgba(148,163,184,0.45);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">'+esc(r.objection_summary||'')+'</span>'+
     '</div>'+
-    '<span style="font-size:9px;color:rgba(148,163,184,0.35);flex-shrink:0">tap &#9654;</span>';
+    '<span style="font-size:9px;color:rgba(148,163,184,0.35);flex-shrink:0">tap <svg width=\"11\" height=\"11\" viewBox=\"0 0 26 26\" fill=\"none\"><path d=\"M9 6l8 7-8 7\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>';
   el.addEventListener('click',function(){
     if(overlayCard) pushToStack(overlayCard);
     el.remove();
@@ -600,7 +600,7 @@ function ovShare(){
 }
 function dimCard(id){rebs=rebs.filter(function(r){return r.id!==id;});var el=document.getElementById("c"+id);if(el)el.remove();if(!rebs.length){document.getElementById("rebWrap").style.display="none";document.getElementById("empty").style.display="flex";document.getElementById("liveBadge").classList.remove("on");}document.getElementById("liveBadge").textContent=rebs.length;document.getElementById("rebCount").textContent=rebs.length+" REBUTTAL"+(rebs.length!==1?"S":"");}
 function clearRebs(){rebs=[];document.getElementById("rebList").innerHTML="";document.getElementById("rebWrap").style.display="none";document.getElementById("empty").style.display="flex";document.getElementById("liveBadge").classList.remove("on");document.getElementById("liveBadge").textContent="0";}
-function renderHist(){var el=document.getElementById("histList");document.getElementById("histCount").textContent=hist.length+" SESSION"+(hist.length!==1?"S":"");if(!hist.length){el.innerHTML='<div class="he">No history yet.</div>';return;}el.innerHTML=hist.map(function(s,i){return'<div class="rcard" style="--cc:#3b82f6;border-left:3px solid #3b82f6;margin-bottom:9px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="pill" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.25);color:#60a5fa">&#128203; '+s.date+'</div><div style="display:flex;align-items:center;gap:7px"><span style="font-size:9px;color:rgba(148,163,184,0.3)">'+s.time+' &middot; '+s.dur+'</span><button class="clr" onclick="delHist('+i+')">&#10005;</button></div></div><div style="font-size:10px;color:rgba(148,163,184,0.35);margin:4px 0 7px">&#9889; '+s.count+' objections &nbsp;&middot;&nbsp; &#9203; '+s.dur+'</div>'+s.items.slice(0,3).map(function(it){return'<div style="font-size:10px;color:rgba(148,163,184,0.45);margin-bottom:3px">'+badge(TC[it.type]||TC.other)+' '+esc(it.sum||'')+'</div>';}).join('')+(s.items.length>3?'<div style="font-size:9px;color:rgba(148,163,184,0.25);text-align:center">+'+(s.items.length-3)+' more</div>':'')+' </div>';}).join('');}
+function renderHist(){var el=document.getElementById("histList");document.getElementById("histCount").textContent=hist.length+" SESSION"+(hist.length!==1?"S":"");if(!hist.length){el.innerHTML='<div class="he">No history yet.</div>';return;}el.innerHTML=hist.map(function(s,i){return'<div class="rcard" style="--cc:#3b82f6;border-left:3px solid #3b82f6;margin-bottom:9px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="pill" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.25);color:#60a5fa"><svg width=\"16\" height=\"16\" viewBox=\"0 0 26 26\" fill=\"none\"><path d=\"M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><path d=\"M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/><line x1=\"9\" y1=\"13\" x2=\"17\" y2=\"13\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/><line x1=\"9\" y1=\"16\" x2=\"17\" y2=\"16\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/><line x1=\"9\" y1=\"19\" x2=\"13.5\" y2=\"19\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></svg> '+s.date+'</div><div style="display:flex;align-items:center;gap:7px"><span style="font-size:9px;color:rgba(148,163,184,0.3)">'+s.time+' &middot; '+s.dur+'</span><button class="clr" onclick="delHist('+i+')"><svg width=\"12\" height=\"12\" viewBox=\"0 0 26 26\" fill=\"none\"><path d=\"M7 7l12 12M19 7L7 19\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></button></div></div><div style="font-size:10px;color:rgba(148,163,184,0.35);margin:4px 0 7px"><svg width=\"16\" height=\"16\" viewBox=\"0 0 26 26\" fill=\"none\"><path d=\"M15.5 3L8 14.5h6L9.5 23l10.5-12H14z\" fill=\"currentColor\"/></svg> '+s.count+' objections &nbsp;&middot;&nbsp; <svg width=\"14\" height=\"14\" viewBox=\"0 0 26 26\" fill=\"none\"><circle cx=\"13\" cy=\"14\" r=\"9\" stroke=\"currentColor\" stroke-width=\"1.6\"/><path d=\"M13 9.5v5l3 2.5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><line x1=\"10\" y1=\"4\" x2=\"16\" y2=\"4\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg> '+s.dur+'</div>'+s.items.slice(0,3).map(function(it){return'<div style="font-size:10px;color:rgba(148,163,184,0.45);margin-bottom:3px">'+badge(TC[it.type]||TC.other)+' '+esc(it.sum||'')+'</div>';}).join('')+(s.items.length>3?'<div style="font-size:9px;color:rgba(148,163,184,0.25);text-align:center">+'+(s.items.length-3)+' more</div>':'')+' </div>';}).join('');}
 function delHist(i){hist.splice(i,1);try{localStorage.setItem("clf_h",JSON.stringify(hist));}catch(e){}renderHist();}
 function clearHist(){hist=[];try{localStorage.setItem("clf_h","[]");}catch(e){}renderHist();}
 function logO(t){if(t==="win")stats.wins++;else stats.losses++;try{localStorage.setItem("clf_s",JSON.stringify(stats));}catch(e){}updateTracker();showToast(t==="win"?"Win logged!":"Loss logged.");}
@@ -954,16 +954,16 @@ document.addEventListener("DOMContentLoaded",function(){
 <div id="summary-modal">
   <div id="summary-sheet">
     <div id="sum-header">
-      <div id="sum-title">&#128203; Call Summary</div>
-      <button id="sum-close" onclick="closeSummary()">&#10005; Close</button>
+      <div id="sum-title"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="19" x2="13.5" y2="19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Call Summary</div>
+      <button id="sum-close" onclick="closeSummary()"><svg width="12" height="12" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Close</button>
     </div>
     <div id="sum-sub">Full recap of your call</div>
     <div id="sum-body"></div>
     <div class="sum-actions">
-      <button class="sum-btn sum-btn-copy" onclick="copySummary()">&#128203; Copy</button>
-      <button class="sum-btn sum-btn-sms" onclick="smsSummary()">&#128172; SMS</button>
-      <button class="sum-btn sum-btn-email" onclick="emailSummary()">&#9993; Email</button>
-      <button class="sum-btn sum-btn-pdf" onclick="pdfSummary()">&#128196; PDF</button>
+      <button class="sum-btn sum-btn-copy" onclick="copySummary()"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="19" x2="13.5" y2="19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Copy</button>
+      <button class="sum-btn sum-btn-sms" onclick="smsSummary()"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><path d="M4.5 4.5h17a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 5V6.5a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="12" r="1.3" fill="currentColor"/><circle cx="13" cy="12" r="1.3" fill="currentColor"/><circle cx="17" cy="12" r="1.3" fill="currentColor"/></svg> SMS</button>
+      <button class="sum-btn sum-btn-email" onclick="emailSummary()"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><rect x="3.5" y="6" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8.5l9.5 7 9.5-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Email</button>
+      <button class="sum-btn sum-btn-pdf" onclick="pdfSummary()"><svg width="15" height="15" viewBox="0 0 26 26" fill="none"><path d="M6 4h10l5 5v14a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 5 23V5.5A1.5 1.5 0 0 1 6 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 4v4.5a.5.5 0 0 0 .5.5H21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> PDF</button>
     </div>
   </div>
 </div>
