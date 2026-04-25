@@ -65,15 +65,21 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 .chips{margin-top:8px;display:flex;flex-direction:column;gap:5px;width:100%;}
 .chip{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:7px;padding:6px 10px;font-size:10px;color:rgba(148,163,184,0.4);font-family:'Lora',serif;font-style:normal;}
 .rcard{background:rgba(13,20,36,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px;margin-bottom:10px;position:relative;overflow:hidden;animation:cin 0.35s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 4px 24px rgba(0,0,0,0.4);}
-.rcard.collapsed{padding:10px 14px;cursor:pointer;}
-.rcard.collapsed .card-body{display:block;}
-.rcard.collapsed .collapse-hint{display:flex!important;}
-.collapse-hint{display:none;align-items:center;gap:5px;margin-top:6px;}
+
+
+
+
 .collapse-hint span{font-size:9px;color:rgba(148,163,184,0.35);letter-spacing:0.08em;}
-.collapse-arr{font-size:9px;color:rgba(148,163,184,0.3);}
-.expand-btn{background:none;border:none;cursor:pointer;font-size:10px;color:rgba(148,163,184,0.35);padding:0;font-family:'Inter',sans-serif;margin-left:4px;}
+
+
 .rcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--cc),transparent);opacity:0.7;}
 @keyframes cin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.card-body{display:block;}
+.collapse-hint{display:none;align-items:center;gap:5px;margin-top:4px;}
+.collapse-hint span{font-size:9px;color:rgba(148,163,184,0.4);letter-spacing:0.06em;}
+.rcard.collapsed{padding:10px 14px;}
+.rcard.collapsed .card-body{display:none;}
+.rcard.collapsed .collapse-hint{display:flex;}
 .pill{font-size:9px;font-weight:700;padding:2px 8px;border-radius:12px;}
 .oq{background:rgba(255,255,255,0.04);border-radius:7px;padding:8px 11px;margin-bottom:9px;font-size:12px;color:rgba(148,163,184,0.7);font-style:normal;line-height:1.6;font-family:'DM Sans',sans-serif;font-weight:400;border:1px solid rgba(255,255,255,0.06);}
 .dv{height:1px;background:linear-gradient(90deg,var(--cc),transparent);margin-bottom:8px;opacity:0.4;}
@@ -254,9 +260,9 @@ var listening=false,recog=null,cTimer=null,aTO=null,dur=0,objCnt=0,rebs=[],lastA
 
 function getPrompt(){
   var hp=prod.name.trim().length>0;
-  var ctx=hp?" PRODUCT BEING SOLD: "+prod.name+". "+(prod.desc||"")+" Weave the product naturally into the NEPQ response when relevant.":" Provide NEPQ-based responses for general sales situations.";
-  var rules="You are an elite real-time sales coach trained in NEPQ (Neuro-Emotional Persuasion Questioning) by Jeremy Miner. Detect ANY sales objection, hesitation, or resistance and respond using NEPQ principles. NEPQ RULES: Never argue or use pressure. Use softening phrases like Out of curiosity or Help me understand or So it sounds like. Respond with questions not statements. Connect to their pain and desired outcome. Stay calm and curious never defensive. Keep responses 2-3 sentences max. Reply ONLY with raw JSON: {objection_detected:true or false, objection_type: price or timing or competitor or trust or need or authority or other, objection_summary: what they said, rebuttal: your NEPQ question-based response, tone: curious, urgency: high or medium}. No markdown no extra text.";
-  return rules+ctx;
+  var ctx=hp?" PRODUCT BEING SOLD: "+prod.name+". "+(prod.desc||"")+" Mention the product by name in the rebuttal.":" Give strong general sales rebuttals.";
+  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"summary","rebuttal":"your response","tone":"empathetic","urgency":"high"}';
+  return "You are an elite real-time sales coach. Detect ANY sales objection, hesitation, or resistance."+ctx+" Write a POWERFUL 2-3 sentence rebuttal that first softens with empathy using phrases like Out of curiosity or Help me understand then pivots to a bold confident statement that reframes their objection and drives urgency. Reply ONLY with raw JSON matching this format: "+fmt+" Types: price timing competitor trust need authority other. Set objection_detected to false only if there is absolutely no objection.";
 }
 
 function chime(){try{var c=new(window.AudioContext||window.webkitAudioContext)();[[880,0],[1108,0.1],[1320,0.2]].forEach(function(f){var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f[0];o.type="sine";var t=c.currentTime+f[1];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.13,t+0.04);g.gain.linearRampToValueAtTime(0,t+0.2);o.start(t);o.stop(t+0.22);});}catch(e){}}
