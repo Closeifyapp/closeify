@@ -178,19 +178,24 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 }
 #card-overlay.on{display:flex;}
 @keyframes overlayIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-/* Main rebuttal area */
-#overlay-main{
-  flex:1;display:flex;flex-direction:column;justify-content:center;
-  padding:28px 24px 16px;min-height:0;overflow-y:auto;
+/* Main rebuttal area - scrollable, takes remaining space */
+#overlay-inner{
+  flex:1;min-height:0;overflow-y:auto;
+  padding:16px 22px 12px;
+  display:flex;flex-direction:column;justify-content:flex-start;
 }
-/* Stacked previous rebuttals */
+/* Queue at bottom - fixed height, never overlaps */
 #overlay-stack{
   flex-shrink:0;
-  max-height:45%;
+  border-top:1px solid rgba(255,255,255,0.07);
+  background:rgba(6,10,18,0.98);
+  max-height:160px;
   overflow-y:auto;
-  padding:0 14px 8px;
-  display:flex;flex-direction:column;gap:6px;
+  padding:8px 14px 10px;
+  display:none;
+  flex-direction:column;gap:5px;
 }
+#overlay-stack.has-items{display:flex;}
 .stack-card{
   background:rgba(255,255,255,0.05);
   border:1px solid rgba(255,255,255,0.08);
@@ -207,10 +212,7 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 .stack-summary{font-size:10px;color:rgba(148,163,184,0.45);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;}
 .stack-rebuttal{font-size:14px;color:rgba(240,248,255,0.9);line-height:1.65;font-family:'DM Sans',sans-serif;font-weight:500;}
 .stack-divider{height:1px;background:linear-gradient(90deg,rgba(255,255,255,0.12),transparent);margin:0 14px;}
-#overlay-inner{
-  display:flex;flex-direction:column;justify-content:center;
-  padding:28px 24px 16px;flex:1;min-height:0;
-}
+
 #overlay-type{display:flex;align-items:center;gap:8px;margin-bottom:18px;}
 #overlay-pill{font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;}
 #overlay-time{font-size:11px;color:rgba(148,163,184,0.35);margin-left:auto;}
@@ -584,41 +586,50 @@ var overlayCard=null;
 
 function showOverlay(r){
   var overlay=document.getElementById('card-overlay');
-  // If overlay already open — just push new card to queue, don't interrupt
-  if(overlay.classList.contains('on')&&overlayCard){
+  // Already open - just queue it, don't interrupt
+  if(overlay.classList.contains('on') && overlayCard){
     pushToStack(r);
-    // Flash the queue to notify
-    var stack=document.getElementById('overlay-stack');
-    stack.style.transition='background 0.2s';
-    stack.style.background='rgba(59,130,246,0.08)';
-    setTimeout(function(){stack.style.background='';},400);
     return;
   }
-  // First rebuttal — show full screen
+  renderOverlayCard(r);
+  overlayCard=r;
+  overlay.classList.add('on');
+}
+
+function renderOverlayCard(r){
   var cfg=TC[r.objection_type]||TC.other;
+  // Pill
   var pill=document.getElementById('overlay-pill');
   pill.textContent=cfg.icon+' '+cfg.label;
   pill.style.cssText='background:'+cfg.bg+';border:1px solid '+cfg.color+'44;color:'+cfg.color+';font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;';
+  // Time
   document.getElementById('overlay-time').textContent=r.ts;
+  // Objection
   document.getElementById('overlay-obj').textContent=r.objection_summary||'';
+  // Bar
+  document.getElementById('overlay-bar').style.setProperty('--oc',cfg.color);
+  // Label
+  document.getElementById('overlay-lbl').style.color=cfg.color;
+  // Counter
+  document.getElementById('overlay-counter').textContent='\u26a1 '+objCnt+' caught';
+  // Bullets
   var rebEl=document.getElementById('overlay-rebuttal');
   var blist=r.bullets&&r.bullets.length?r.bullets:(r.rebuttal||'').split('\n').map(function(b){return b.replace(/^[\u2022\-\*\d\.\)]\s*/,'').trim();}).filter(Boolean);
   if(blist.length>0){
     rebEl.innerHTML=blist.map(function(b){
       return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">'+
-        '<div style="width:7px;height:7px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:7px"></div>'+
+        '<div style="width:7px;height:7px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:7px;box-shadow:0 0 8px '+cfg.color+'66"></div>'+
         '<span style="font-size:20px;color:#fff;line-height:1.5;font-family:DM Sans,sans-serif;font-weight:500">'+esc(b)+'</span>'+
       '</div>';
     }).join('');
-  }else{
+  } else {
     rebEl.textContent=r.rebuttal||'';
   }
-  document.getElementById('overlay-lbl').style.color=cfg.color;
-  document.getElementById('overlay-bar').style.setProperty('--oc',cfg.color);
-  document.getElementById('overlay-counter').textContent='\u26a1 '+objCnt+' caught';
-  overlayCard=r;
-  overlay.classList.add('on');
+  // Scroll inner back to top
+  var inner=document.getElementById('overlay-inner');
+  if(inner) inner.scrollTop=0;
 }
+
 
 
 function formatBullets(text, color){
@@ -633,54 +644,40 @@ function formatBullets(text, color){
 function pushToStack(r){
   var cfg=TC[r.objection_type]||TC.other;
   var stack=document.getElementById('overlay-stack');
-  // Add header label if first item
-  if(stack.children.length===0){
-    var lbl=document.createElement('div');
-    lbl.style.cssText='font-size:9px;color:rgba(148,163,184,0.35);letter-spacing:0.1em;padding:6px 0 4px;font-weight:600;display:flex;align-items:center;gap:6px;';
-    lbl.innerHTML='QUEUE <span id="queue-count" style="background:rgba(59,130,246,0.2);color:#60a5fa;border-radius:8px;padding:1px 6px;font-size:9px;">1</span>';
-    stack.appendChild(lbl);
-  } else {
-    // Update count badge
-    var badge=document.getElementById('queue-count');
-    if(badge) badge.textContent=stack.children.length;
-  }
+  stack.classList.add('has-items');
+
+  // Update counter
+  document.getElementById('overlay-counter').textContent='\u26a1 '+objCnt+' caught';
+
   var el=document.createElement('div');
   el.className='stack-card';
-  el.style.animation='cin 0.3s cubic-bezier(0.34,1.3,0.64,1)';
-  var blist=r.bullets&&r.bullets.length?r.bullets:[];
+  el.style.animation='cin 0.25s ease-out';
   el.innerHTML=
-    '<div class="stack-card-header">'+
-      '<div style="flex:1;min-width:0">'+
-        '<div style="display:flex;align-items:center;gap:6px">'+
-          '<div class="stack-type" style="color:'+cfg.color+'">'+cfg.icon+' '+cfg.label+'</div>'+
-          '<div style="font-size:8px;background:rgba(59,130,246,0.2);color:#60a5fa;border-radius:8px;padding:1px 6px;font-weight:700;">NEW</div>'+
-          '<span style="font-size:9px;color:rgba(148,163,184,0.35);margin-left:auto">'+r.ts+'</span>'+
-        '</div>'+
-        '<div class="stack-summary">'+esc(r.objection_summary||'')+'</div>'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">'+
+      '<div style="display:flex;align-items:center;gap:7px;min-width:0;flex:1">'+
+        '<div style="font-size:11px;font-weight:700;color:'+cfg.color+';white-space:nowrap">'+cfg.icon+' '+cfg.label+'</div>'+
+        '<div style="font-size:8px;background:rgba(59,130,246,0.25);color:#60a5fa;border-radius:6px;padding:1px 6px;font-weight:700;flex-shrink:0">NEW</div>'+
+        '<div style="font-size:10px;color:rgba(148,163,184,0.45);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">'+esc(r.objection_summary||'')+'</div>'+
       '</div>'+
-      '<span class="stack-arr" style="margin-left:8px">&#9660;</span>'+
-    '</div>'+
-    '<div class="stack-card-body">'+
-      (blist.length?blist.map(function(b){
-        return '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">'+
-          '<div style="width:5px;height:5px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:5px"></div>'+
-          '<span style="font-size:13px;color:rgba(240,248,255,0.85);line-height:1.5">'+esc(b)+'</span>'+
-        '</div>';
-      }).join(''):('<span style="font-size:13px;color:rgba(240,248,255,0.7)">'+esc(r.rebuttal||'')+'</span>'))+
+      '<div style="font-size:9px;color:rgba(148,163,184,0.35);white-space:nowrap;margin-left:6px">tap to view ›</div>'+
     '</div>';
-  el.addEventListener('click',function(){
-    el.classList.toggle('open');
-    // Remove NEW badge when opened
-    var nb=el.querySelector('[style*="NEW"]');
-    if(nb)nb.style.display='none';
+
+  // Tap stack card -> swap main view to show this rebuttal
+  el.addEventListener('click', function(){
+    // Push current main card back to stack top
+    if(overlayCard){
+      pushToStack(overlayCard);
+      // Remove the one we just tapped
+      el.remove();
+      if(!stack.querySelector('.stack-card')) stack.classList.remove('has-items');
+    }
+    overlayCard=r;
+    renderOverlayCard(r);
   });
-  // Insert at top of stack (after label)
-  if(stack.children.length>1){
-    stack.insertBefore(el, stack.children[1]);
-  } else {
-    stack.appendChild(el);
-  }
+
+  stack.appendChild(el);
 }
+
 
 
 
@@ -710,7 +707,9 @@ function dimCard(id){
 function closeOverlay(e){
   if(e)e.stopPropagation();
   document.getElementById('card-overlay').classList.remove('on');
-  document.getElementById('overlay-stack').innerHTML='';
+  var stack=document.getElementById('overlay-stack');
+  stack.innerHTML='';
+  stack.classList.remove('has-items');
   overlayCard=null;
 }
 function handleOverlayClick(e){
