@@ -222,7 +222,7 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 }
 #overlay-lbl{font-size:10px;letter-spacing:0.16em;color:rgba(148,163,184,0.5);margin-bottom:12px;font-weight:600;}
 #overlay-rebuttal{
-  font-size:26px;color:#ffffff;line-height:1.65;
+  font-size:20px;color:#ffffff;line-height:1.6;
   font-family:'DM Sans',sans-serif;font-weight:500;
   letter-spacing:-0.01em;
 }
@@ -268,7 +268,7 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 <div id="photo"><div id="photo-fade"></div></div>
 <div id="panel">
 <div id="hdr">
-  <div class="lrow"><div class="lbox">&#9889;</div><div><div class="aname">Closeify</div><div class="asub">CLOSE EVERY CALL WITH AI</div></div></div>
+  <div class="lrow"><div class="lbox">⚡</div><div><div class="aname">Closeify</div><div class="asub">CLOSE EVERY CALL WITH AI</div></div></div>
   <div class="stats">
     <div><span class="sv" id="timerVal">00:00</span><div class="sl">CALL</div></div>
     <div><span class="sv" id="objVal">0</span><div class="sl">ALERTS</div></div>
@@ -279,19 +279,19 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 <div id="recwrap">
   <div id="recbtn" onclick="toggleListen()"><div id="recdot"></div><span id="reclbl">TAP TO LISTEN</span></div>
   <div id="wf"></div>
-  <button id="endbtn" onclick="endCall()">&#9632; STOP</button>
+  <button id="endbtn" onclick="endCall()">■ STOP</button>
 </div>
-<div id="trbar"><span style="font-size:8px;color:#ef4444;margin-right:5px">&#9679;</span><span id="trtxt">Listening...</span><span id="aispin">&#129504;</span></div>
+<div id="trbar"><span style="font-size:8px;color:#ef4444;margin-right:5px">&#9679;</span><span id="trtxt">Listening...</span><span id="aispin">🧠</span></div>
 <div id="prodbar" onclick="openProd()">
-  <span style="font-size:13px">&#128230;</span>
+  <span style="font-size:13px">📦</span>
   <div style="flex:1;min-width:0"><div id="prodlbl">SELLING</div><div id="prodnm" class="empty">Tap to set your product</div></div>
-  <span style="font-size:10px;color:rgba(96,165,250,0.4)">&#9999;</span>
+  <span style="font-size:10px;color:rgba(96,165,250,0.4)">✏️</span>
 </div>
 <div id="tabbar">
-  <button class="tb on" id="tab-live" onclick="switchTab('live')">&#9889; Live <span class="tbdg on" id="liveBadge">0</span></button>
-  <button class="tb" id="tab-history" onclick="switchTab('history')">&#128203; Log</button>
-  <button class="tb" id="tab-tracker" onclick="switchTab('tracker')">&#128202; Stats</button>
-  <button class="tb" id="tab-tips" onclick="switchTab('tips')">&#128161; Tips</button>
+  <button class="tb on" id="tab-live" onclick="switchTab('live')">⚡ Live <span class="tbdg on" id="liveBadge">0</span></button>
+  <button class="tb" id="tab-history" onclick="switchTab('history')">📋 Log</button>
+  <button class="tb" id="tab-tracker" onclick="switchTab('tracker')">📊 Stats</button>
+  <button class="tb" id="tab-tips" onclick="switchTab('tips')">💡 Tips</button>
 </div>
 <div id="content">
   <div class="pnl on" id="panel-live">
@@ -312,9 +312,9 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
   <div class="pnl" id="panel-tips">
     <div class="tps"><div class="tph">HOW TO USE</div>
     <div class="tpc"><div class="tpi">&#127908;</div><div><div class="tpt">Tap Listen before your call</div><div class="tpd">Allow mic when prompted. Use Chrome or Safari.</div></div></div>
-    <div class="tpc"><div class="tpi">&#128230;</div><div><div class="tpt">Set your product first</div><div class="tpd">Enter what you sell for tailored rebuttals.</div></div></div>
-    <div class="tpc"><div class="tpi">&#9889;</div><div><div class="tpt">Read rebuttals mid-call</div><div class="tpd">Glance at the card and use it naturally.</div></div></div>
-    <div class="tpc"><div class="tpi">&#128202;</div><div><div class="tpt">Track win rate</div><div class="tpd">Log Win or Loss in Stats after each call.</div></div></div>
+    <div class="tpc"><div class="tpi">📦</div><div><div class="tpt">Set your product first</div><div class="tpd">Enter what you sell for tailored rebuttals.</div></div></div>
+    <div class="tpc"><div class="tpi">⚡</div><div><div class="tpt">Read rebuttals mid-call</div><div class="tpd">Glance at the card and use it naturally.</div></div></div>
+    <div class="tpc"><div class="tpi">📊</div><div><div class="tpt">Track win rate</div><div class="tpd">Log Win or Loss in Stats after each call.</div></div></div>
     </div>
   </div>
 </div>
@@ -323,7 +323,7 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 </div>
 
 <div id="splash">
-  <div class="slogo">&#9889;</div><div class="stit">Closeify</div><div class="ssub2">CLOSE EVERY CALL WITH AI</div>
+  <div class="slogo">⚡</div><div class="stit">Closeify</div><div class="ssub2">CLOSE EVERY CALL WITH AI</div>
   <div class="sfeats"><div class="sfeat"><div class="sdot"></div>Real-time objection detection</div><div class="sfeat"><div class="sdot"></div>Instant AI-powered rebuttals</div><div class="sfeat"><div class="sdot"></div>Win rate tracker &amp; history</div><div class="sfeat"><div class="sdot"></div>Product-specific responses</div></div>
   <button class="sbtn" onclick="startApp()">GET STARTED</button>
   <div class="sver">v2.0 &mdash; All Features Unlocked</div>
@@ -331,18 +331,18 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 </div>
 
 <div class="modal" id="prod-modal" onclick="closePM(event)">
-  <div class="sheet"><div class="handle"></div><div class="stitle">&#128230; Your Product</div><div class="ssub">Closeify tailors every rebuttal to what you sell.</div>
+  <div class="sheet"><div class="handle"></div><div class="stitle">📦 Your Product</div><div class="ssub">Closeify tailors every rebuttal to what you sell.</div>
   <div id="prodBadge" style="display:none"><div class="actv">&#9989; Active &mdash; Rebuttals personalized</div></div>
   <label class="flbl">PRODUCT NAME</label><input class="finp" id="prodName" type="text" placeholder="e.g. Salesforce CRM, Tesla Model Y..."/>
   <label class="flbl">DESCRIPTION</label><textarea class="fta" id="prodDesc" placeholder="Key benefits, price, who it's for..."></textarea>
-  <div class="fhint">&#128161; More detail = better rebuttals.</div>
+  <div class="fhint">💡 More detail = better rebuttals.</div>
   <button class="fsave" onclick="saveProd()">&#128190; SAVE PRODUCT</button></div>
 </div>
 
 <div class="modal" id="share-modal" onclick="closeSM(event)">
-  <div class="sheet"><div class="handle"></div><div class="stitle">&#128228; Share Rebuttal</div>
+  <div class="sheet"><div class="handle"></div><div class="stitle">📤 Share Rebuttal</div>
   <div id="shText" style="font-size:12px;color:rgba(148,163,184,0.6);font-family:'Lora',serif;font-style:normal;background:rgba(255,255,255,0.04);border-radius:8px;padding:10px;margin-bottom:13px;line-height:1.6;border:1px solid rgba(255,255,255,0.07)"></div>
-  <div class="sh2"><button class="sb sbc" onclick="copyReb()">&#128203; Copy</button><button class="sb sbs" onclick="shareSMS()">💬 SMS</button><button class="sb sbe" onclick="shareEmail()">&#9993; Email</button><button class="sb sbx" onclick="closeSM()">&#10005; Close</button></div>
+  <div class="sh2"><button class="sb sbc" onclick="copyReb()">📋 Copy</button><button class="sb sbs" onclick="shareSMS()">💬 SMS</button><button class="sb sbe" onclick="shareEmail()">&#9993; Email</button><button class="sb sbx" onclick="closeSM()">✕ Close</button></div>
   </div>
 </div>
 
@@ -351,7 +351,7 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 
 <script>
 var TC={price:{color:"#f87171",bg:"rgba(248,113,113,0.12)",icon:"💰",label:"Price"},timing:{color:"#fbbf24",bg:"rgba(251,191,36,0.12)",icon:"⏰",label:"Timing"},competitor:{color:"#a78bfa",bg:"rgba(167,139,250,0.12)",icon:"⚔",label:"Competitor"},trust:{color:"#fb923c",bg:"rgba(251,146,60,0.12)",icon:"🤝",label:"Trust"},need:{color:"#22d3ee",bg:"rgba(34,211,238,0.12)",icon:"❓",label:"Need"},authority:{color:"#4ade80",bg:"rgba(74,222,128,0.12)",icon:"👔",label:"Authority"},other:{color:"#818cf8",bg:"rgba(129,140,248,0.12)",icon:"💬",label:"Objection"}};
-var TM={empathetic:"&#128153;",assertive:"&#9889;",curious:"&#128269;",social_proof:"&#11088;"};
+var TM={empathetic:"💙",assertive:"⚡",curious:"🔍",social_proof:"⭐"};
 var prod={name:"",desc:""};try{prod=JSON.parse(localStorage.getItem("clf_prod")||'{"name":"","desc":""}');}catch(e){}
 var hist=[];try{hist=JSON.parse(localStorage.getItem("clf_h")||"[]");}catch(e){}
 var stats={wins:0,losses:0,objTypes:{}};try{stats=JSON.parse(localStorage.getItem("clf_s")||'{"wins":0,"losses":0,"objTypes":{}}');}catch(e){}
@@ -359,9 +359,9 @@ var listening=false,recog=null,cTimer=null,aTO=null,dur=0,objCnt=0,rebs=[],lastA
 
 function getPrompt(){
   var hp=prod.name.trim().length>0;
-  var ctx=hp?" PRODUCT BEING SOLD: "+prod.name+". "+(prod.desc||"")+" Mention the product by name in the rebuttal.":" Give strong general sales rebuttals.";
-  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"summary","rebuttal":"rebuttal text","tone":"empathetic","urgency":"high"}';
-  return "You are an elite real-time sales coach. Detect ANY sales objection or hesitation."+ctx+" Respond with a powerful, confident 2-3 sentence rebuttal that acknowledges the concern and immediately reframes it to drive the sale forward. Be direct, compelling and urgent. Reply ONLY with raw JSON: "+fmt+" Types: price timing competitor trust need authority other. Set objection_detected false only if no objection exists.";
+  var ctx=hp?" PRODUCT BEING SOLD: "+prod.name+". "+(prod.desc||"")+" Reference the product where relevant.":" Give strong general sales rebuttals.";
+  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"brief summary","bullets":["point one","point two","point three"],"tone":"empathetic","urgency":"high"}';
+  return "You are an elite real-time sales coach. Detect ANY sales objection or hesitation."+ctx+" Respond with 3-4 SHORT punchy bullet points — each one a powerful sales argument, key advantage, or reframe. Each bullet max 8 words. No full sentences. No filler. Think: quick talking points a rep can glance at and deliver instantly. Reply ONLY with raw JSON: "+fmt+" Types: price timing competitor trust need authority other. Set objection_detected false only if no objection.";
 }
 
 function chime(){try{var c=new(window.AudioContext||window.webkitAudioContext)();[[880,0],[1108,0.1],[1320,0.2]].forEach(function(f){var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f[0];o.type="sine";var t=c.currentTime+f[1];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.13,t+0.04);g.gain.linearRampToValueAtTime(0,t+0.2);o.start(t);o.stop(t+0.22);});}catch(e){}}
@@ -420,7 +420,7 @@ function analyze(text){
     if(data.error){console.error("API ERROR:",data.error.message);return;}
     var raw=(data.content||[]).map(function(b){return b.text||"";}).join("").replace(/```json|```/g,"").trim();
     var r;try{r=JSON.parse(raw);}catch(e){return;}
-    if(r.objection_detected&&r.rebuttal){
+    if(r.objection_detected&&(r.bullets||r.rebuttal)){
       doFlash();objCnt++;
       document.getElementById("objVal").textContent=objCnt;
       document.getElementById("objVal").classList.add("gold");
@@ -455,36 +455,29 @@ function addCard(r){
       '</div>'+
       '<div style="display:flex;align-items:center;gap:7px">'+
         '<span style="font-size:9px;color:rgba(148,163,184,0.3)">'+r.ts+'</span>'+
-        '<button class="clr" onclick="openShare('+r.id+')" style="position:relative;z-index:5">&#128228;</button>'+
-        '<button class="clr" onclick="dimCard('+r.id+')" style="position:relative;z-index:5">&#10005;</button>'+
+        '<button class="clr" onclick="openShare('+r.id+')" style="position:relative;z-index:5">📤</button>'+
+        '<button class="clr" onclick="dimCard('+r.id+')" style="position:relative;z-index:5">✕</button>'+
       '</div>'+
     '</div>'+
-    '<div class="collapse-hint">&#9660; tap to expand</div>'+
+    '<div class="collapse-hint">▼ tap to expand</div>'+
     '<div class="card-body">'+
       '<div class="oq">'+esc(r.objection_summary||'')+'</div>'+
       '<div class="dv"></div>'+
       '<div class="rl" style="color:'+cfg.color+'">YOUR REBUTTAL</div>'+
-      '<div class="rt">'+esc(r.rebuttal||'')+'</div>'+
+      '<div class="rt">'+(r.bullets&&r.bullets.length?r.bullets.map(function(b){return '<div style="display:flex;align-items:flex-start;gap:7px;margin-bottom:7px"><div style="width:5px;height:5px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:5px"></div><span>'+esc(b)+'</span></div>';}).join(''):esc(r.rebuttal||''))+'</div>'+
     '</div>';
   d.addEventListener('click',function(e){
     if(e.target.tagName==='BUTTON'||e.target.closest('button'))return;
-    if(d.classList.contains('collapsed')){
-      showOverlay(r);
-    }else{
-      d.classList.add('collapsed');
-    }
+    if(d.classList.contains('collapsed')){showOverlay(r);}else{d.classList.add('collapsed');}
   });
   document.getElementById("rebList").appendChild(d);
   document.getElementById("liveBadge").textContent=rebs.length;
   document.getElementById("liveBadge").classList.add("on");
   document.getElementById("rebCount").textContent=rebs.length+" REBUTTAL"+(rebs.length!==1?"S":"");
-  // Show fullscreen overlay immediately
   showOverlay(r);
 }
 
-function dimCard(id){rebs=rebs.filter(function(r){return r.id!==id;});var el=document.getElementById("c"+id);if(el)el.remove();if(!rebs.length){document.getElementById("rebWrap").style.display="none";document.getElementById("empty").style.display="flex";}document.getElementById("liveBadge").textContent=rebs.length;document.getElementById("rebCount").textContent=rebs.length+" REBUTTAL"+(rebs.length!==1?"S":"");}
-function clearRebs(){rebs=[];document.getElementById("rebList").innerHTML="";document.getElementById("rebWrap").style.display="none";document.getElementById("empty").style.display="flex";document.getElementById("liveBadge").classList.remove("on");document.getElementById("liveBadge").textContent="0";}
-function renderHist(){var el=document.getElementById("histList");document.getElementById("histCount").textContent=hist.length+" SESSION"+(hist.length!==1?"S":"");if(!hist.length){el.innerHTML='<div class="he">No history yet.</div>';return;}el.innerHTML=hist.map(function(s,i){return'<div class="rcard" style="--cc:#3b82f6;border-left:3px solid #3b82f6;margin-bottom:9px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="pill" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.25);color:#60a5fa">&#128203; '+s.date+'</div><div style="display:flex;align-items:center;gap:7px"><span style="font-size:9px;color:rgba(148,163,184,0.3)">'+s.time+" &middot; "+s.dur+'</span><button class="clr" onclick="delHist('+i+')">&#10005;</button></div></div><div style="font-size:10px;color:rgba(148,163,184,0.35);margin:4px 0 7px">&#9889; '+s.count+' obj &nbsp;&middot;&nbsp; &#9203; '+s.dur+'</div>'+s.items.slice(0,2).map(function(it){return'<div class="oq" style="margin-bottom:4px;font-size:10px">'+(TC[it.type]||TC.other).icon+" "+esc(it.sum||"")+"</div>";}).join("")+(s.items.length>2?'<div style="font-size:9px;color:rgba(148,163,184,0.25);text-align:center">+'+(s.items.length-2)+" more</div>":"")+"</div>";}).join("");}
+function renderHist(){var el=document.getElementById("histList");document.getElementById("histCount").textContent=hist.length+" SESSION"+(hist.length!==1?"S":"");if(!hist.length){el.innerHTML='<div class="he">No history yet.</div>';return;}el.innerHTML=hist.map(function(s,i){return'<div class="rcard" style="--cc:#3b82f6;border-left:3px solid #3b82f6;margin-bottom:9px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="pill" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.25);color:#60a5fa">📋 '+s.date+'</div><div style="display:flex;align-items:center;gap:7px"><span style="font-size:9px;color:rgba(148,163,184,0.3)">'+s.time+' &middot; '+s.dur+'</span><button class="clr" onclick="delHist('+i+')">✕</button></div></div><div style="font-size:10px;color:rgba(148,163,184,0.35);margin:4px 0 7px">⚡ '+s.count+' obj &nbsp;&middot;&nbsp; ⏱ '+s.dur+'</div>'+s.items.slice(0,2).map(function(it){return'<div class="oq" style="margin-bottom:4px;font-size:10px">'+(TC[it.type]||TC.other).icon+' '+esc(it.sum||'')+'</div>';}).join('')+(s.items.length>2?'<div style="font-size:9px;color:rgba(148,163,184,0.25);text-align:center">+'+(s.items.length-2)+' more</div>':'')+' </div>';}).join('');}
 function delHist(i){hist.splice(i,1);try{localStorage.setItem("clf_h",JSON.stringify(hist));}catch(e){}renderHist();}
 function clearHist(){hist=[];try{localStorage.setItem("clf_h","[]");}catch(e){}renderHist();}
 function logO(t){if(t==="win")stats.wins++;else stats.losses++;try{localStorage.setItem("clf_s",JSON.stringify(stats));}catch(e){}updateTracker();showToast(t==="win"?"Win logged!":"Loss logged.");}
@@ -522,12 +515,33 @@ function showOverlay(r){
   pill.style.cssText='background:'+cfg.bg+';border:1px solid '+cfg.color+'44;color:'+cfg.color+';font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;';
   document.getElementById('overlay-time').textContent=r.ts;
   document.getElementById('overlay-obj').textContent=r.objection_summary||'';
-  document.getElementById('overlay-rebuttal').textContent=r.rebuttal||'';
-  document.getElementById('overlay-lbl').style.color=cfg.color;
+  var rebEl=document.getElementById('overlay-rebuttal');
+   var blist=r.bullets&&r.bullets.length?r.bullets:(r.rebuttal||'').split('\n').map(function(b){return b.replace(/^[\u2022\-\*\d\.\)]\s*/,'').trim();}).filter(Boolean);
+   if(blist.length>0){
+     rebEl.innerHTML=blist.map(function(b){
+       return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">'+
+         '<div style="width:7px;height:7px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:7px"></div>'+
+         '<span style="font-size:20px;color:#fff;line-height:1.5;font-family:DM Sans,sans-serif;font-weight:500">'+esc(b)+'</span>'+
+       '</div>';
+     }).join('');
+   }else{
+     rebEl.textContent=r.rebuttal||'';
+   }
+   document.getElementById('overlay-lbl').style.color=cfg.color;
   document.getElementById('overlay-bar').style.setProperty('--oc',cfg.color);
+  document.getElementById('overlay-rebuttal').style.setProperty('--bullet-c',cfg.color);
   document.getElementById('overlay-counter').textContent='\u26a1 '+objCnt+' caught';
   overlayCard=r;
   overlay.classList.add('on');
+}
+
+function formatBullets(text, color){
+  var lines=text.split('\n').filter(function(l){return l.trim();});
+  if(lines.length<=1)return esc(text);
+  return lines.map(function(line){
+    var txt=line.replace(/^[•\-\*]\s*/,'');
+    return '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px"><span style="color:'+(color||'#3b82f6')+';font-size:16px;line-height:1.4">•</span><span style="font-size:13px;line-height:1.5;color:rgba(240,248,255,0.85)">'+esc(txt)+'</span></div>';
+  }).join('');
 }
 
 function pushToStack(r){
@@ -548,10 +562,21 @@ function pushToStack(r){
         '<div class="stack-type" style="color:'+cfg.color+'">'+cfg.icon+' '+cfg.label+' — <span style="color:rgba(148,163,184,0.5);font-weight:400">'+r.ts+'</span></div>'+
         '<div class="stack-summary">'+esc(r.objection_summary||'')+'</div>'+
       '</div>'+
-      '<span class="stack-arr">&#9660;</span>'+
+      '<span class="stack-arr">▼</span>'+
     '</div>'+
     '<div class="stack-card-body">'+
-      '<div class="stack-rebuttal">'+esc(r.rebuttal||'')+'</div>'+
+      (function(){
+        var sb=r.bullets&&r.bullets.length?r.bullets:(r.rebuttal||'').split('\n').map(function(b){return b.replace(/^[•\-\*]\s*/,'').trim();}).filter(Boolean);
+        if(sb.length>0){
+          return '<div class="stack-rebuttal">'+sb.map(function(b){
+            return '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">'+
+              '<div style="width:5px;height:5px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:6px"></div>'+
+              '<span style="font-size:13px;color:rgba(240,248,255,0.85);line-height:1.5">'+esc(b)+'</span>'+
+            '</div>';
+          }).join('')+'</div>';
+        }
+        return '<div class="stack-rebuttal">'+esc(r.rebuttal||'')+'</div>';
+      })()+
     '</div>';
   el.addEventListener('click',function(){el.classList.toggle('open');});
   stack.insertBefore(el, stack.children[1]||null);
@@ -594,7 +619,7 @@ document.addEventListener("DOMContentLoaded",function(){
   <!-- Top bar -->
   <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px 0;flex-shrink:0;">
     <div id="overlay-counter" style="font-size:10px;color:rgba(148,163,184,0.4);background:rgba(255,255,255,0.06);padding:4px 10px;border-radius:12px;font-weight:600;">⚡ 0 caught</div>
-    <button id="overlay-end" onclick="overlayEndCall(event)">&#9632; END CALL</button>
+    <button id="overlay-end" onclick="overlayEndCall(event)">■ END CALL</button>
   </div>
   <!-- Current rebuttal -->
   <div id="overlay-inner">
@@ -607,8 +632,8 @@ document.addEventListener("DOMContentLoaded",function(){
     <div id="overlay-lbl">YOUR REBUTTAL</div>
     <div id="overlay-rebuttal"></div>
     <div style="margin-top:24px;display:flex;gap:10px;">
-      <button id="overlay-share" onclick="overlayShare(event)">&#128228; Share</button>
-      <button id="overlay-dismiss" onclick="closeOverlay(event)">&#10005; Close</button>
+      <button id="overlay-share" onclick="overlayShare(event)">📤 Share</button>
+      <button id="overlay-dismiss" onclick="closeOverlay(event)">✕ Close</button>
     </div>
   </div>
   <!-- Previous rebuttals stack -->
