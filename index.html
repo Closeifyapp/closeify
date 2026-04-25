@@ -74,12 +74,12 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 
 .rcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--cc),transparent);opacity:0.7;}
 @keyframes cin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.card-body{display:block;}
-.collapse-hint{display:none;align-items:center;gap:5px;margin-top:4px;}
+
+
 .collapse-hint span{font-size:9px;color:rgba(148,163,184,0.4);letter-spacing:0.06em;}
-.rcard.collapsed{padding:10px 14px;}
-.rcard.collapsed .card-body{display:none;}
-.rcard.collapsed .collapse-hint{display:flex;}
+
+
+
 .pill{font-size:9px;font-weight:700;padding:2px 8px;border-radius:12px;}
 .oq{background:rgba(255,255,255,0.04);border-radius:7px;padding:8px 11px;margin-bottom:9px;font-size:12px;color:rgba(148,163,184,0.7);font-style:normal;line-height:1.6;font-family:'DM Sans',sans-serif;font-weight:400;border:1px solid rgba(255,255,255,0.06);}
 .dv{height:1px;background:linear-gradient(90deg,var(--cc),transparent);margin-bottom:8px;opacity:0.4;}
@@ -162,6 +162,12 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 #footer{text-align:center;padding:5px 14px 7px;border-top:1px solid rgba(255,255,255,0.04);background:#080e1c;flex-shrink:0;}
 #footer span{font-size:8px;color:rgba(100,116,139,0.4);font-family:'Inter',sans-serif;}
 #footer a{color:#3b82f6;font-weight:600;text-decoration:none;}
+
+.card-body{display:block;}
+.collapse-hint{display:none;font-size:9px;color:rgba(148,163,184,0.4);margin-top:4px;letter-spacing:0.06em;}
+.rcard.collapsed{padding:10px 14px;cursor:pointer;}
+.rcard.collapsed .card-body{display:none;}
+.rcard.collapsed .collapse-hint{display:block;}
 </style>
 </head>
 <body>
@@ -261,8 +267,8 @@ var listening=false,recog=null,cTimer=null,aTO=null,dur=0,objCnt=0,rebs=[],lastA
 function getPrompt(){
   var hp=prod.name.trim().length>0;
   var ctx=hp?" PRODUCT BEING SOLD: "+prod.name+". "+(prod.desc||"")+" Mention the product by name in the rebuttal.":" Give strong general sales rebuttals.";
-  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"summary","rebuttal":"your response","tone":"empathetic","urgency":"high"}';
-  return "You are an elite real-time sales coach. Detect ANY sales objection, hesitation, or resistance."+ctx+" Write a POWERFUL 2-3 sentence rebuttal that first softens with empathy using phrases like Out of curiosity or Help me understand then pivots to a bold confident statement that reframes their objection and drives urgency. Reply ONLY with raw JSON matching this format: "+fmt+" Types: price timing competitor trust need authority other. Set objection_detected to false only if there is absolutely no objection.";
+  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"summary","rebuttal":"rebuttal text","tone":"empathetic","urgency":"high"}';
+  return "You are an elite real-time sales coach. Detect ANY sales objection or hesitation."+ctx+" Respond with a powerful, confident 2-3 sentence rebuttal that acknowledges the concern and immediately reframes it to drive the sale forward. Be direct, compelling and urgent. Reply ONLY with raw JSON: "+fmt+" Types: price timing competitor trust need authority other. Set objection_detected false only if no objection exists.";
 }
 
 function chime(){try{var c=new(window.AudioContext||window.webkitAudioContext)();[[880,0],[1108,0.1],[1320,0.2]].forEach(function(f){var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f[0];o.type="sine";var t=c.currentTime+f[1];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.13,t+0.04);g.gain.linearRampToValueAtTime(0,t+0.2);o.start(t);o.stop(t+0.22);});}catch(e){}}
@@ -338,19 +344,49 @@ function analyze(text){
 
 
 function addCard(r){
-  // Collapse all existing cards
-  document.querySelectorAll('.rcard').forEach(function(card){
-    if(!card.classList.contains('collapsed')){
-      card.classList.add('collapsed');
-    }
+  // Collapse ALL existing cards first
+  document.querySelectorAll('.rcard').forEach(function(el){
+    el.classList.add('collapsed');
   });
-  document.getElementById("empty").style.display="none";document.getElementById("rebWrap").style.display="block";
-  var cfg=TC[r.objection_type]||TC.other;var tone=TM[r.tone]||"";
-  var d=document.createElement("div");d.className="rcard";d.id="c"+r.id;d.style.setProperty("--cc",cfg.color);d.style.borderLeft="3px solid "+cfg.color;
-  d.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><div style="display:flex;align-items:center;gap:6px"><div class="pill" style="background:'+cfg.bg+';border:1px solid '+cfg.color+'44;color:'+cfg.color+'">'+cfg.icon+' '+cfg.label+'</div></div><div style="display:flex;align-items:center;gap:7px"><span style="font-size:9px;color:rgba(148,163,184,0.3)">'+r.ts+'</span><button class="clr" onclick="openShare('+r.id+')" style="z-index:2;position:relative">&#128228;</button><button class="clr" onclick="dimCard('+r.id+')" style="z-index:2;position:relative">&#10005;</button></div></div><div class="collapse-hint"><span>&#9660; tap to expand</span></div><div class="card-body"><div class="oq">'+esc(r.objection_summary||'')+'</div><div class="dv"></div><div class="rl" style="color:'+cfg.color+'">YOUR REBUTTAL</div><div class="rt">'+esc(r.rebuttal||'')+'</div><div class="ub '+(r.urgency==="high"?"on":"")+'">&#128293; Address this now</div></div>';
-  d.addEventListener('click',function(e){if(e.target.tagName==='BUTTON')return;d.classList.toggle('collapsed');});
-  document.getElementById("rebList").appendChild(d);d.scrollIntoView({behavior:"smooth",block:"end"});
-  document.getElementById("liveBadge").textContent=rebs.length;document.getElementById("liveBadge").classList.add("on");
+  document.getElementById("empty").style.display="none";
+  document.getElementById("rebWrap").style.display="block";
+  var cfg=TC[r.objection_type]||TC.other;
+  var tone=TM[r.tone]||"";
+  var d=document.createElement("div");
+  d.className="rcard";
+  d.id="c"+r.id;
+  d.style.setProperty("--cc",cfg.color);
+  d.style.borderLeft="3px solid "+cfg.color;
+  // Card HTML - body visible by default (not collapsed)
+  d.innerHTML=
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'+
+      '<div style="display:flex;align-items:center;gap:6px">'+
+        '<div class="pill" style="background:'+cfg.bg+';border:1px solid '+cfg.color+'44;color:'+cfg.color+'">'+cfg.icon+' '+cfg.label+'</div>'+
+        '<div class="urg '+(r.urgency==="high"?"on":"")+'"></div>'+
+      '</div>'+
+      '<div style="display:flex;align-items:center;gap:7px">'+
+        '<span style="font-size:9px;color:rgba(148,163,184,0.3)">'+r.ts+'</span>'+
+        '<button class="clr" onclick="openShare('+r.id+')" style="position:relative;z-index:5">&#128228;</button>'+
+        '<button class="clr" onclick="dimCard('+r.id+')" style="position:relative;z-index:5">&#10005;</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="collapse-hint">&#9660; tap to expand</div>'+
+    '<div class="card-body">'+
+      '<div class="oq">'+esc(r.objection_summary||'')+'</div>'+
+      '<div class="dv"></div>'+
+      '<div class="rl" style="color:'+cfg.color+'">'+tone+' YOUR REBUTTAL</div>'+
+      '<div class="rt">'+esc(r.rebuttal||'')+'</div>'+
+      '<div class="ub '+(r.urgency==="high"?"on":"")+'">&#128293; Address this now</div>'+
+    '</div>';
+  // Click anywhere on card (not buttons) to toggle
+  d.addEventListener('click',function(e){
+    if(e.target.tagName==='BUTTON'||e.target.closest('button'))return;
+    d.classList.toggle('collapsed');
+  });
+  document.getElementById("rebList").appendChild(d);
+  d.scrollIntoView({behavior:"smooth",block:"end"});
+  document.getElementById("liveBadge").textContent=rebs.length;
+  document.getElementById("liveBadge").classList.add("on");
   document.getElementById("rebCount").textContent=rebs.length+" REBUTTAL"+(rebs.length!==1?"S":"");
 }
 
