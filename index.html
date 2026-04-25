@@ -446,9 +446,9 @@ var listening=false,recog=null,cTimer=null,aTO=null,dur=0,objCnt=0,rebs=[],lastA
 
 function getPrompt(){
   var hp=prod.name.trim().length>0;
-  var ctx=hp?" PRODUCT BEING SOLD: "+prod.name+". "+(prod.desc||"")+" Reference the product where relevant.":" Give strong general sales rebuttals.";
-  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"brief summary","bullets":["point one","point two","point three"],"tone":"empathetic","urgency":"high"}';
-  return "You are an elite real-time sales coach. Detect ANY sales objection or hesitation."+ctx+" Respond with 3-4 SHORT punchy bullet points — each one a powerful sales argument, key advantage, or reframe. Each bullet max 8 words. No full sentences. No filler. Think: quick talking points a rep can glance at and deliver instantly. Reply ONLY with raw JSON: "+fmt+" Types: price timing competitor trust need authority other. Set objection_detected false only if no objection.";
+  var ctx=hp?" PRODUCT: "+prod.name+". "+(prod.desc||""):"";
+  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"brief summary","bullets":["point 1","point 2","point 3","discovery: Question to ask?"],"tone":"empathetic","urgency":"high"}';
+  return "You are an elite B2B sales coach listening to a live sales call."+ctx+" Your job is to detect REAL objections only — not filler words, small talk or neutral statements. Only trigger on clear resistance, hesitation, or pushback.\n\nWhen you detect an objection, generate 3-4 UNIQUE bullet points — no repetition, no generic filler. Each bullet must be DIFFERENT from the others and serve a distinct purpose. Use this mix:\n- 1 bullet: Sharp reframe or value statement (specific, not generic)\n- 1 bullet: Competitor comparison or social proof if relevant\n- 1 bullet: Urgency or consequence of inaction\n- 1 bullet starting with 'Ask:' — a powerful discovery question to uncover deeper pain (make it conversational, not salesy)\n\nRules:\n- Max 10 words per bullet\n- No duplicate ideas across bullets\n- Make the Ask bullet a genuine curious question\n- If product is set, reference it specifically\n- Set objection_detected false for: greetings, agreement, neutral comments, thinking out loud\n\nReply ONLY with raw JSON matching: "+fmt;
 }
 
 function chime(){try{var c=new(window.AudioContext||window.webkitAudioContext)();[[880,0],[1108,0.1],[1320,0.2]].forEach(function(f){var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f[0];o.type="sine";var t=c.currentTime+f[1];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.13,t+0.04);g.gain.linearRampToValueAtTime(0,t+0.2);o.start(t);o.stop(t+0.22);});}catch(e){}}
@@ -503,9 +503,9 @@ function setBtn(on){
 
 var lastCardTime=0;
 function analyze(text){
-  if(!text.trim())return;
+  if(!text||!text.trim()||text.split(" ").length<4)return;
   var now=Date.now();
-  if(now-lastCardTime<8000)return;
+  if(now-lastCardTime<12000)return;
   document.getElementById("aispin").classList.add("on");
   var payload={model:"claude-sonnet-4-5",max_tokens:600,system:getPrompt(),messages:[{role:"user",content:"Customer just said: "+text}]};
   fetch("https://closeify-api.robert-slauson.workers.dev",{
@@ -633,9 +633,11 @@ function renderOverlayCard(r){
   var blist=r.bullets&&r.bullets.length?r.bullets:(r.rebuttal||'').split('\n').map(function(b){return b.replace(/^[\u2022\-\*\d\.\)]\s*/,'').trim();}).filter(Boolean);
   if(blist.length>0){
     rebEl.innerHTML=blist.map(function(b){
-      return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">'+
-        '<div style="width:7px;height:7px;border-radius:50%;background:'+cfg.color+';flex-shrink:0;margin-top:7px;box-shadow:0 0 8px '+cfg.color+'66"></div>'+
-        '<span style="font-size:20px;color:#fff;line-height:1.5;font-family:DM Sans,sans-serif;font-weight:500">'+esc(b)+'</span>'+
+      var isAsk=b.toLowerCase().startsWith('ask:');
+      var txt=isAsk?b.replace(/^ask:\s*/i,''):b;
+      return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;'+(isAsk?'background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:10px 12px;margin-left:-4px;':'')+'">'+
+        '<div style="width:7px;height:7px;border-radius:50%;background:'+(isAsk?'#3b82f6':cfg.color)+';flex-shrink:0;margin-top:7px;box-shadow:0 0 8px '+(isAsk?'#3b82f6':cfg.color)+'66"></div>'+
+        '<span style="font-size:20px;color:'+(isAsk?'#93c5fd':'#fff')+';line-height:1.5;font-family:DM Sans,sans-serif;font-weight:500">'+(isAsk?'<span style="font-size:11px;font-weight:700;color:#60a5fa;letter-spacing:0.08em;display:block;margin-bottom:3px;">ASK THIS</span>':'')+esc(txt)+'</span>'+
       '</div>';
     }).join('');
   } else {
