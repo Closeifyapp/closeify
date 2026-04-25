@@ -168,6 +168,71 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
 .rcard.collapsed{padding:10px 14px;cursor:pointer;}
 .rcard.collapsed .card-body{display:none;}
 .rcard.collapsed .collapse-hint{display:block;}
+
+/* FULLSCREEN CARD OVERLAY */
+#card-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(8,12,20,0.97);
+  display:none;flex-direction:column;
+  animation:overlayIn 0.3s cubic-bezier(0.34,1.1,0.64,1);
+  padding:0;
+}
+#card-overlay.on{display:flex;}
+@keyframes overlayIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+#overlay-inner{
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:32px 24px;
+}
+#overlay-type{display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+#overlay-pill{font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;}
+#overlay-time{font-size:11px;color:rgba(148,163,184,0.35);margin-left:auto;}
+#overlay-obj{
+  font-size:14px;color:rgba(148,163,184,0.6);
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;padding:14px 16px;margin-bottom:22px;line-height:1.6;
+  font-style:normal;
+}
+#overlay-lbl{font-size:10px;letter-spacing:0.16em;color:rgba(148,163,184,0.5);margin-bottom:12px;font-weight:600;}
+#overlay-rebuttal{
+  font-size:26px;color:#ffffff;line-height:1.65;
+  font-family:'DM Sans',sans-serif;font-weight:500;
+  letter-spacing:-0.01em;
+}
+#overlay-bar{
+  height:3px;margin:22px 0;
+  background:linear-gradient(90deg,var(--oc,#3b82f6),transparent);
+  border-radius:2px;opacity:0.6;
+}
+#overlay-actions{
+  display:flex;gap:10px;padding:0 24px 20px;flex-shrink:0;
+}
+#overlay-share{
+  flex:1;padding:14px;border-radius:12px;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  color:rgba(148,163,184,0.7);font-family:'Inter',sans-serif;
+  font-size:12px;font-weight:600;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+}
+#overlay-dismiss{
+  flex:1;padding:14px;border-radius:12px;
+  background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);
+  color:#60a5fa;font-family:'Inter',sans-serif;
+  font-size:12px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+}
+#overlay-end{
+  position:absolute;bottom:max(16px,env(safe-area-inset-bottom));
+  right:20px;
+  background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);
+  color:#f87171;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;
+  padding:7px 14px;border-radius:20px;cursor:pointer;letter-spacing:0.06em;
+}
+#overlay-counter{
+  position:absolute;top:16px;left:20px;
+  font-size:10px;color:rgba(148,163,184,0.35);
+  background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:12px;
+  font-family:'Inter',sans-serif;font-weight:600;letter-spacing:0.04em;
+}
 </style>
 </head>
 <body>
@@ -344,25 +409,21 @@ function analyze(text){
 
 
 function addCard(r){
-  // Collapse ALL existing cards first
-  document.querySelectorAll('.rcard').forEach(function(el){
-    el.classList.add('collapsed');
-  });
+  // Collapse all existing cards
+  document.querySelectorAll('.rcard').forEach(function(el){el.classList.add('collapsed');});
   document.getElementById("empty").style.display="none";
   document.getElementById("rebWrap").style.display="block";
   var cfg=TC[r.objection_type]||TC.other;
-  var tone=TM[r.tone]||"";
+  // Add mini card to log
   var d=document.createElement("div");
-  d.className="rcard";
+  d.className="rcard collapsed";
   d.id="c"+r.id;
   d.style.setProperty("--cc",cfg.color);
   d.style.borderLeft="3px solid "+cfg.color;
-  // Card HTML - body visible by default (not collapsed)
   d.innerHTML=
-    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'+
+    '<div style="display:flex;justify-content:space-between;align-items:center">'+
       '<div style="display:flex;align-items:center;gap:6px">'+
         '<div class="pill" style="background:'+cfg.bg+';border:1px solid '+cfg.color+'44;color:'+cfg.color+'">'+cfg.icon+' '+cfg.label+'</div>'+
-        '<div class="urg '+(r.urgency==="high"?"on":"")+'"></div>'+
       '</div>'+
       '<div style="display:flex;align-items:center;gap:7px">'+
         '<span style="font-size:9px;color:rgba(148,163,184,0.3)">'+r.ts+'</span>'+
@@ -374,20 +435,23 @@ function addCard(r){
     '<div class="card-body">'+
       '<div class="oq">'+esc(r.objection_summary||'')+'</div>'+
       '<div class="dv"></div>'+
-      '<div class="rl" style="color:'+cfg.color+'">'+tone+' YOUR REBUTTAL</div>'+
+      '<div class="rl" style="color:'+cfg.color+'">YOUR REBUTTAL</div>'+
       '<div class="rt">'+esc(r.rebuttal||'')+'</div>'+
-      '<div class="ub '+(r.urgency==="high"?"on":"")+'">&#128293; Address this now</div>'+
     '</div>';
-  // Click anywhere on card (not buttons) to toggle
   d.addEventListener('click',function(e){
     if(e.target.tagName==='BUTTON'||e.target.closest('button'))return;
-    d.classList.toggle('collapsed');
+    if(d.classList.contains('collapsed')){
+      showOverlay(r);
+    }else{
+      d.classList.add('collapsed');
+    }
   });
   document.getElementById("rebList").appendChild(d);
-  d.scrollIntoView({behavior:"smooth",block:"end"});
   document.getElementById("liveBadge").textContent=rebs.length;
   document.getElementById("liveBadge").classList.add("on");
   document.getElementById("rebCount").textContent=rebs.length+" REBUTTAL"+(rebs.length!==1?"S":"");
+  // Show fullscreen overlay immediately
+  showOverlay(r);
 }
 
 function dimCard(id){rebs=rebs.filter(function(r){return r.id!==id;});var el=document.getElementById("c"+id);if(el)el.remove();if(!rebs.length){document.getElementById("rebWrap").style.display="none";document.getElementById("empty").style.display="flex";}document.getElementById("liveBadge").textContent=rebs.length;document.getElementById("rebCount").textContent=rebs.length+" REBUTTAL"+(rebs.length!==1?"S":"");}
@@ -414,6 +478,43 @@ function doFlash(){var f=document.getElementById("flash");f.classList.remove("go
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 var tTO=null;
 function showToast(msg,type){var t=document.getElementById("toast");document.getElementById("toastMsg").textContent=msg;t.className="toast on"+(type==="err"?" err":"");clearTimeout(tTO);tTO=setTimeout(function(){t.classList.remove("on");},2400);}
+
+var overlayCard=null;
+
+function showOverlay(r){
+  var cfg=TC[r.objection_type]||TC.other;
+  var pill=document.getElementById('overlay-pill');
+  pill.textContent=cfg.icon+' '+cfg.label;
+  pill.style.background=cfg.bg;
+  pill.style.border='1px solid '+cfg.color+'44';
+  pill.style.color=cfg.color;
+  document.getElementById('overlay-time').textContent=r.ts;
+  document.getElementById('overlay-obj').textContent=r.objection_summary||'';
+  document.getElementById('overlay-rebuttal').textContent=r.rebuttal||'';
+  document.getElementById('overlay-lbl').style.color=cfg.color;
+  document.getElementById('overlay-bar').style.setProperty('--oc',cfg.color);
+  document.getElementById('overlay-counter').textContent='\u26a1 '+objCnt+' caught';
+  overlayCard=r;
+  document.getElementById('card-overlay').classList.add('on');
+}
+
+function closeOverlay(){
+  document.getElementById('card-overlay').classList.remove('on');
+  overlayCard=null;
+}
+
+function overlayShare(){
+  if(!overlayCard)return;
+  shareText=overlayCard.rebuttal||'';
+  document.getElementById('shText').textContent=shareText;
+  document.getElementById('share-modal').classList.add('on');
+}
+
+function overlayEndCall(){
+  closeOverlay();
+  endCall();
+}
+
 document.addEventListener("DOMContentLoaded",function(){
   var wf=document.getElementById("wf");
   for(var i=0;i<22;i++){var b=document.createElement("div");b.className="wv";b.style.animationDelay=((i*0.07)%0.8)+"s";wf.appendChild(b);}
