@@ -180,7 +180,7 @@ html,body{height:100%;overflow:hidden;-webkit-overflow-scrolling:touch;backgroun
 /* MODALS */
 .modal{position:fixed;inset:0;z-index:90;display:none;align-items:flex-end;background:rgba(0,0,0,0.6);}
 .modal.on{display:flex;}
-.sheet{background:#0d1526;border-radius:18px 18px 0 0;padding:18px 16px 34px;width:100%;max-width:480px;margin:0 auto;animation:shUp 0.3s cubic-bezier(0.34,1.3,0.64,1);border-top:1px solid rgba(255,255,255,0.08);}
+.sheet{background:#0d1526;border-radius:18px 18px 0 0;padding:18px 16px 34px;width:100%;max-width:480px;margin:0 auto;animation:shUp 0.3s cubic-bezier(0.34,1.3,0.64,1);border-top:1px solid rgba(255,255,255,0.08);max-height:92vh;overflow-y:auto;}
 @keyframes shUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
 .handle{width:30px;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;margin:0 auto 14px;}
 .stitle{font-size:14px;font-weight:800;color:#e2e8f0;margin-bottom:4px;}
@@ -391,7 +391,7 @@ html,body{height:100%;overflow:hidden;-webkit-overflow-scrolling:touch;backgroun
 }
 #ov-bar{height:2px;background:linear-gradient(90deg,var(--oc,#3b82f6),transparent);margin-bottom:14px;opacity:0.6;}
 #ov-lbl{font-size:9px;letter-spacing:0.16em;margin-bottom:12px;font-weight:700;}
-#ov-rebuttal{font-size:20px;color:#fff;line-height:1.65;font-family:'DM Sans',sans-serif;font-weight:500;}
+#ov-rebuttal{font-size:16px;color:#fff;line-height:1.6;font-family:'DM Sans',sans-serif;font-weight:500;}
 #ov-actions{
   display:flex;gap:10px;padding:12px 22px 28px;flex-shrink:0;
 }
@@ -660,9 +660,17 @@ html,body{height:100%;overflow:hidden;-webkit-overflow-scrolling:touch;backgroun
       <div id="prodBadge" style="display:none"><div class="actv"><svg width="13" height="13" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 13l3 3 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Active &mdash; Rebuttals are personalized</div></div>
       <label class="flbl">PRODUCT NAME</label>
       <input class="finp" id="prodName" type="text" placeholder="e.g. Salesforce CRM, Tesla Model Y..."/>
-      <label class="flbl">PRODUCT DESCRIPTION</label>
-      <textarea class="fta" id="prodDesc" placeholder="Key benefits, price, who it's for, what makes it unique..."></textarea>
-      <div class="fhint"><svg width="14" height="14" viewBox="0 0 26 26" fill="none" style="vertical-align:middle;margin-right:4px"><path d="M13 4a5.5 5.5 0 0 1 3.5 9.7c-.5.4-.8 1-.8 1.6v.2h-5.4v-.2c0-.6-.3-1.2-.8-1.6A5.5 5.5 0 0 1 13 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><line x1="10.5" y1="17.5" x2="15.5" y2="17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> More detail = more powerful rebuttals.</div>
+      <label class="flbl">KEY BENEFITS / DESCRIPTION</label>
+      <textarea class="fta" id="prodDesc" placeholder="What it does, key features, why customers love it..."></textarea>
+      <label class="flbl">YOUR ADVANTAGES OVER COMPETITORS</label>
+      <input class="finp" id="prodAdv" type="text" placeholder="e.g. 99.99% uptime SLA, 2x faster, free migration..."/>
+      <label class="flbl">MAIN COMPETITORS</label>
+      <input class="finp" id="prodComp" type="text" placeholder="e.g. Competitor A, Competitor B, Competitor C..."/>
+      <label class="flbl">IDEAL CUSTOMER PROFILE</label>
+      <input class="finp" id="prodCust" type="text" placeholder="e.g. Mid-market SaaS teams of 50-500 employees..."/>
+      <label class="flbl">PRICING</label>
+      <input class="finp" id="prodPrice" type="text" placeholder="e.g. $299/mo, $99/seat/yr, custom enterprise..."/>
+      <div class="fhint"><svg width="14" height="14" viewBox="0 0 26 26" fill="none" style="vertical-align:middle;margin-right:4px"><path d="M13 4a5.5 5.5 0 0 1 3.5 9.7c-.5.4-.8 1-.8 1.6v.2h-5.4v-.2c0-.6-.3-1.2-.8-1.6A5.5 5.5 0 0 1 13 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><line x1="10.5" y1="17.5" x2="15.5" y2="17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> More detail = more powerful, personalized rebuttals.</div>
       <button class="fsave" onclick="saveProd()"><svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M13 4v12M8.5 12l4.5 4.5 4.5-4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 18v2a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 21 20v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> SAVE PRODUCT</button>
     </div>
   </div>
@@ -739,19 +747,31 @@ function getPrompt(){
     ctx="No product set — give strong product-focused responses.\n";
   }
 
+  // Build previous rebuttals context (last 6, all bullets)
   var prevContext="";
+  var allUsedBullets=[];
   if(rebs.length){
-    prevContext="OBJECTIONS ALREADY HANDLED THIS CALL — DO NOT REPEAT SAME ANGLES:\n";
-    rebs.slice(-4).forEach(function(r,i){
+    prevContext="OBJECTIONS ALREADY HANDLED THIS CALL — DO NOT REPEAT ANY OF THESE ANGLES OR PHRASES:\n";
+    rebs.slice(-6).forEach(function(r,i){
       prevContext+=(i+1)+". ["+r.objection_type+"] "+r.objection_summary+"\n";
-      if(r.bullets) prevContext+="   Used: "+r.bullets.join(" | ")+"\n";
+      if(r.bullets&&r.bullets.length){
+        prevContext+="   Bullets used: "+r.bullets.join(" | ")+"\n";
+        allUsedBullets=allUsedBullets.concat(r.bullets);
+      }
     });
     prevContext+="\n";
   }
 
-  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"brief 8-word summary","bullets":["reframe","advantage","competitor","consequence"],"tone":"confident","urgency":"high"}';
+  // Active listening context — last 300 chars of transcript for real-time relevance
+  var listenCtx="";
+  if(transcript&&transcript.length>20){
+    var recent=transcript.slice(-300).trim();
+    listenCtx="RECENT CONVERSATION CONTEXT (use this to make rebuttals hyper-specific):\n\""+recent+"\"\n\n";
+  }
 
-  return "You are an elite B2B sales coach. You know this product and its competitors inside out.\n"+ctx+prevContext+
+  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"brief 8-word summary","bullets":["b1","b2","b3","b4","b5","b6"],"tone":"confident","urgency":"high"}';
+
+  return "You are an elite B2B sales coach. You know this product and its competitors inside out.\n"+ctx+prevContext+listenCtx+
   "DETECTION — only fire on GENUINE new objections:\n"+
   "- Price: customer mentions cost, budget, or competing quote\n"+
   "- Competitor: customer names a competitor or mentions switching\n"+
@@ -761,12 +781,20 @@ function getPrompt(){
   "- Authority: customer needs approval from someone else\n"+
   "- DO NOT fire on filler words, thinking out loud, or partial sentences\n"+
   "- DO NOT fire again on same objection type unless customer raises a genuinely new angle\n\n"+
-  "REBUTTAL — generate exactly 4 bullets. NO discovery questions. NO NEPQ. NO 'Out of curiosity'. NO 'Help me understand'. Pure product knowledge and competitive intelligence only.\n\n"+
-  "BULLET 1 — REFRAME: One sharp sentence that reframes their objection around the cost of their current situation or the risk of choosing wrong. Make it specific to what they just said. Max 12 words.\n"+
-  "BULLET 2 — PRODUCT ADVANTAGE: The single most powerful feature of "+(name||"this product")+" that directly counters their exact objection. Name a specific spec, SLA term, guarantee, or capability. Concrete — never vague. Max 12 words.\n"+
-  "BULLET 3 — COMPETITOR WEAKNESS: Expose one specific documented weakness of the competitor they mentioned or most likely alternative. Name the competitor directly. Be factual and sharp. Max 12 words.\n"+
-  "BULLET 4 — CONSEQUENCE: The real cost of choosing the wrong option or delaying. Tie directly to their business — lost transactions, downtime cost, failed payroll, missed revenue. Hard number if possible. Max 12 words.\n\n"+
-  "RULES: Zero duplicate ideas across bullets. Zero generic platitudes. Every bullet must be DIFFERENT from any previous rebuttal this call. Be direct and confident. Reply ONLY with raw JSON: "+fmt+" Types: price timing competitor trust need authority other.";
+  "REBUTTAL — generate exactly 6 bullets. NO discovery questions. NO NEPQ. NO 'Out of curiosity'. NO 'Help me understand'. Pure product knowledge and competitive intelligence only.\n\n"+
+  "BULLET 1 — REFRAME: Reframe their objection around the risk of their CURRENT situation. Hyper-specific to what they just said. Max 12 words.\n"+
+  "BULLET 2 — PRODUCT ADVANTAGE: The single most powerful feature of "+(name||"this product")+" that directly counters their exact objection. Name a specific spec, SLA, guarantee, or capability. Never vague. Max 12 words.\n"+
+  "BULLET 3 — COMPETITOR WEAKNESS: Expose one specific documented weakness of the competitor they mentioned. Name them directly. Factual and sharp. Max 12 words.\n"+
+  "BULLET 4 — CONSEQUENCE: The real cost of choosing wrong or delaying — lost revenue, downtime, failed processes. Hard facts only. Max 12 words.\n"+
+  "BULLET 5 — PROOF: A specific customer result, case study stat, or third-party validation directly relevant to their objection. Max 12 words.\n"+
+  "BULLET 6 — CLOSE: One sharp, confident closing line that advances the sale — specific next step, urgency, or commitment question. Max 12 words.\n\n"+
+  "STRICT RULES:\n"+
+  "- NEVER mention 'annual cost savings', 'ROI', or generic financial platitudes\n"+
+  "- NEVER duplicate any phrase, idea, or angle from previous rebuttals this call\n"+
+  "- NEVER use vague language like 'best-in-class', 'industry-leading', 'world-class'\n"+
+  "- Every bullet must be COMPLETELY UNIQUE from all 6 other bullets AND from all prior rebuttals\n"+
+  "- Use the conversation context above to make bullets specific to what was just discussed\n"+
+  "- Be direct, confident, and concrete. Reply ONLY with raw JSON: "+fmt+" Types: price timing competitor trust need authority other.";
 }
 
 function chime(){
@@ -859,7 +887,7 @@ function analyze(text){
   document.getElementById("ai-spin").classList.add("on");
   fetch("https://closeify-api.robert-slauson.workers.dev",{
     method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:600,system:getPrompt(),messages:[{role:"user",content:"Customer said: "+text}]})
+    body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:900,system:getPrompt(),messages:[{role:"user",content:"Customer said: "+text}]})
   }).then(function(r){return r.json();}).then(function(data){
     if(data.error){console.error("API:",data.error.message);return;}
     var raw=(data.content||[]).map(function(b){return b.text||"";}).join("").replace(/```json|```/g,"").trim();
@@ -885,13 +913,13 @@ function analyze(text){
 
 function renderBullets(blist,color,size){
   size=size||15;
-  var labels=["REFRAME","ADVANTAGE","COMPETITOR","CONSEQUENCE"];
-  var lcolors=["#60a5fa","#22c55e","#f87171","#f59e0b"];
+  var labels=["REFRAME","ADVANTAGE","COMPETITOR","CONSEQUENCE","PROOF","CLOSE"];
+  var lcolors=["#60a5fa","#22c55e","#f87171","#f59e0b","#a78bfa","#22d3ee"];
   return blist.map(function(b,i){
     var lbl=labels[i]||"";
     var lc=lcolors[i]||color;
-    return '<div style="display:flex;align-items:flex-start;gap:9px;margin-bottom:12px;">'+
-      '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:'+lc+';flex-shrink:0;margin-top:6px;box-shadow:0 0 5px '+lc+'66"></span>'+
+    return '<div style="display:flex;align-items:flex-start;gap:9px;margin-bottom:10px;">'+
+      '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:'+lc+';flex-shrink:0;margin-top:5px;box-shadow:0 0 5px '+lc+'66"></span>'+
       '<span style="font-size:'+size+'px;color:#fff;line-height:1.5;font-family:DM Sans,sans-serif;font-weight:500">'+
         (lbl?'<span style="font-size:8px;font-weight:700;color:'+lc+';letter-spacing:0.1em;display:block;margin-bottom:1px;opacity:0.8">'+lbl+'</span>':'')+
         esc(b)+
@@ -999,6 +1027,10 @@ function renderBK(){
 function openProd(){
   document.getElementById("prodName").value=prod.name||"";
   document.getElementById("prodDesc").value=prod.desc||"";
+  document.getElementById("prodAdv").value=prod.adv||"";
+  document.getElementById("prodComp").value=prod.comp||"";
+  document.getElementById("prodCust").value=prod.cust||"";
+  document.getElementById("prodPrice").value=prod.price||"";
   document.getElementById("prodBadge").style.display=prod.name?"block":"none";
   document.getElementById("prod-modal").classList.add("on");
 }
@@ -1006,11 +1038,15 @@ function closePM(e){if(!e||e.target===document.getElementById("prod-modal"))docu
 function saveProd(){
   var name=document.getElementById("prodName").value.trim();
   var desc=document.getElementById("prodDesc").value.trim();
+  var adv=document.getElementById("prodAdv").value.trim();
+  var comp=document.getElementById("prodComp").value.trim();
+  var cust=document.getElementById("prodCust").value.trim();
+  var price=document.getElementById("prodPrice").value.trim();
   if(!name){showToast("Enter a product name","err");return;}
-  prod={name:name,desc:desc};
+  prod={name:name,desc:desc,adv:adv,comp:comp,cust:cust,price:price};
   try{localStorage.setItem("clf_prod",JSON.stringify(prod));}catch(e){}
   updateProdBar();document.getElementById("prod-modal").classList.remove("on");
-  showToast("Product saved! Rebuttals are now tailored.");
+  showToast("Product saved! Rebuttals are now personalized.");
 }
 function updateProdBar(){
   var el=document.getElementById("prod-nm");
@@ -1259,7 +1295,7 @@ function renderOverlay(r){
   document.getElementById('ov-counter').innerHTML = '<svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M15.5 3L8 14.5h6L9.5 23l10.5-12H14z" fill="currentColor"/></svg> '+objCnt+' caught';
   var blist = r.bullets&&r.bullets.length ? r.bullets : [];
   document.getElementById('ov-rebuttal').innerHTML = blist.length
-    ? renderBullets(blist, cfg.color, 20)
+    ? renderBullets(blist, cfg.color, 16)
     : '<div style="font-size:20px;color:#fff;font-family:DM Sans,sans-serif;font-weight:500;line-height:1.6">'+esc(r.rebuttal||'')+'</div>';
   document.getElementById('ov-inner').scrollTop = 0;
 }
