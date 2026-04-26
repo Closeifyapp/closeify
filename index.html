@@ -335,17 +335,20 @@ html,body{height:100%;overflow:hidden;-webkit-overflow-scrolling:touch;backgroun
 /* POST-CALL RESULTS BAR */
 #results-bar{
   display:none;margin:0 12px 6px;
-  background:linear-gradient(135deg,rgba(37,99,235,0.12),rgba(29,78,216,0.08));
-  border:1px solid rgba(59,130,246,0.25);
-  border-radius:10px;padding:9px 12px;
-  flex-shrink:0;align-items:center;justify-content:space-between;gap:8px;
+  background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(234,88,12,0.07));
+  border:1px solid rgba(245,158,11,0.4);
+  border-radius:12px;padding:10px 12px;
+  flex-shrink:0;flex-direction:column;gap:8px;
+  box-shadow:0 0 0 1px rgba(245,158,11,0.08),0 4px 16px rgba(245,158,11,0.08);
 }
 #results-bar.on{display:flex;}
-.rb-label{font-size:10px;font-weight:700;color:#60a5fa;letter-spacing:0.04em;display:flex;align-items:center;gap:6px;}
-.rb-btns{display:flex;gap:6px;}
-.rb-btn{padding:6px 11px;border-radius:8px;font-family:'Inter',sans-serif;font-size:9px;font-weight:700;cursor:pointer;border:none;letter-spacing:0.04em;display:flex;align-items:center;gap:5px;}
-.rb-btn-analysis{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)!important;}
-.rb-btn-summary{background:rgba(34,197,94,0.12);color:#4ade80;border:1px solid rgba(34,197,94,0.25)!important;}
+.rb-label{font-size:10px;font-weight:700;color:#fbbf24;letter-spacing:0.06em;display:flex;align-items:center;gap:6px;}
+.rb-label-sub{font-size:9px;color:rgba(251,191,36,0.55);font-weight:400;letter-spacing:0;}
+.rb-btns{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.rb-btn{padding:9px 10px;border-radius:9px;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;cursor:pointer;border:none;letter-spacing:0.04em;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;}
+.rb-btn-analysis{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)!important;}
+.rb-btn-summary{background:rgba(34,197,94,0.12);color:#4ade80;border:1px solid rgba(34,197,94,0.3)!important;}
+.rb-dismiss{background:none;border:none;color:rgba(251,191,36,0.35);cursor:pointer;padding:0;line-height:1;flex-shrink:0;}
 
 /* ── FULLSCREEN CARD OVERLAY ── */
 #card-overlay{
@@ -476,21 +479,24 @@ html,body{height:100%;overflow:hidden;-webkit-overflow-scrolling:touch;backgroun
 
     <!-- RESULTS BAR - appears after call ends, persists until dismissed or new rebuttals fire -->
     <div id="results-bar">
-      <div class="rb-label">
-        <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><polyline points="4,18 8,11 12,14 16,7 20,10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Call results ready
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="rb-label">
+          <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 13l3 3 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          CALL COMPLETE
+          <span class="rb-label-sub">— tap to review</span>
+        </div>
+        <button class="rb-dismiss" onclick="document.getElementById('results-bar').classList.remove('on')">
+          <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
       </div>
       <div class="rb-btns">
         <button class="rb-btn rb-btn-analysis" onclick="runCallAnalysis()">
-          <svg width="12" height="12" viewBox="0 0 26 26" fill="none"><polyline points="4,18 8,11 12,14 16,7 20,10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Analysis
+          <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><polyline points="4,18 8,11 12,14 16,7 20,10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          AI Analysis
         </button>
         <button class="rb-btn rb-btn-summary" onclick="openSummary()">
-          <svg width="12" height="12" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          Summary
-        </button>
-        <button onclick="document.getElementById('results-bar').classList.remove('on')" style="background:none;border:none;color:rgba(148,163,184,0.3);cursor:pointer;padding:4px 6px;font-size:14px;line-height:1;">
-          <svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Call Summary
         </button>
       </div>
     </div>
