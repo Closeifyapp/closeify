@@ -1084,6 +1084,7 @@ function runCallAnalysis(){
   document.getElementById('analysis-overlay').classList.add('on');
   document.getElementById('an-loading').style.display='flex';
   document.getElementById('an-content').style.display='none';
+  var sb=document.getElementById('an-share-bar');if(sb)sb.style.display='none';
   fetch("https://closeify-api.robert-slauson.workers.dev",{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,
@@ -1101,6 +1102,8 @@ function showAnalysisError(){
   document.getElementById('an-loading').style.display='none';
   document.getElementById('an-content').innerHTML='<div style="color:rgba(148,163,184,0.5);text-align:center;padding:30px">Could not generate analysis. Please try again.</div>';
   document.getElementById('an-content').style.display='block';
+  var sb=document.getElementById('an-share-bar');
+  if(sb)sb.style.display='flex';
 }
 
 function renderAnalysis(r){
@@ -1122,6 +1125,8 @@ function renderAnalysis(r){
   html+=sec('POWER MOVES FOR NEXT TIME',r.power_moves,'#f59e0b');
   document.getElementById('an-content').innerHTML=html;
   document.getElementById('an-content').style.display='block';
+  var sb=document.getElementById('an-share-bar');
+  if(sb)sb.style.display='flex';
 }
 
 function openSummary(){
@@ -1305,6 +1310,57 @@ function ovShare(){
   document.getElementById('share-modal').classList.add('on');
 }
 
+
+function shareAnalysis(){
+  if(!lastAnalysis)return;
+  var r=lastAnalysis,txt='CLOSEIFY CALL ANALYSIS\n\nScore: '+r.overall_score+'/100 — '+r.score_label+'\n\n';
+  if(r.one_thing)txt+='Focus: '+r.one_thing+'\n\n';
+  if(r.what_went_well)txt+='What Went Well:\n'+r.what_went_well.map(function(x){return'• '+x;}).join('\n')+'\n\n';
+  if(r.what_was_missed)txt+='What Was Missed:\n'+r.what_was_missed.map(function(x){return'• '+x;}).join('\n')+'\n\n';
+  if(r.power_moves)txt+='Power Moves:\n'+r.power_moves.map(function(x){return'• '+x;}).join('\n');
+  if(navigator.share){navigator.share({title:'Closeify Call Analysis',text:txt}).catch(function(){});}
+  else if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){showToast('Analysis copied!');});}
+}
+function shareAnalysisSMS(){
+  if(!lastAnalysis)return;
+  var r=lastAnalysis,txt='CLOSEIFY CALL ANALYSIS\n\nScore: '+r.overall_score+'/100 — '+r.score_label+'\n\n';
+  if(r.one_thing)txt+='Focus: '+r.one_thing+'\n\n';
+  if(r.what_went_well)txt+='What Went Well:\n'+r.what_went_well.map(function(x){return'• '+x;}).join('\n');
+  window.open('sms:?body='+encodeURIComponent(txt));
+}
+function shareAnalysisEmail(){
+  if(!lastAnalysis)return;
+  var r=lastAnalysis,txt='CLOSEIFY CALL ANALYSIS\n\nScore: '+r.overall_score+'/100 — '+r.score_label+'\n\n';
+  if(r.one_thing)txt+='Focus: '+r.one_thing+'\n\n';
+  if(r.what_went_well)txt+='What Went Well:\n'+r.what_went_well.map(function(x){return'• '+x;}).join('\n')+'\n\n';
+  if(r.what_was_missed)txt+='What Was Missed:\n'+r.what_was_missed.map(function(x){return'• '+x;}).join('\n')+'\n\n';
+  if(r.power_moves)txt+='Power Moves:\n'+r.power_moves.map(function(x){return'• '+x;}).join('\n');
+  var sub='Closeify Call Analysis — '+new Date().toLocaleDateString();
+  window.open('mailto:?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(txt));
+}
+function downloadAnalysisPDF(){
+  var jsPDFLib=(window.jspdf&&window.jspdf.jsPDF)?window.jspdf.jsPDF:(window.jsPDF||null);
+  if(!jsPDFLib){showToast('Loading PDF...');var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=function(){setTimeout(downloadAnalysisPDF,300);};document.head.appendChild(s);return;}
+  if(!lastAnalysis){showToast('No analysis yet','err');return;}
+  try{
+    var r=lastAnalysis,doc=new jsPDFLib({orientation:'portrait',unit:'mm',format:'a4'}),W=210,mg=18,y=22,lh=7;
+    doc.setFillColor(10,15,30);doc.rect(0,0,W,36,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('Closeify',mg,16);
+    doc.setFontSize(10);doc.setFont('helvetica','normal');doc.setTextColor(160,160,200);
+    doc.text('Call Analysis Report',mg,24);doc.text(new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),mg,31);y=46;
+    var sc=r.overall_score||0,scol=sc>=80?[34,197,94]:sc>=60?[245,158,11]:[239,68,68];
+    doc.setFillColor(scol[0],scol[1],scol[2]);doc.circle(mg+8,y,8,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(10);doc.setFont('helvetica','bold');doc.text(String(sc),mg+8,y+1,{align:'center'});
+    doc.setTextColor(scol[0],scol[1],scol[2]);doc.setFontSize(16);doc.setFont('helvetica','bold');doc.text(r.score_label||'',mg+22,y+2);y+=20;
+    if(r.one_thing){doc.setFillColor(20,20,50);doc.roundedRect(mg,y,W-mg*2,14,3,3,'F');doc.setTextColor(96,165,250);doc.setFontSize(8);doc.setFont('helvetica','bold');doc.text('FOCUS ON THIS NEXT CALL',mg+4,y+5);doc.setTextColor(210,220,255);doc.setFontSize(10);doc.setFont('helvetica','normal');var fl=doc.splitTextToSize(r.one_thing,W-mg*2-8);doc.text(fl,mg+4,y+11);y+=18+(fl.length-1)*5;}
+    function addS(title,items,col){if(!items||!items.length)return;y+=4;doc.setTextColor(col[0],col[1],col[2]);doc.setFontSize(10);doc.setFont('helvetica','bold');doc.text(title,mg,y);y+=6;items.forEach(function(item){if(y>270){doc.addPage();y=18;}doc.setFillColor(col[0],col[1],col[2]);doc.circle(mg+2,y-1.5,1.5,'F');doc.setTextColor(50,55,90);doc.setFontSize(9.5);doc.setFont('helvetica','normal');var lines=doc.splitTextToSize(item,W-mg*2-8);doc.text(lines,mg+7,y);y+=lh+(lines.length-1)*5;});}
+    addS('WHAT YOU DID WELL',r.what_went_well,[34,197,94]);
+    addS('WHAT YOU MISSED',r.what_was_missed,[239,68,68]);
+    addS('POWER MOVES FOR NEXT TIME',r.power_moves,[245,158,11]);
+    doc.setFillColor(10,15,30);doc.rect(0,282,W,15,'F');doc.setTextColor(100,100,140);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text('Generated by Closeify',W/2,290,{align:'center'});
+    doc.save('Closeify-Analysis-'+new Date().toISOString().slice(0,10)+'.pdf');showToast('PDF downloaded!');
+  }catch(err){console.error(err);showToast('PDF error: '+err.message,'err');}
+}
 </script>
 
 
@@ -1370,6 +1426,31 @@ function ovShare(){
   <div id="an-body">
     <div class="an-loading" id="an-loading"><div class="an-spinner"></div><div class="an-loading-txt">Analyzing your call...</div></div>
     <div id="an-content" style="display:none"></div>
+  </div>
+  <!-- Share bar - shown after analysis loads -->
+  <div id="an-share-bar" style="display:none;padding:0 18px 10px;flex-direction:column;gap:8px;flex-shrink:0;">
+    <div class="sum-action-row">
+      <button class="sum-btn sum-btn-share" onclick="shareAnalysis()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.5" stroke="currentColor" stroke-width="1.6"/><line x1="8.5" y1="11.5" x2="17.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8.5" y1="14.5" x2="17.5" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Share
+      </button>
+      <button class="sum-btn sum-btn-pdf" onclick="downloadAnalysisPDF()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M6 4h10l5 5v14a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 5 23V5.5A1.5 1.5 0 0 1 6 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 4v4.5a.5.5 0 0 0 .5.5H21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        PDF
+      </button>
+      <button class="sum-btn sum-btn-sms" onclick="shareAnalysisSMS()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M4.5 4.5h17a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 5V6.5a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="12" r="1.2" fill="currentColor"/><circle cx="13" cy="12" r="1.2" fill="currentColor"/><circle cx="17" cy="12" r="1.2" fill="currentColor"/></svg>
+        SMS
+      </button>
+      <button class="sum-btn sum-btn-email" onclick="shareAnalysisEmail()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><rect x="3.5" y="6" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8.5l9.5 7 9.5-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Email
+      </button>
+    </div>
+    <button onclick="closeAnalysis();openSummary()" style="width:100%;padding:11px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:rgba(148,163,184,0.5);font-family:'Inter',sans-serif;font-size:10px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;">
+      <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      View Call Summary
+    </button>
   </div>
   <button id="an-cta" onclick="closeAnalysis()">
     <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
