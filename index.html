@@ -521,7 +521,7 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0a0f1e;}
   <circle cx="7"  cy="39" r="2.4" fill="#2563eb" opacity="0.4"/>
   <circle cx="13" cy="19" r="2"   fill="#2563eb" opacity="0.38"/>
 </svg></div><div class="stit">Closeify</div><div class="ssub2">CLOSE EVERY CALL WITH AI</div>
-  <div class="sfeats"><div class="sfeat"><div class="sdot"></div>Real-time objection detection</div><div class="sfeat"><div class="sdot"></div>Instant AI-powered rebuttals</div><div class="sfeat"><div class="sdot"></div>NEPQ + product-specific responses</div><div class="sfeat"><div class="sdot"></div>Post-call coaching analysis</div></div>
+  <div class="sfeats"><div class="sfeat"><div class="sdot"></div>Real-time objection detection</div><div class="sfeat"><div class="sdot"></div>Instant AI-powered rebuttals</div><div class="sfeat"><div class="sdot"></div>Product knowledge + competitor intel</div><div class="sfeat"><div class="sdot"></div>Post-call coaching analysis</div></div>
   <button class="sbtn" onclick="startApp()">GET STARTED</button>
   <div class="sver">v2.0 &mdash; All Features Unlocked</div>
   <div class="stc">By using Closeify you agree to our <button onclick="openTerms()" style="background:none;border:none;color:#3b82f6;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:600;text-decoration:underline;padding:0;">Terms &amp; Conditions</button></div>
@@ -590,43 +590,42 @@ function getPrompt(){
 
   var ctx="";
   if(name){
-    ctx+="PRODUCT: "+name+".\n";
-    if(adv)  ctx+="OUR KEY ADVANTAGES: "+adv+".\n";
-    if(comp) ctx+="COMPETITORS: "+comp+" — know their weaknesses cold.\n";
+    ctx+="PRODUCT BEING SOLD: "+name+".\n";
+    if(adv)  ctx+="OUR KEY ADVANTAGES OVER COMPETITORS: "+adv+".\n";
+    if(comp) ctx+="MAIN COMPETITORS: "+comp+". You must know their specific weaknesses cold and name them directly.\n";
     if(cust) ctx+="IDEAL CUSTOMER: "+cust+".\n";
     if(price)ctx+="PRICING: "+price+".\n";
   } else {
-    ctx="No product set — give strong general responses.\n";
+    ctx="No product set — give strong product-focused responses.\n";
   }
 
-  // Pass last 3 objection summaries so AI avoids repetition
   var prevContext="";
   if(rebs.length){
-    prevContext="OBJECTIONS ALREADY HANDLED THIS CALL (do NOT repeat same angle):\n";
+    prevContext="OBJECTIONS ALREADY HANDLED THIS CALL — DO NOT REPEAT SAME ANGLES:\n";
     rebs.slice(-4).forEach(function(r,i){
       prevContext+=(i+1)+". ["+r.objection_type+"] "+r.objection_summary+"\n";
+      if(r.bullets) prevContext+="   Used: "+r.bullets.join(" | ")+"\n";
     });
     prevContext+="\n";
   }
 
-  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"brief 8-word summary","bullets":["Ask: question","advantage","competitor gap","consequence"],"tone":"empathetic","urgency":"high"}';
+  var fmt='{"objection_detected":true,"objection_type":"price","objection_summary":"brief 8-word summary","bullets":["reframe","advantage","competitor","consequence"],"tone":"confident","urgency":"high"}';
 
-  return "You are an elite B2B sales coach listening LIVE to a sales call.\n"+ctx+prevContext+
-  "DETECTION RULES — only fire on GENUINE new objections:\n"+
-  "- Price: customer mentions specific number, says too expensive, or compares quotes\n"+
-  "- Competitor: customer names a specific competitor or asks about switching\n"+
-  "- Need: customer minimizes their requirements or questions the value\n"+
-  "- Timing: customer wants to delay, review, or revisit later\n"+
-  "- Trust: customer questions reliability, uptime, or service quality\n"+
-  "- Authority: customer says they need approval from someone else\n"+
-  "- DO NOT fire again if same objection type already handled UNLESS customer says something substantively new\n"+
-  "- DO NOT fire on filler, thinking out loud, or partial sentences\n\n"+
-  "REBUTTAL RULES — 4 bullets, each a different weapon:\n"+
-  "BULLET 1 — Ask: Mirror their EXACT words back as a NEPQ question. If they said '$80 T-Mobile quote' then reference $80 and T-Mobile specifically. Use: 'Out of curiosity...' / 'Help me understand...' / 'When you say [their word]...' / 'What would it mean if...'. Must make them elaborate on their specific pain. Max 14 words.\n"+
-  "BULLET 2 — Product Advantage: ONE specific feature of "+( name||"your product")+" that directly defeats their exact objection. Concrete, not generic. Name a spec, SLA term, or guarantee. Max 12 words.\n"+
-  "BULLET 3 — Competitor Weakness: Expose a specific flaw in what they mentioned — name the competitor, cite a real gap (no SLA, shared bandwidth, no on-site tech, throttling, etc). Max 12 words.\n"+
-  "BULLET 4 — Consequence: What it costs them to choose wrong or wait. Tie to a REAL business outcome they care about (payroll, transactions, revenue per hour, client trust). Max 12 words.\n\n"+
-  "Zero duplicate ideas. Zero generic claims. Every bullet must be different from previous calls. Reply ONLY with raw JSON: "+fmt+" Types: price timing competitor trust need authority other.";
+  return "You are an elite B2B sales coach. You know this product and its competitors inside out.\n"+ctx+prevContext+
+  "DETECTION — only fire on GENUINE new objections:\n"+
+  "- Price: customer mentions cost, budget, or competing quote\n"+
+  "- Competitor: customer names a competitor or mentions switching\n"+
+  "- Need: customer downplays their requirements or questions value\n"+
+  "- Timing: customer wants to delay or revisit later\n"+
+  "- Trust: customer questions reliability, service, or uptime\n"+
+  "- Authority: customer needs approval from someone else\n"+
+  "- DO NOT fire if same objection type was just handled unless customer raises genuinely new angle\n\n"+
+  "REBUTTAL — generate exactly 4 bullets. NO discovery questions. NO 'Out of curiosity'. NO NEPQ. Pure product knowledge and competitive intelligence only.\n\n"+
+  "BULLET 1 — REFRAME: One sharp sentence that reframes their objection around the cost of their current situation or the risk of choosing wrong. Make it specific to what they just said. Max 12 words.\n"+
+  "BULLET 2 — PRODUCT ADVANTAGE: The single most powerful feature of "+(name||"this product")+" that directly counters their exact objection. Name a specific spec, SLA term, guarantee, or capability. Concrete — never vague. Max 12 words.\n"+
+  "BULLET 3 — COMPETITOR WEAKNESS: Expose one specific documented weakness of the competitor they mentioned or most likely alternative. Name the competitor directly. Be factual and sharp — shared bandwidth, no SLA, throttling, no on-site support, etc. Max 12 words.\n"+
+  "BULLET 4 — CONSEQUENCE: The real cost of choosing the wrong option or delaying. Tie directly to their business — lost transactions, downtime cost, failed payroll, missed revenue. Hard number if possible. Max 12 words.\n\n"+
+  "RULES: Zero duplicate ideas across bullets. Zero generic platitudes. Every bullet must be DIFFERENT from any previous rebuttal this call. Be direct and confident — not soft or questioning. Reply ONLY with raw JSON: "+fmt+" Types: price timing competitor trust need authority other.";
 }
 
 function startApp(){var s=document.getElementById("splash");s.classList.add("hide");setTimeout(function(){s.style.display="none";},600);}
@@ -713,18 +712,17 @@ function analyze(text){
 }
 function renderBullets(blist,color,size){
   size=size||20;
-  return blist.map(function(b){
-    var isAsk=b.toLowerCase().startsWith("ask:");
-    var txt=isAsk?b.replace(/^ask:\s*/i,""):b;
-    if(isAsk){
-      return '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;background:rgba(37,99,235,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:9px;padding:9px 11px;">'+
-        '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#3b82f6;flex-shrink:0;margin-top:6px;box-shadow:0 0 6px #3b82f666"></span>'+
-        '<span style="font-size:'+(size-2)+'px;color:#bfdbfe;line-height:1.5;font-family:DM Sans,sans-serif;font-weight:500"><span style="font-size:9px;font-weight:700;color:#60a5fa;letter-spacing:0.08em;display:block;margin-bottom:2px">ASK THIS</span>'+esc(txt)+'</span>'+
-      '</div>';
-    }
-    return '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;">'+
-      '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:'+color+';flex-shrink:0;margin-top:6px;box-shadow:0 0 6px '+color+'66"></span>'+
-      '<span style="font-size:'+size+'px;color:#fff;line-height:1.5;font-family:DM Sans,sans-serif;font-weight:500">'+esc(txt)+'</span>'+
+  var labels=["REFRAME","ADVANTAGE","COMPETITOR","CONSEQUENCE"];
+  var labelColors=["#60a5fa","#22c55e","#f87171","#f59e0b"];
+  return blist.map(function(b,i){
+    var lbl=labels[i]||"";
+    var lcolor=labelColors[i]||color;
+    return '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">'+
+      '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:'+lcolor+';flex-shrink:0;margin-top:7px;box-shadow:0 0 6px '+lcolor+'55"></span>'+
+      '<span style="font-size:'+size+'px;color:#fff;line-height:1.5;font-family:DM Sans,sans-serif;font-weight:500">'+
+        (lbl?'<span style="font-size:8px;font-weight:700;color:'+lcolor+';letter-spacing:0.1em;display:block;margin-bottom:2px;opacity:0.8">'+lbl+'</span>':'')+
+        esc(b)+
+      '</span>'+
     '</div>';
   }).join('');
 }
@@ -1104,9 +1102,7 @@ function buildSummaryHTML(){
       if(r.bullets&&r.bullets.length){
         html += '<div style="display:flex;flex-direction:column;gap:4px">';
         r.bullets.forEach(function(b){
-          var isAsk=b.toLowerCase().startsWith('ask:');
-          var txt=isAsk?b.replace(/^ask:\s*/i,''):b;
-          html += '<div style="font-size:11px;color:'+(isAsk?'#bfdbfe':'rgba(220,235,255,0.8)')+';display:flex;gap:6px"><span style="color:'+(isAsk?'#3b82f6':cfg.color)+';flex-shrink:0">'+(isAsk?'Ask:':'•')+'</span>'+esc(txt)+'</div>';
+          html += '<div style="font-size:11px;color:rgba(220,235,255,0.8);display:flex;gap:6px;margin-bottom:4px"><span style="color:'+cfg.color+';flex-shrink:0">•</span>'+esc(b)+'</div>';
         });
         html += '</div>';
       }
