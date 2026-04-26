@@ -485,7 +485,24 @@ html,body{height:100%;overflow:hidden;background:#0a0f1e;}
 
   <!-- SPLASH -->
   <div id="splash">
-    <div class="spl-logo">&#9889;</div>
+    <div class="spl-logo" style="background:none;box-shadow:none;border:none;"><svg width="78" height="78" viewBox="0 0 78 78" fill="none">
+  <circle cx="39" cy="39" r="18" fill="#1d4ed8" opacity="0.12"/>
+  <circle cx="39" cy="39" r="8" fill="#93c5fd"/>
+  <circle cx="39" cy="21" r="3.8" fill="#60a5fa" opacity="0.9"/>
+  <circle cx="55" cy="30" r="3.4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="55" cy="48" r="3.8" fill="#60a5fa" opacity="0.9"/>
+  <circle cx="39" cy="57" r="3.4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="23" cy="48" r="3.8" fill="#60a5fa" opacity="0.9"/>
+  <circle cx="23" cy="30" r="3.4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="39" cy="9"  r="2.2" fill="#2563eb" opacity="0.45"/>
+  <circle cx="65" cy="19" r="2"   fill="#2563eb" opacity="0.38"/>
+  <circle cx="71" cy="39" r="2.4" fill="#2563eb" opacity="0.4"/>
+  <circle cx="65" cy="59" r="2"   fill="#2563eb" opacity="0.38"/>
+  <circle cx="39" cy="69" r="2.2" fill="#2563eb" opacity="0.45"/>
+  <circle cx="13" cy="59" r="2"   fill="#2563eb" opacity="0.38"/>
+  <circle cx="7"  cy="39" r="2.4" fill="#2563eb" opacity="0.4"/>
+  <circle cx="13" cy="19" r="2"   fill="#2563eb" opacity="0.38"/>
+</svg></div>
     <div class="spl-title">Closeify</div>
     <div class="spl-sub">CLOSE EVERY CALL WITH AI</div>
     <div class="spl-feats">
@@ -599,8 +616,10 @@ function chime(){
 
 function startApp(){
   var s=document.getElementById("splash");
-  s.classList.add("hide");
-  setTimeout(function(){s.style.display="none";},600);
+  s.style.transition="opacity 0.5s";
+  s.style.opacity="0";
+  s.style.pointerEvents="none";
+  setTimeout(function(){s.style.display="none";},550);
 }
 
 function toggleListen(){if(listening)stopListen();else startListen();}
@@ -1468,7 +1487,24 @@ html,body{height:100%;overflow:hidden;background:#0a0f1e;}
 
   <!-- SPLASH -->
   <div id="splash">
-    <div class="spl-logo">&#9889;</div>
+    <div class="spl-logo" style="background:none;box-shadow:none;border:none;"><svg width="78" height="78" viewBox="0 0 78 78" fill="none">
+  <circle cx="39" cy="39" r="18" fill="#1d4ed8" opacity="0.12"/>
+  <circle cx="39" cy="39" r="8" fill="#93c5fd"/>
+  <circle cx="39" cy="21" r="3.8" fill="#60a5fa" opacity="0.9"/>
+  <circle cx="55" cy="30" r="3.4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="55" cy="48" r="3.8" fill="#60a5fa" opacity="0.9"/>
+  <circle cx="39" cy="57" r="3.4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="23" cy="48" r="3.8" fill="#60a5fa" opacity="0.9"/>
+  <circle cx="23" cy="30" r="3.4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="39" cy="9"  r="2.2" fill="#2563eb" opacity="0.45"/>
+  <circle cx="65" cy="19" r="2"   fill="#2563eb" opacity="0.38"/>
+  <circle cx="71" cy="39" r="2.4" fill="#2563eb" opacity="0.4"/>
+  <circle cx="65" cy="59" r="2"   fill="#2563eb" opacity="0.38"/>
+  <circle cx="39" cy="69" r="2.2" fill="#2563eb" opacity="0.45"/>
+  <circle cx="13" cy="59" r="2"   fill="#2563eb" opacity="0.38"/>
+  <circle cx="7"  cy="39" r="2.4" fill="#2563eb" opacity="0.4"/>
+  <circle cx="13" cy="19" r="2"   fill="#2563eb" opacity="0.38"/>
+</svg></div>
     <div class="spl-title">Closeify</div>
     <div class="spl-sub">CLOSE EVERY CALL WITH AI</div>
     <div class="spl-feats">
@@ -1582,8 +1618,10 @@ function chime(){
 
 function startApp(){
   var s=document.getElementById("splash");
-  s.classList.add("hide");
-  setTimeout(function(){s.style.display="none";},600);
+  s.style.transition="opacity 0.5s";
+  s.style.opacity="0";
+  s.style.pointerEvents="none";
+  setTimeout(function(){s.style.display="none";},550);
 }
 
 function toggleListen(){if(listening)stopListen();else startListen();}
