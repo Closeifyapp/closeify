@@ -331,12 +331,29 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d1526;}
     <div><div id="an-title">Call Analysis</div><div id="an-sub">AI coaching based on your call</div></div>
     <button id="an-close" onclick="closeAnalysis()"><svg width="12" height="12" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Close</button>
   </div>
-  <div id="an-actbar">
-    <button class="an-btn an-btn-share" onclick="shareAnalysis()">Share</button>
-    <button class="an-btn an-btn-pdf" onclick="downloadPDF()">Download PDF</button>
-  </div>
-  <div id="an-actbar2" style="display:none;padding:0 20px 0;gap:8px;">
-    <button class="an-btn" style="background:rgba(129,140,248,0.12);border:1px solid rgba(129,140,248,0.25);color:#a78bfa;width:100%" onclick="openSummary()"><svg width="16" height="16" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="19" x2="13.5" y2="19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> View &amp; Save Call Summary</button>
+  <div id="an-actbar" style="display:none;padding:10px 20px 0;flex-direction:column;gap:8px;">
+    <!-- Share + PDF row -->
+    <div style="display:flex;gap:8px;">
+      <button class="an-btn an-btn-share" onclick="shareAnalysis()" style="flex:1">
+        <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.8" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.8" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.8" stroke="currentColor" stroke-width="1.6"/><line x1="8.7" y1="11.5" x2="17.4" y2="7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="8.7" y1="14.5" x2="17.4" y2="18.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Share
+      </button>
+      <button class="an-btn an-btn-pdf" onclick="downloadPDF()" style="flex:1">
+        <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M6 4h10l5 5v14a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 5 23V5.5A1.5 1.5 0 0 1 6 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 4v4.5a.5.5 0 0 0 .5.5H21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Download PDF
+      </button>
+    </div>
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:10px;padding:2px 0;">
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.06)"></div>
+      <span style="font-size:8.5px;font-weight:700;letter-spacing:0.14em;color:rgba(148,163,184,0.3);font-family:'Syne',sans-serif;">CALL SUMMARY</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.06)"></div>
+    </div>
+    <!-- Summary button full width -->
+    <button class="an-btn" style="background:rgba(129,140,248,0.1);border:1px solid rgba(129,140,248,0.22);color:#a5b4fc;width:100%;gap:8px;" onclick="openSummary()">
+      <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="19" x2="13.5" y2="19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      View &amp; Save Call Summary
+    </button>
   </div>
   <div id="an-body">
     <div class="an-loading" id="an-loading"><div class="an-spinner"></div><div class="an-loading-txt">Analyzing your call...</div></div>
@@ -709,7 +726,6 @@ function runCallAnalysis(){
   document.getElementById('an-loading').style.display='flex';
   document.getElementById('an-content').style.display='none';
   document.getElementById('an-actbar').style.display='none';
-  if(document.getElementById('an-actbar2'))document.getElementById('an-actbar2').style.display='none';
   var fmt2='{"overall_score":75,"score_label":"Good","what_went_well":["point"],"what_was_missed":["gap"],"power_moves":["tip"],"one_thing":"single improvement"}';
   fetch("https://closeify-api.robert-slauson.workers.dev",{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,
@@ -742,12 +758,10 @@ function renderAnalysis(r){
   document.getElementById('an-content').innerHTML=html;
   document.getElementById('an-content').style.display='block';
   document.getElementById('an-actbar').style.display='flex';
-  document.getElementById('an-actbar2').style.display='flex';
 }
 function closeAnalysis(){
   document.getElementById('analysis-overlay').classList.remove('on');
   document.getElementById('an-actbar').style.display='none';
-  if(document.getElementById('an-actbar2'))document.getElementById('an-actbar2').style.display='none';
 }
 function shareAnalysis(){
   if(!lastAnalysis)return;
