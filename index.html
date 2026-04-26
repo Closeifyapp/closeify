@@ -474,7 +474,7 @@ html,body{height:100%;overflow:hidden;-webkit-overflow-scrolling:touch;backgroun
       <div id="obj-ctr">0 objections caught</div>
     </div>
 
-    <!-- RESULTS BAR - appears after call ends -->
+    <!-- RESULTS BAR - appears after call ends, persists until dismissed or new rebuttals fire -->
     <div id="results-bar">
       <div class="rb-label">
         <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><polyline points="4,18 8,11 12,14 16,7 20,10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -488,6 +488,9 @@ html,body{height:100%;overflow:hidden;-webkit-overflow-scrolling:touch;backgroun
         <button class="rb-btn rb-btn-summary" onclick="openSummary()">
           <svg width="12" height="12" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
           Summary
+        </button>
+        <button onclick="document.getElementById('results-bar').classList.remove('on')" style="background:none;border:none;color:rgba(148,163,184,0.3);cursor:pointer;padding:4px 6px;font-size:14px;line-height:1;">
+          <svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
         </button>
       </div>
     </div>
@@ -811,7 +814,6 @@ function startListen(){
   recog.onend=function(){if(recog._on)recog.start();};
   recog.start();
   listening=true;setBtn(true);
-  document.getElementById('results-bar').classList.remove('on');
   dur=0;tickTimer();
   cTimer=setInterval(function(){dur++;tickTimer();},1000);
   document.getElementById("ai-txt").textContent="Closeify AI — Listening to call";
@@ -898,6 +900,8 @@ function renderBullets(blist,color,size){
   }).join('');
 }
 function addCard(r){
+  // Hide old results bar when new call produces rebuttals
+  document.getElementById('results-bar').classList.remove('on');
   document.querySelectorAll('.rcard').forEach(function(el){el.classList.add('collapsed');});
   document.getElementById("empty").style.display="none";
   document.getElementById("rebWrap").style.display="block";
