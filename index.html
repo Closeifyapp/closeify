@@ -517,36 +517,7 @@ html,body{height:100%;overflow:hidden;background:#0d1526;}
 
 
 <!-- FULLSCREEN CARD OVERLAY -->
-<div id="card-overlay">
-  <div id="ov-topbar">
-    <div id="ov-counter">
-      <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M15.5 3L8 14.5h6L9.5 23l10.5-12H14z" fill="currentColor"/></svg>
-      0 caught
-    </div>
-    <button id="ov-end" onclick="overlayEnd()">
-      <svg width="11" height="11" viewBox="0 0 26 26" fill="none"><rect x="5" y="5" width="16" height="16" rx="3.5" fill="currentColor"/></svg>
-      END CALL
-    </button>
-  </div>
-  <div id="ov-inner">
-    <div id="ov-type"><div id="ov-pill"></div><span id="ov-time"></span></div>
-    <div id="ov-obj"></div>
-    <div id="ov-bar"></div>
-    <div id="ov-lbl">YOUR REBUTTAL</div>
-    <div id="ov-rebuttal"></div>
-  </div>
-  <div id="ov-actions">
-    <button id="ov-share" onclick="ovShare()">
-      <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.5" stroke="currentColor" stroke-width="1.6"/><line x1="8.5" y1="11.5" x2="17.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8.5" y1="14.5" x2="17.5" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Share
-    </button>
-    <button id="ov-got" onclick="closeOverlay()">
-      <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Got It
-    </button>
-  </div>
-  <div id="ov-stack"></div>
-</div>
+
 
   <!-- SPLASH -->
   <div id="splash">
@@ -628,76 +599,13 @@ html,body{height:100%;overflow:hidden;background:#0d1526;}
 
 
 <!-- POST-CALL SHEET -->
-<div id="postcall-modal">
-  <div id="postcall-sheet">
-    <div id="postcall-handle"></div>
-    <div id="postcall-title">Call Complete</div>
-    <div id="postcall-sub">What would you like to do?</div>
-    <button class="pc-btn pc-btn-analysis" onclick="closePostcall();runCallAnalysis()">
-      <svg width="17" height="17" viewBox="0 0 26 26" fill="none"><polyline points="4,18 8,11 12,14 16,7 20,10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="7" r="1.5" fill="currentColor"/></svg>
-      View AI Analysis
-    </button>
-    <button class="pc-btn pc-btn-summary" onclick="closePostcall();openSummary()">
-      <svg width="17" height="17" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-      View Call Summary
-    </button>
-    <button class="pc-btn pc-btn-dismiss" onclick="closePostcall()">
-      <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M8 8l10 10M18 8L8 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      Dismiss
-    </button>
-  </div>
-</div>
+
 
 <!-- ANALYSIS OVERLAY -->
-<div id="analysis-overlay">
-  <div id="an-header">
-    <div><div id="an-title">Call Analysis</div><div id="an-sub">AI coaching based on your call</div></div>
-    <button id="an-close" onclick="closeAnalysis()">
-      <svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    </button>
-  </div>
-  <div id="an-body">
-    <div class="an-loading" id="an-loading"><div class="an-spinner"></div><div class="an-loading-txt">Analyzing your call...</div></div>
-    <div id="an-content" style="display:none"></div>
-  </div>
-  <button id="an-cta" onclick="closeAnalysis()">
-    <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Got It — Back to Dashboard
-  </button>
-</div>
+
 
 <!-- SUMMARY MODAL -->
-<div id="summary-modal">
-  <div id="summary-sheet">
-    <div style="width:30px;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;margin:0 auto 14px;"></div>
-    <div id="sum-header">
-      <div id="sum-title">Call Summary</div>
-      <button id="sum-close" onclick="closeSummary()">
-        <svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-    <div id="sum-sub">Full recap of your call</div>
-    <div id="sum-body"></div>
-    <div class="sum-action-row">
-      <button class="sum-btn sum-btn-share" onclick="shareSummaryNative()">
-        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.5" stroke="currentColor" stroke-width="1.6"/><line x1="8.5" y1="11.5" x2="17.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8.5" y1="14.5" x2="17.5" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Share
-      </button>
-      <button class="sum-btn sum-btn-pdf" onclick="pdfSummary()">
-        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M6 4h10l5 5v14a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 5 23V5.5A1.5 1.5 0 0 1 6 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 4v4.5a.5.5 0 0 0 .5.5H21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        PDF
-      </button>
-      <button class="sum-btn sum-btn-sms" onclick="smsSummary()">
-        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M4.5 4.5h17a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 5V6.5a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="12" r="1.2" fill="currentColor"/><circle cx="13" cy="12" r="1.2" fill="currentColor"/><circle cx="17" cy="12" r="1.2" fill="currentColor"/></svg>
-        SMS
-      </button>
-      <button class="sum-btn sum-btn-email" onclick="emailSummary()">
-        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><rect x="3.5" y="6" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8.5l9.5 7 9.5-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Email
-      </button>
-    </div>
-  </div>
-</div>
+
 
 </div><!-- /app -->
 
@@ -1051,147 +959,10 @@ document.addEventListener("DOMContentLoaded",function(){
 
 
 <!-- PRIVACY POLICY OVERLAY -->
-<div id="privacy-overlay">
-  <div class="legal-hdr">
-    <span class="legal-hdr-title">Privacy Policy</span>
-    <button class="legal-hdr-close" onclick="document.getElementById('privacy-overlay').classList.remove('on')"><svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg> Close</button>
-  </div>
-  <div class="legal-body">
-    <div class="legal-date">Last Updated: April 25, 2026</div>
-    <p class="legal-p">This Privacy Policy explains how Closeify collects, uses, and protects your information when you use our AI-powered sales coaching Services. By using Closeify, you agree to these practices.</p>
-    <div class="legal-hr"></div>
 
-    <div class="legal-h1">1. Recording Consent — Critical</div>
-    <div class="legal-warn"><p>&#9888; You are solely responsible for obtaining all legally required consents from all call parties before using Closeify. Recording laws vary by jurisdiction. Many states and countries require all-party consent. We are not liable for recording consent violations.</p></div>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">2. Information We Collect</div>
-    <div class="legal-h2">You Provide</div>
-    <div class="legal-li">Product setup data — name, advantages, competitors, pricing</div>
-    <div class="legal-li">Win/loss outcomes you manually log</div>
-    <div class="legal-li">Support requests or feedback</div>
-    <div class="legal-h2">Automatically Collected</div>
-    <div class="legal-li">Voice/speech processed in real time — not permanently stored on our servers</div>
-    <div class="legal-li">AI-generated rebuttals and analysis results for your session</div>
-    <div class="legal-li">Device info: type, OS, browser, IP address</div>
-    <div class="legal-li">Call stats stored locally on your device via browser storage</div>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">3. How We Use Your Information</div>
-    <div class="legal-li">Provide real-time AI sales coaching and post-call analysis</div>
-    <div class="legal-li">Personalize rebuttals based on your product setup</div>
-    <div class="legal-li">Improve our AI models and Services</div>
-    <div class="legal-li">Respond to support requests and comply with legal obligations</div>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">4. How We Share Your Information</div>
-    <div class="legal-h2">AI Providers</div>
-    <p class="legal-p">We use Anthropic's AI API for rebuttal generation. Transcriptions are sent for real-time processing under their privacy policy.</p>
-    <div class="legal-h2">Infrastructure</div>
-    <p class="legal-p">We use Cloudflare to operate our services under data protection agreements.</p>
-    <div class="legal-h2">We Do Not Sell Your Data</div>
-    <p class="legal-p">Closeify does not sell, rent, or trade your personal information to third parties.</p>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">5. Data Storage</div>
-    <p class="legal-p">Most data — call history, stats, product setup — is stored locally on your device. Voice data is processed in real time and is not permanently stored on our servers.</p>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">6. Your Rights</div>
-    <div class="legal-li">Access: View data stored in your browser's local storage</div>
-    <div class="legal-li">Delete: Use Clear buttons in-app or clear browser site data</div>
-    <div class="legal-li">Opt-out: Stop the listening feature at any time</div>
-    <div class="legal-li">California &amp; Nevada residents: additional rights under CCPA/Nevada law. We do not sell personal information.</div>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">7. Children's Privacy</div>
-    <p class="legal-p">Closeify is not for users under 18. Contact us if you believe we collected information from a minor.</p>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">8. Changes to This Policy</div>
-    <p class="legal-p">We may update this policy from time to time. Continued use after changes constitutes acceptance.</p>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">9. Contact</div>
-    <div class="legal-li">Email: privacy@closeify.app</div>
-    <div class="legal-li">Website: closeifyapp.github.io/closeify</div>
-    <div class="legal-foot">&copy; 2026 Closeify &mdash; All rights reserved</div>
-  </div>
-</div>
 
 <!-- TERMS OF SERVICE OVERLAY -->
-<div id="terms-overlay">
-  <div class="legal-hdr">
-    <span class="legal-hdr-title">Terms of Service</span>
-    <button class="legal-hdr-close" onclick="document.getElementById('terms-overlay').classList.remove('on')"><svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg> Close</button>
-  </div>
-  <div class="legal-body">
-    <div class="legal-date">Last Updated: April 25, 2026</div>
-    <p class="legal-p">These Terms govern your use of the Closeify sales coaching application. By using Closeify, you agree to be bound by these Terms.</p>
 
-    <div class="legal-hr"></div>
-    <div class="legal-h1">1. Recording Consent — Your Responsibility</div>
-    <div class="legal-warn"><p>&#9888; You are solely responsible for obtaining all legally required consents from all call parties before using Closeify. Closeify is not liable for recording consent violations. Consult a licensed attorney in your jurisdiction.</p></div>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">2. Acceptance</div>
-    <p class="legal-p">By using Closeify you confirm you are at least 18 years old and agree to these Terms. We may revise these Terms at any time — continued use constitutes acceptance.</p>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">3. Permitted &amp; Prohibited Uses</div>
-    <div class="legal-h2">You May</div>
-    <div class="legal-li">Use Closeify for lawfully conducted sales calls</div>
-    <div class="legal-li">Generate and share call summaries for legitimate business purposes</div>
-    <div class="legal-li">Improve your sales skills through AI feedback and analysis</div>
-    <div class="legal-h2">You May NOT</div>
-    <div class="legal-li">Record calls without required consent from all parties</div>
-    <div class="legal-li">Violate any law, regulation, or third-party rights</div>
-    <div class="legal-li">Reverse engineer, decompile, or copy any part of the Services</div>
-    <div class="legal-li">Use bots or scrapers against our Services</div>
-    <div class="legal-li">Deceive, defraud, harass, or harm any person</div>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">4. AI Content Disclaimer</div>
-    <p class="legal-p">AI coaching suggestions are for informational purposes only. Not legal or financial advice. We do not guarantee accuracy or effectiveness. You are solely responsible for how you use AI suggestions.</p>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">5. Intellectual Property</div>
-    <p class="legal-p">All Closeify content, design, code, and AI models are owned by Closeify. You receive a limited non-exclusive license for personal or internal business use only.</p>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">6. Subscription &amp; Payment</div>
-    <div class="legal-li">Subscriptions renew automatically until cancelled</div>
-    <div class="legal-li">Cancel before renewal to avoid the next billing charge</div>
-    <div class="legal-li">All fees are non-refundable once charged, except where required by law</div>
-    <div class="legal-li">Price changes communicated with at least 30 days notice</div>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">7. Disclaimer of Warranties</div>
-    <div class="legal-caps"><p>THE SERVICES ARE PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND. CLOSEIFY DISCLAIMS ALL WARRANTIES INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND ACCURACY.</p></div>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">8. Limitation of Liability</div>
-    <div class="legal-caps"><p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, CLOSEIFY SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES ARISING FROM YOUR USE OF THE SERVICES, INCLUDING RECORDING CONSENT VIOLATIONS.</p></div>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">9. Indemnification</div>
-    <p class="legal-p">You agree to indemnify and hold harmless Closeify from any claims arising from your use or misuse of the Services, violation of these Terms, or violation of any recording law.</p>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">10. Dispute Resolution</div>
-    <div class="legal-h2">Governing Law</div>
-    <p class="legal-p">These Terms are governed by the laws of the State of Delaware, USA.</p>
-    <div class="legal-h2">Arbitration</div>
-    <p class="legal-p">Disputes resolved by binding AAA arbitration in Delaware. Class action waiver applies. Contact legal@closeify.app before any action.</p>
-
-    <div class="legal-hr"></div>
-    <div class="legal-h1">11. Contact</div>
-    <div class="legal-li">Legal: legal@closeify.app</div>
-    <div class="legal-li">Privacy: privacy@closeify.app</div>
-    <div class="legal-li">Website: closeifyapp.github.io/closeify</div>
-    <div class="legal-foot">&copy; 2026 Closeify &mdash; All rights reserved</div>
-  </div>
-</div>
 
 <script>
 function openPrivacy(){document.getElementById('privacy-overlay').classList.add('on');}
@@ -1440,5 +1211,247 @@ function ovShare(){
 
 </script>
 
+
+
+<div id="card-overlay">
+  <div id="ov-topbar">
+    <div id="ov-counter">
+      <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M15.5 3L8 14.5h6L9.5 23l10.5-12H14z" fill="currentColor"/></svg>
+      0 caught
+    </div>
+    <button id="ov-end" onclick="overlayEnd()">
+      <svg width="11" height="11" viewBox="0 0 26 26" fill="none"><rect x="5" y="5" width="16" height="16" rx="3.5" fill="currentColor"/></svg>
+      END CALL
+    </button>
+  </div>
+  <div id="ov-inner">
+    <div id="ov-type"><div id="ov-pill"></div><span id="ov-time"></span></div>
+    <div id="ov-obj"></div>
+    <div id="ov-bar"></div>
+    <div id="ov-lbl">YOUR REBUTTAL</div>
+    <div id="ov-rebuttal"></div>
+  </div>
+  <div id="ov-actions">
+    <button id="ov-share" onclick="ovShare()">
+      <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.5" stroke="currentColor" stroke-width="1.6"/><line x1="8.5" y1="11.5" x2="17.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8.5" y1="14.5" x2="17.5" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Share
+    </button>
+    <button id="ov-got" onclick="closeOverlay()">
+      <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Got It
+    </button>
+  </div>
+  <div id="ov-stack"></div>
+</div>
+
+<div id="postcall-modal">
+  <div id="postcall-sheet">
+    <div id="postcall-handle"></div>
+    <div id="postcall-title">Call Complete</div>
+    <div id="postcall-sub">What would you like to do?</div>
+    <button class="pc-btn pc-btn-analysis" onclick="closePostcall();runCallAnalysis()">
+      <svg width="17" height="17" viewBox="0 0 26 26" fill="none"><polyline points="4,18 8,11 12,14 16,7 20,10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="7" r="1.5" fill="currentColor"/></svg>
+      View AI Analysis
+    </button>
+    <button class="pc-btn pc-btn-summary" onclick="closePostcall();openSummary()">
+      <svg width="17" height="17" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      View Call Summary
+    </button>
+    <button class="pc-btn pc-btn-dismiss" onclick="closePostcall()">
+      <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M8 8l10 10M18 8L8 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Dismiss
+    </button>
+  </div>
+</div>
+
+<div id="analysis-overlay">
+  <div id="an-header">
+    <div><div id="an-title">Call Analysis</div><div id="an-sub">AI coaching based on your call</div></div>
+    <button id="an-close" onclick="closeAnalysis()">
+      <svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div id="an-body">
+    <div class="an-loading" id="an-loading"><div class="an-spinner"></div><div class="an-loading-txt">Analyzing your call...</div></div>
+    <div id="an-content" style="display:none"></div>
+  </div>
+  <button id="an-cta" onclick="closeAnalysis()">
+    <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Got It — Back to Dashboard
+  </button>
+</div>
+
+<div id="summary-modal">
+  <div id="summary-sheet">
+    <div style="width:30px;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;margin:0 auto 14px;"></div>
+    <div id="sum-header">
+      <div id="sum-title">Call Summary</div>
+      <button id="sum-close" onclick="closeSummary()">
+        <svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div id="sum-sub">Full recap of your call</div>
+    <div id="sum-body"></div>
+    <div class="sum-action-row">
+      <button class="sum-btn sum-btn-share" onclick="shareSummaryNative()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.5" stroke="currentColor" stroke-width="1.6"/><line x1="8.5" y1="11.5" x2="17.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8.5" y1="14.5" x2="17.5" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Share
+      </button>
+      <button class="sum-btn sum-btn-pdf" onclick="pdfSummary()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M6 4h10l5 5v14a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 5 23V5.5A1.5 1.5 0 0 1 6 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 4v4.5a.5.5 0 0 0 .5.5H21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        PDF
+      </button>
+      <button class="sum-btn sum-btn-sms" onclick="smsSummary()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M4.5 4.5h17a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 5V6.5a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="12" r="1.2" fill="currentColor"/><circle cx="13" cy="12" r="1.2" fill="currentColor"/><circle cx="17" cy="12" r="1.2" fill="currentColor"/></svg>
+        SMS
+      </button>
+      <button class="sum-btn sum-btn-email" onclick="emailSummary()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><rect x="3.5" y="6" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8.5l9.5 7 9.5-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Email
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="privacy-overlay">
+  <div class="legal-hdr">
+    <span class="legal-hdr-title">Privacy Policy</span>
+    <button class="legal-hdr-close" onclick="document.getElementById('privacy-overlay').classList.remove('on')"><svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg> Close</button>
+  </div>
+  <div class="legal-body">
+    <div class="legal-date">Last Updated: April 25, 2026</div>
+    <p class="legal-p">This Privacy Policy explains how Closeify collects, uses, and protects your information when you use our AI-powered sales coaching Services. By using Closeify, you agree to these practices.</p>
+    <div class="legal-hr"></div>
+
+    <div class="legal-h1">1. Recording Consent — Critical</div>
+    <div class="legal-warn"><p>&#9888; You are solely responsible for obtaining all legally required consents from all call parties before using Closeify. Recording laws vary by jurisdiction. Many states and countries require all-party consent. We are not liable for recording consent violations.</p></div>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">2. Information We Collect</div>
+    <div class="legal-h2">You Provide</div>
+    <div class="legal-li">Product setup data — name, advantages, competitors, pricing</div>
+    <div class="legal-li">Win/loss outcomes you manually log</div>
+    <div class="legal-li">Support requests or feedback</div>
+    <div class="legal-h2">Automatically Collected</div>
+    <div class="legal-li">Voice/speech processed in real time — not permanently stored on our servers</div>
+    <div class="legal-li">AI-generated rebuttals and analysis results for your session</div>
+    <div class="legal-li">Device info: type, OS, browser, IP address</div>
+    <div class="legal-li">Call stats stored locally on your device via browser storage</div>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">3. How We Use Your Information</div>
+    <div class="legal-li">Provide real-time AI sales coaching and post-call analysis</div>
+    <div class="legal-li">Personalize rebuttals based on your product setup</div>
+    <div class="legal-li">Improve our AI models and Services</div>
+    <div class="legal-li">Respond to support requests and comply with legal obligations</div>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">4. How We Share Your Information</div>
+    <div class="legal-h2">AI Providers</div>
+    <p class="legal-p">We use Anthropic's AI API for rebuttal generation. Transcriptions are sent for real-time processing under their privacy policy.</p>
+    <div class="legal-h2">Infrastructure</div>
+    <p class="legal-p">We use Cloudflare to operate our services under data protection agreements.</p>
+    <div class="legal-h2">We Do Not Sell Your Data</div>
+    <p class="legal-p">Closeify does not sell, rent, or trade your personal information to third parties.</p>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">5. Data Storage</div>
+    <p class="legal-p">Most data — call history, stats, product setup — is stored locally on your device. Voice data is processed in real time and is not permanently stored on our servers.</p>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">6. Your Rights</div>
+    <div class="legal-li">Access: View data stored in your browser's local storage</div>
+    <div class="legal-li">Delete: Use Clear buttons in-app or clear browser site data</div>
+    <div class="legal-li">Opt-out: Stop the listening feature at any time</div>
+    <div class="legal-li">California &amp; Nevada residents: additional rights under CCPA/Nevada law. We do not sell personal information.</div>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">7. Children's Privacy</div>
+    <p class="legal-p">Closeify is not for users under 18. Contact us if you believe we collected information from a minor.</p>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">8. Changes to This Policy</div>
+    <p class="legal-p">We may update this policy from time to time. Continued use after changes constitutes acceptance.</p>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">9. Contact</div>
+    <div class="legal-li">Email: privacy@closeify.app</div>
+    <div class="legal-li">Website: closeifyapp.github.io/closeify</div>
+    <div class="legal-foot">&copy; 2026 Closeify &mdash; All rights reserved</div>
+  </div>
+</div>
+
+<div id="terms-overlay">
+  <div class="legal-hdr">
+    <span class="legal-hdr-title">Terms of Service</span>
+    <button class="legal-hdr-close" onclick="document.getElementById('terms-overlay').classList.remove('on')"><svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg> Close</button>
+  </div>
+  <div class="legal-body">
+    <div class="legal-date">Last Updated: April 25, 2026</div>
+    <p class="legal-p">These Terms govern your use of the Closeify sales coaching application. By using Closeify, you agree to be bound by these Terms.</p>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">1. Recording Consent — Your Responsibility</div>
+    <div class="legal-warn"><p>&#9888; You are solely responsible for obtaining all legally required consents from all call parties before using Closeify. Closeify is not liable for recording consent violations. Consult a licensed attorney in your jurisdiction.</p></div>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">2. Acceptance</div>
+    <p class="legal-p">By using Closeify you confirm you are at least 18 years old and agree to these Terms. We may revise these Terms at any time — continued use constitutes acceptance.</p>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">3. Permitted &amp; Prohibited Uses</div>
+    <div class="legal-h2">You May</div>
+    <div class="legal-li">Use Closeify for lawfully conducted sales calls</div>
+    <div class="legal-li">Generate and share call summaries for legitimate business purposes</div>
+    <div class="legal-li">Improve your sales skills through AI feedback and analysis</div>
+    <div class="legal-h2">You May NOT</div>
+    <div class="legal-li">Record calls without required consent from all parties</div>
+    <div class="legal-li">Violate any law, regulation, or third-party rights</div>
+    <div class="legal-li">Reverse engineer, decompile, or copy any part of the Services</div>
+    <div class="legal-li">Use bots or scrapers against our Services</div>
+    <div class="legal-li">Deceive, defraud, harass, or harm any person</div>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">4. AI Content Disclaimer</div>
+    <p class="legal-p">AI coaching suggestions are for informational purposes only. Not legal or financial advice. We do not guarantee accuracy or effectiveness. You are solely responsible for how you use AI suggestions.</p>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">5. Intellectual Property</div>
+    <p class="legal-p">All Closeify content, design, code, and AI models are owned by Closeify. You receive a limited non-exclusive license for personal or internal business use only.</p>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">6. Subscription &amp; Payment</div>
+    <div class="legal-li">Subscriptions renew automatically until cancelled</div>
+    <div class="legal-li">Cancel before renewal to avoid the next billing charge</div>
+    <div class="legal-li">All fees are non-refundable once charged, except where required by law</div>
+    <div class="legal-li">Price changes communicated with at least 30 days notice</div>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">7. Disclaimer of Warranties</div>
+    <div class="legal-caps"><p>THE SERVICES ARE PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND. CLOSEIFY DISCLAIMS ALL WARRANTIES INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND ACCURACY.</p></div>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">8. Limitation of Liability</div>
+    <div class="legal-caps"><p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, CLOSEIFY SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES ARISING FROM YOUR USE OF THE SERVICES, INCLUDING RECORDING CONSENT VIOLATIONS.</p></div>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">9. Indemnification</div>
+    <p class="legal-p">You agree to indemnify and hold harmless Closeify from any claims arising from your use or misuse of the Services, violation of these Terms, or violation of any recording law.</p>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">10. Dispute Resolution</div>
+    <div class="legal-h2">Governing Law</div>
+    <p class="legal-p">These Terms are governed by the laws of the State of Delaware, USA.</p>
+    <div class="legal-h2">Arbitration</div>
+    <p class="legal-p">Disputes resolved by binding AAA arbitration in Delaware. Class action waiver applies. Contact legal@closeify.app before any action.</p>
+
+    <div class="legal-hr"></div>
+    <div class="legal-h1">11. Contact</div>
+    <div class="legal-li">Legal: legal@closeify.app</div>
+    <div class="legal-li">Privacy: privacy@closeify.app</div>
+    <div class="legal-li">Website: closeifyapp.github.io/closeify</div>
+    <div class="legal-foot">&copy; 2026 Closeify &mdash; All rights reserved</div>
+  </div>
+</div>
 </body>
 </html>
