@@ -277,7 +277,7 @@ html,body{height:100%;overflow:hidden;background:#0d1526;}
 
 
 /* POST-CALL SHEET */
-#postcall-modal{position:fixed;inset:0;z-index:250;display:none;align-items:flex-end;background:rgba(0,0,0,0.65);}
+#postcall-modal{position:fixed;inset:0;z-index:9990;display:none;align-items:flex-end;background:rgba(0,0,0,0.65);}
 #postcall-modal.on{display:flex;}
 #postcall-sheet{background:#0a0f1e;border-radius:22px 22px 0 0;padding:20px 18px 36px;width:100%;max-width:480px;margin:0 auto;animation:shu 0.3s cubic-bezier(0.34,1.3,0.64,1);border-top:1px solid rgba(59,130,246,0.15);}
 #postcall-handle{width:30px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin:0 auto 18px;}
@@ -289,7 +289,7 @@ html,body{height:100%;overflow:hidden;background:#0d1526;}
 .pc-btn-dismiss{background:transparent;border:1px solid rgba(255,255,255,0.07)!important;color:rgba(148,163,184,0.4);margin-bottom:0;}
 
 /* ANALYSIS OVERLAY */
-#analysis-overlay{position:fixed;inset:0;z-index:300;background:rgba(4,8,18,0.98);display:none;flex-direction:column;overflow-y:auto;}
+#analysis-overlay{position:fixed;inset:0;z-index:9991;background:rgba(4,8,18,0.98);display:none;flex-direction:column;overflow-y:auto;}
 #analysis-overlay.on{display:flex;}
 #an-header{padding:18px 20px 0;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;}
 #an-title{font-size:18px;font-weight:800;color:#fff;}
@@ -309,7 +309,7 @@ html,body{height:100%;overflow:hidden;background:#0d1526;}
 #an-cta{margin:4px 20px 30px;padding:13px;border-radius:11px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:calc(100% - 40px);}
 
 /* SUMMARY MODAL */
-#summary-modal{position:fixed;inset:0;z-index:350;display:none;align-items:flex-end;background:rgba(0,0,0,0.7);}
+#summary-modal{position:fixed;inset:0;z-index:9992;display:none;align-items:flex-end;background:rgba(0,0,0,0.7);}
 #summary-modal.on{display:flex;}
 #summary-sheet{background:#0a0f1e;border-radius:20px 20px 0 0;padding:20px 18px 36px;width:100%;max-width:480px;margin:0 auto;animation:shu 0.3s cubic-bezier(0.34,1.3,0.64,1);border-top:1px solid rgba(255,255,255,0.08);max-height:88vh;overflow-y:auto;}
 #sum-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
@@ -809,7 +809,7 @@ function startListen(){
     if(final){
       transcript+=final;
       clearTimeout(aTO);
-      aTO=setTimeout(function(){analyze(final.trim());},750);
+      aTO=setTimeout(function(){analyze(final.trim());},50);
     }
   };
   recog.onerror=function(e){if(e.error!=="aborted")showToast("Mic: "+e.error,"err");};
@@ -1424,7 +1424,11 @@ function closeOverlay(){
   overlayCard = null;
 }
 
-function overlayEnd(){ closeOverlay(); endCall(); }
+function overlayEnd(){
+  closeOverlay();
+  // Small delay so overlay animation clears before postcall sheet appears
+  setTimeout(function(){ endCall(); }, 100);
+}
 
 function ovShare(){
   if(!overlayCard) return;
