@@ -295,6 +295,60 @@ html,body{height:100%;overflow:hidden;background:#0d1526;}
 #ov-stack.has-items{display:flex;}
 .scard{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 12px;cursor:pointer;transition:background 0.15s;display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .scard:active{background:rgba(255,255,255,0.09);}
+
+/* POST-CALL SHEET */
+#postcall-modal{position:fixed;inset:0;z-index:250;display:none;align-items:flex-end;background:rgba(0,0,0,0.65);}
+#postcall-modal.on{display:flex;}
+#postcall-sheet{background:#0a0f1e;border-radius:22px 22px 0 0;padding:20px 18px 36px;width:100%;max-width:480px;margin:0 auto;animation:shu 0.3s cubic-bezier(0.34,1.3,0.64,1);border-top:1px solid rgba(59,130,246,0.15);}
+#postcall-handle{width:30px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin:0 auto 18px;}
+#postcall-title{font-size:16px;font-weight:800;color:#fff;margin-bottom:4px;text-align:center;}
+#postcall-sub{font-size:11px;color:rgba(148,163,184,0.45);text-align:center;margin-bottom:20px;}
+.pc-btn{width:100%;padding:15px;border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;border:none;}
+.pc-btn-analysis{background:rgba(37,99,235,0.18);border:1px solid rgba(59,130,246,0.3)!important;color:#60a5fa;}
+.pc-btn-summary{background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25)!important;color:#4ade80;}
+.pc-btn-dismiss{background:transparent;border:1px solid rgba(255,255,255,0.07)!important;color:rgba(148,163,184,0.4);margin-bottom:0;}
+
+/* ANALYSIS OVERLAY */
+#analysis-overlay{position:fixed;inset:0;z-index:300;background:rgba(4,8,18,0.98);display:none;flex-direction:column;overflow-y:auto;}
+#analysis-overlay.on{display:flex;}
+#an-header{padding:18px 20px 0;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;}
+#an-title{font-size:18px;font-weight:800;color:#fff;}
+#an-sub{font-size:11px;color:rgba(148,163,184,0.5);margin-top:3px;}
+#an-close{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(148,163,184,0.6);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;padding:7px 14px;border-radius:20px;cursor:pointer;}
+#an-body{padding:18px 20px;flex:1;}
+.an-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:14px;}
+.an-spinner{width:36px;height:36px;border-radius:50%;border:3px solid rgba(59,130,246,0.2);border-top-color:#3b82f6;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.an-loading-txt{font-size:13px;color:rgba(148,163,184,0.5);}
+.an-section{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;margin-bottom:11px;}
+.an-score{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.an-circle{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0;border:2.5px solid;}
+.an-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;}
+.an-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.an-text{font-size:13px;color:rgba(220,235,255,0.85);line-height:1.6;}
+#an-cta{margin:4px 20px 30px;padding:13px;border-radius:11px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:calc(100% - 40px);}
+
+/* SUMMARY MODAL */
+#summary-modal{position:fixed;inset:0;z-index:350;display:none;align-items:flex-end;background:rgba(0,0,0,0.7);}
+#summary-modal.on{display:flex;}
+#summary-sheet{background:#0a0f1e;border-radius:20px 20px 0 0;padding:20px 18px 36px;width:100%;max-width:480px;margin:0 auto;animation:shu 0.3s cubic-bezier(0.34,1.3,0.64,1);border-top:1px solid rgba(255,255,255,0.08);max-height:88vh;overflow-y:auto;}
+#sum-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+#sum-title{font-size:16px;font-weight:800;color:#e2e8f0;}
+#sum-close{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(148,163,184,0.6);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;padding:6px 12px;border-radius:16px;cursor:pointer;}
+#sum-sub{font-size:11px;color:rgba(148,163,184,0.4);margin-bottom:16px;}
+.sum-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:9px;margin-bottom:5px;border:1px solid rgba(255,255,255,0.06);}
+.sum-row-lbl{font-size:11px;color:rgba(148,163,184,0.6);}
+.sum-row-val{font-size:12px;font-weight:700;color:#e2e8f0;}
+.sum-obj-item{background:rgba(255,255,255,0.04);border-radius:10px;padding:10px 12px;margin-bottom:7px;border:1px solid rgba(255,255,255,0.06);}
+.sum-obj-type{font-size:10px;font-weight:700;margin-bottom:4px;}
+.sum-obj-q{font-size:11px;color:rgba(148,163,184,0.55);margin-bottom:5px;font-style:italic;}
+.sum-sec-lbl{font-size:8px;color:rgba(148,163,184,0.35);letter-spacing:0.14em;font-weight:700;margin-bottom:8px;margin-top:14px;}
+.sum-action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+.sum-btn{padding:11px;border-radius:10px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;border:none;}
+.sum-btn-share{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1)!important;color:rgba(200,220,255,0.8);}
+.sum-btn-sms{background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25)!important;color:#4ade80;}
+.sum-btn-email{background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25)!important;color:#fbbf24;}
+.sum-btn-pdf{background:rgba(37,99,235,0.15);border:1px solid rgba(59,130,246,0.3)!important;color:#60a5fa;}
 </style>
 </head>
 <body>
@@ -575,6 +629,79 @@ html,body{height:100%;overflow:hidden;background:#0d1526;}
   <div id="ov-stack"></div>
 </div>
 
+
+<!-- POST-CALL SHEET -->
+<div id="postcall-modal">
+  <div id="postcall-sheet">
+    <div id="postcall-handle"></div>
+    <div id="postcall-title">Call Complete</div>
+    <div id="postcall-sub">What would you like to do?</div>
+    <button class="pc-btn pc-btn-analysis" onclick="closePostcall();runCallAnalysis()">
+      <svg width="17" height="17" viewBox="0 0 26 26" fill="none"><polyline points="4,18 8,11 12,14 16,7 20,10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="7" r="1.5" fill="currentColor"/></svg>
+      View AI Analysis
+    </button>
+    <button class="pc-btn pc-btn-summary" onclick="closePostcall();openSummary()">
+      <svg width="17" height="17" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      View Call Summary
+    </button>
+    <button class="pc-btn pc-btn-dismiss" onclick="closePostcall()">
+      <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M8 8l10 10M18 8L8 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Dismiss
+    </button>
+  </div>
+</div>
+
+<!-- ANALYSIS OVERLAY -->
+<div id="analysis-overlay">
+  <div id="an-header">
+    <div><div id="an-title">Call Analysis</div><div id="an-sub">AI coaching based on your call</div></div>
+    <button id="an-close" onclick="closeAnalysis()">
+      <svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div id="an-body">
+    <div class="an-loading" id="an-loading"><div class="an-spinner"></div><div class="an-loading-txt">Analyzing your call...</div></div>
+    <div id="an-content" style="display:none"></div>
+  </div>
+  <button id="an-cta" onclick="closeAnalysis()">
+    <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Got It — Back to Dashboard
+  </button>
+</div>
+
+<!-- SUMMARY MODAL -->
+<div id="summary-modal">
+  <div id="summary-sheet">
+    <div style="width:30px;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;margin:0 auto 14px;"></div>
+    <div id="sum-header">
+      <div id="sum-title">Call Summary</div>
+      <button id="sum-close" onclick="closeSummary()">
+        <svg width="11" height="11" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div id="sum-sub">Full recap of your call</div>
+    <div id="sum-body"></div>
+    <div class="sum-action-row">
+      <button class="sum-btn sum-btn-share" onclick="shareSummaryNative()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.5" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.5" stroke="currentColor" stroke-width="1.6"/><line x1="8.5" y1="11.5" x2="17.5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8.5" y1="14.5" x2="17.5" y2="18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Share
+      </button>
+      <button class="sum-btn sum-btn-pdf" onclick="pdfSummary()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M6 4h10l5 5v14a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 5 23V5.5A1.5 1.5 0 0 1 6 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 4v4.5a.5.5 0 0 0 .5.5H21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        PDF
+      </button>
+      <button class="sum-btn sum-btn-sms" onclick="smsSummary()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M4.5 4.5h17a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 5V6.5a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="12" r="1.2" fill="currentColor"/><circle cx="13" cy="12" r="1.2" fill="currentColor"/><circle cx="17" cy="12" r="1.2" fill="currentColor"/></svg>
+        SMS
+      </button>
+      <button class="sum-btn sum-btn-email" onclick="emailSummary()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><rect x="3.5" y="6" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8.5l9.5 7 9.5-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Email
+      </button>
+    </div>
+  </div>
+</div>
+
 </div><!-- /app -->
 
 <script>
@@ -712,7 +839,10 @@ function endCall(){
   }
   stopListen();
   document.getElementById("tr-bar").classList.remove("on");
-  showToast("Call saved to history");
+  showToast("Call saved!");
+  if(rebs.length>0){
+    setTimeout(function(){document.getElementById('postcall-modal').classList.add('on');},600);
+  }
 }
 
 function setBtn(on){
@@ -1122,6 +1252,165 @@ function ovShare(){
   shareText=(r.bullets&&r.bullets.length?r.bullets.join(' | '):r.rebuttal)||'';
   document.getElementById('sh-text').textContent=shareText;
   document.getElementById('share-modal').classList.add('on');
+}
+
+
+function closePostcall(){document.getElementById('postcall-modal').classList.remove('on');}
+function closeAnalysis(){document.getElementById('analysis-overlay').classList.remove('on');}
+function closeSummary(){document.getElementById('summary-modal').classList.remove('on');}
+
+function runCallAnalysis(){
+  if(!rebs.length)return;
+  var summary=rebs.map(function(r,i){
+    return 'Objection '+(i+1)+': ['+r.objection_type+'] "'+r.objection_summary+'" | '+(r.bullets?r.bullets.join(' | '):r.rebuttal);
+  }).join('\n');
+  var prodCtx=prod.name?'Product: '+prod.name+'. '+(prod.desc||''):'No product set.';
+  document.getElementById('analysis-overlay').classList.add('on');
+  document.getElementById('an-loading').style.display='flex';
+  document.getElementById('an-content').style.display='none';
+  fetch("https://closeify-api.robert-slauson.workers.dev",{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,
+      system:'You are an elite sales coach. Analyze this call honestly. '+prodCtx+' Duration: '+fmt(dur)+'. Objections handled: '+rebs.length+'. Data: '+summary+'. Reply ONLY with raw JSON: {"overall_score":75,"score_label":"Good","what_went_well":["point"],"what_was_missed":["gap"],"power_moves":["tip"],"one_thing":"single improvement"} Score 0-100.',
+      messages:[{role:'user',content:'Analyze my sales call.'}]
+    })
+  }).then(function(r){return r.json();}).then(function(data){
+    var raw=(data.content||[]).map(function(b){return b.text||'';}).join('').replace(/```json|```/g,'').trim();
+    var r2;try{r2=JSON.parse(raw);}catch(e){showAnalysisError();return;}
+    lastAnalysis=r2;renderAnalysis(r2);
+  }).catch(showAnalysisError);
+}
+
+function showAnalysisError(){
+  document.getElementById('an-loading').style.display='none';
+  document.getElementById('an-content').innerHTML='<div style="color:rgba(148,163,184,0.5);text-align:center;padding:30px">Could not generate analysis. Please try again.</div>';
+  document.getElementById('an-content').style.display='block';
+}
+
+function renderAnalysis(r){
+  document.getElementById('an-loading').style.display='none';
+  var sc=r.overall_score||0;
+  var col=sc>=80?'#22c55e':sc>=60?'#f59e0b':'#ef4444';
+  var bg=sc>=80?'rgba(34,197,94,0.1)':sc>=60?'rgba(245,158,11,0.1)':'rgba(239,68,68,0.1)';
+  var html='<div class="an-section"><div class="an-score"><div class="an-circle" style="color:'+col+';border-color:'+col+';background:'+bg+'">'+sc+'</div><div><div style="font-size:16px;font-weight:700;color:'+col+'">'+esc(r.score_label||'')+'</div><div style="font-size:7px;color:rgba(148,163,184,0.4);letter-spacing:0.12em;margin-top:3px">CALL PERFORMANCE</div></div></div>';
+  if(r.one_thing)html+='<div style="background:rgba(37,99,235,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:11px 13px;margin-top:10px"><div style="font-size:9px;color:#60a5fa;letter-spacing:0.1em;font-weight:700;margin-bottom:4px">FOCUS ON THIS NEXT CALL</div><div style="font-size:14px;color:#fff;line-height:1.6">'+esc(r.one_thing)+'</div></div>';
+  html+='</div>';
+  function sec(title,items,c2){
+    if(!items||!items.length)return'';
+    var h='<div class="an-section"><div style="font-size:10px;font-weight:700;letter-spacing:0.1em;margin-bottom:10px;color:'+c2+'">'+title+'</div>';
+    items.forEach(function(x){h+='<div class="an-item"><div class="an-dot" style="background:'+c2+'"></div><div class="an-text">'+esc(x)+'</div></div>';});
+    return h+'</div>';
+  }
+  html+=sec('WHAT YOU DID WELL',r.what_went_well,'#22c55e');
+  html+=sec('WHAT YOU MISSED',r.what_was_missed,'#ef4444');
+  html+=sec('POWER MOVES FOR NEXT TIME',r.power_moves,'#f59e0b');
+  document.getElementById('an-content').innerHTML=html;
+  document.getElementById('an-content').style.display='block';
+}
+
+function openSummary(){
+  summaryText=buildSummary();
+  document.getElementById('sum-body').innerHTML=buildSummaryHTML();
+  document.getElementById('summary-modal').classList.add('on');
+}
+
+function buildSummary(){
+  var date=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var lines=['CLOSEIFY CALL SUMMARY','====================',
+    'Date: '+date,'Duration: '+fmt(dur),'Product: '+(prod.name||'Not set'),'Objections: '+rebs.length,''];
+  if(rebs.length){
+    lines.push('OBJECTIONS & REBUTTALS','---------------------');
+    rebs.forEach(function(r,i){
+      var cfg=TC[r.objection_type]||TC.other;
+      lines.push('','['+(i+1)+'] '+cfg.label.toUpperCase()+' at '+r.ts);
+      lines.push('Customer: "'+r.objection_summary+'"');
+      if(r.bullets&&r.bullets.length){lines.push('Rebuttals:');r.bullets.forEach(function(b){lines.push('  • '+b);});}
+    });
+  }
+  if(lastAnalysis){
+    lines.push('','ANALYSIS SCORE: '+lastAnalysis.overall_score+'/100 — '+(lastAnalysis.score_label||''));
+    if(lastAnalysis.one_thing)lines.push('Key Focus: '+lastAnalysis.one_thing);
+  }
+  lines.push('','Generated by Closeify — closeifyapp.github.io/closeify');
+  return lines.join('\n');
+}
+
+function buildSummaryHTML(){
+  var date=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var html='<div style="margin-bottom:14px"><div class="sum-sec-lbl">CALL DETAILS</div>';
+  html+='<div class="sum-row"><span class="sum-row-lbl">Date</span><span class="sum-row-val">'+date+'</span></div>';
+  html+='<div class="sum-row"><span class="sum-row-lbl">Duration</span><span class="sum-row-val">'+fmt(dur)+'</span></div>';
+  html+='<div class="sum-row"><span class="sum-row-lbl">Product</span><span class="sum-row-val">'+(prod.name||'Not set')+'</span></div>';
+  html+='<div class="sum-row"><span class="sum-row-lbl">Objections</span><span class="sum-row-val" style="color:#4ade80">'+rebs.length+'</span></div>';
+  if(lastAnalysis)html+='<div class="sum-row"><span class="sum-row-lbl">Score</span><span class="sum-row-val" style="color:'+(lastAnalysis.overall_score>=80?'#4ade80':lastAnalysis.overall_score>=60?'#fbbf24':'#f87171')+'">'+lastAnalysis.overall_score+'/100</span></div>';
+  html+='</div>';
+  if(rebs.length){
+    html+='<div class="sum-sec-lbl">OBJECTIONS & REBUTTALS</div>';
+    rebs.forEach(function(r){
+      var cfg=TC[r.objection_type]||TC.other;
+      html+='<div class="sum-obj-item"><div class="sum-obj-type" style="color:'+cfg.color+'"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:'+cfg.color+';margin-right:5px"></span>'+cfg.label+'</div>';
+      html+='<div class="sum-obj-q">"'+esc(r.objection_summary||'')+'"</div>';
+      if(r.bullets&&r.bullets.length){
+        html+='<div style="display:flex;flex-direction:column;gap:4px">';
+        r.bullets.forEach(function(b){html+='<div style="font-size:11px;color:rgba(220,235,255,0.8);display:flex;gap:6px"><span style="color:'+cfg.color+';flex-shrink:0">•</span>'+esc(b)+'</div>';});
+        html+='</div>';
+      }
+      html+='</div>';
+    });
+  }
+  if(lastAnalysis&&lastAnalysis.one_thing){
+    html+='<div class="sum-sec-lbl" style="margin-top:14px">KEY FOCUS</div>';
+    html+='<div style="background:rgba(37,99,235,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:9px;padding:10px 12px"><div style="font-size:12px;color:#fff">'+esc(lastAnalysis.one_thing)+'</div></div>';
+  }
+  return html;
+}
+
+var summaryText='';
+function shareSummaryNative(){
+  if(navigator.share){navigator.share({title:'Closeify Call Summary',text:summaryText}).catch(function(){});}
+  else if(navigator.clipboard){navigator.clipboard.writeText(summaryText).then(function(){showToast('Copied!');});}
+}
+function smsSummary(){window.open('sms:?body='+encodeURIComponent(summaryText));}
+function emailSummary(){
+  var sub='Call Summary — '+(prod.name||'Closeify')+' — '+new Date().toLocaleDateString();
+  window.open('mailto:?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(summaryText));
+}
+function pdfSummary(){
+  var jsPDFLib=(window.jspdf&&window.jspdf.jsPDF)?window.jspdf.jsPDF:(window.jsPDF||null);
+  if(!jsPDFLib){
+    showToast('Loading PDF...');
+    var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload=function(){setTimeout(pdfSummary,300);};document.head.appendChild(s);return;
+  }
+  try{
+    var doc=new jsPDFLib({orientation:'portrait',unit:'mm',format:'a4'});
+    var W=210,mg=18,y=22;
+    doc.setFillColor(10,15,30);doc.rect(0,0,W,36,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('Closeify',mg,16);
+    doc.setFontSize(10);doc.setFont('helvetica','normal');doc.setTextColor(160,160,200);
+    doc.text('Call Summary Report',mg,24);doc.text(new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),mg,31);
+    y=46;
+    doc.setFillColor(20,16,40);doc.roundedRect(mg,y,W-mg*2,24,3,3,'F');
+    var cols=['PRODUCT','DURATION','OBJECTIONS','SCORE'],vals=[(prod.name||'Not set').slice(0,14),fmt(dur),String(rebs.length),lastAnalysis?(lastAnalysis.overall_score+'/100'):'—'],cw=(W-mg*2)/4;
+    cols.forEach(function(col,i){var cx=mg+i*cw+3;doc.setTextColor(100,110,160);doc.setFontSize(7);doc.setFont('helvetica','bold');doc.text(col,cx,y+7);doc.setTextColor(210,220,255);doc.setFontSize(11);doc.setFont('helvetica','bold');doc.text(vals[i],cx,y+16);});
+    y+=30;
+    if(rebs.length){
+      doc.setTextColor(148,163,220);doc.setFontSize(9);doc.setFont('helvetica','bold');doc.text('OBJECTIONS & REBUTTALS',mg,y);y+=7;
+      rebs.forEach(function(r){
+        if(y>260){doc.addPage();y=18;}
+        var cfg=TC[r.objection_type]||TC.other;var rgb=cfg.color.replace('#','');
+        var ri=parseInt(rgb.slice(0,2),16),gi=parseInt(rgb.slice(2,4),16),bi=parseInt(rgb.slice(4,6),16);
+        doc.setFillColor(ri,gi,bi);doc.circle(mg+3,y+2,1.5,'F');
+        doc.setTextColor(ri,gi,bi);doc.setFontSize(8.5);doc.setFont('helvetica','bold');doc.text(cfg.label+' — '+r.ts,mg+8,y+4);y+=8;
+        doc.setTextColor(140,150,190);doc.setFontSize(8);doc.setFont('helvetica','italic');
+        var ql=doc.splitTextToSize('"'+(r.objection_summary||'')+'"',W-mg*2-4);doc.text(ql,mg+2,y);y+=ql.length*5+2;
+        if(r.bullets&&r.bullets.length){r.bullets.forEach(function(b){if(y>268){doc.addPage();y=18;}doc.setTextColor(190,200,240);doc.setFontSize(8.5);doc.setFont('helvetica','normal');var bl=doc.splitTextToSize('• '+b,W-mg*2-7);doc.text(bl,mg+5,y);y+=bl.length*5+1.5;});}
+        y+=3;
+      });
+    }
+    doc.setFillColor(10,15,30);doc.rect(0,282,W,15,'F');doc.setTextColor(100,100,140);doc.setFontSize(8);doc.setFont('helvetica','normal');doc.text('Generated by Closeify',W/2,290,{align:'center'});
+    doc.save('Closeify-Summary-'+new Date().toISOString().slice(0,10)+'.pdf');showToast('PDF downloaded!');
+  }catch(err){console.error(err);showToast('PDF error: '+err.message,'err');}
 }
 
 </script>
