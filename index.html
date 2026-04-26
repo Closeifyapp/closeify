@@ -331,26 +331,34 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d0a1e;}
     <div><div id="an-title">Call Analysis</div><div id="an-sub">AI coaching based on your call</div></div>
     <button id="an-close" onclick="closeAnalysis()"><svg width="12" height="12" viewBox="0 0 26 26" fill="none"><path d="M7 7l12 12M19 7L7 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Close</button>
   </div>
-  <div id="an-actbar" style="display:none;padding:10px 20px 0;flex-direction:column;gap:8px;">
-    <!-- Share + PDF row -->
-    <div style="display:flex;gap:8px;">
-      <button class="an-btn an-btn-share" onclick="shareAnalysis()" style="flex:1">
-        <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.8" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.8" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.8" stroke="currentColor" stroke-width="1.6"/><line x1="8.7" y1="11.5" x2="17.4" y2="7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="8.7" y1="14.5" x2="17.4" y2="18.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <div id="an-actbar" style="display:none;padding:10px 16px 0;flex-direction:column;gap:0;">
+    <!-- Analysis actions — same style as summary buttons -->
+    <div class="sum-actions" style="margin-top:0;">
+      <button class="sum-btn sum-btn-copy" onclick="shareAnalysis()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><circle cx="20" cy="6" r="2.8" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="13" r="2.8" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="2.8" stroke="currentColor" stroke-width="1.6"/><line x1="8.7" y1="11.5" x2="17.4" y2="7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="8.7" y1="14.5" x2="17.4" y2="18.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         Share
       </button>
-      <button class="an-btn an-btn-pdf" onclick="downloadPDF()" style="flex:1">
-        <svg width="13" height="13" viewBox="0 0 26 26" fill="none"><path d="M6 4h10l5 5v14a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 5 23V5.5A1.5 1.5 0 0 1 6 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 4v4.5a.5.5 0 0 0 .5.5H21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        Download PDF
+      <button class="sum-btn sum-btn-pdf" onclick="downloadPDF()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M6 4h10l5 5v14a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 5 23V5.5A1.5 1.5 0 0 1 6 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 4v4.5a.5.5 0 0 0 .5.5H21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        PDF
+      </button>
+      <button class="sum-btn sum-btn-sms" onclick="shareAnalysisSMS()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M4.5 4.5h17a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 5V6.5a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="12" r="1.3" fill="currentColor"/><circle cx="13" cy="12" r="1.3" fill="currentColor"/><circle cx="17" cy="12" r="1.3" fill="currentColor"/></svg>
+        SMS
+      </button>
+      <button class="sum-btn sum-btn-email" onclick="shareAnalysisEmail()">
+        <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><rect x="3.5" y="6" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 8.5l9.5 7 9.5-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Email
       </button>
     </div>
     <!-- Divider -->
-    <div style="display:flex;align-items:center;gap:10px;padding:2px 0;">
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0 4px;">
       <div style="flex:1;height:1px;background:rgba(255,255,255,0.06)"></div>
       <span style="font-size:8.5px;font-weight:700;letter-spacing:0.14em;color:rgba(148,163,184,0.3);font-family:'Syne',sans-serif;">CALL SUMMARY</span>
       <div style="flex:1;height:1px;background:rgba(255,255,255,0.06)"></div>
     </div>
-    <!-- Summary button full width -->
-    <button class="an-btn" style="background:rgba(129,140,248,0.1);border:1px solid rgba(129,140,248,0.22);color:#a5b4fc;width:100%;gap:8px;" onclick="openSummary()">
+    <!-- Summary button -->
+    <button class="sum-btn" style="background:rgba(129,140,248,0.1);border:1px solid rgba(129,140,248,0.22);color:#a5b4fc;grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:10px;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;cursor:pointer;width:100%;" onclick="openSummary()">
       <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M6 3.5h10l5 5V22a.5.5 0 0 1-.5.5H6A.5.5 0 0 1 5.5 22V4a.5.5 0 0 1 .5-.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.5 3.5v4.5a.5.5 0 0 0 .5.5h4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="19" x2="13.5" y2="19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
       View &amp; Save Call Summary
     </button>
@@ -763,6 +771,29 @@ function closeAnalysis(){
   document.getElementById('analysis-overlay').classList.remove('on');
   document.getElementById('an-actbar').style.display='none';
 }
+
+function shareAnalysisSMS(){
+  if(!lastAnalysis)return;
+  var r=lastAnalysis;
+  var txt='CLOSEIFY CALL ANALYSIS\n\nScore: '+r.overall_score+'/100 — '+r.score_label+'\n\n';
+  if(r.one_thing)txt+='Focus: '+r.one_thing+'\n\n';
+  if(r.what_went_well)txt+='What Went Well:\n'+r.what_went_well.map(function(x){return '• '+x;}).join('\n')+'\n\n';
+  if(r.what_was_missed)txt+='What Was Missed:\n'+r.what_was_missed.map(function(x){return '• '+x;}).join('\n')+'\n\n';
+  if(r.power_moves)txt+='Power Moves:\n'+r.power_moves.map(function(x){return '• '+x;}).join('\n');
+  window.open('sms:?body='+encodeURIComponent(txt));
+}
+function shareAnalysisEmail(){
+  if(!lastAnalysis)return;
+  var r=lastAnalysis;
+  var txt='CLOSEIFY CALL ANALYSIS\n\nScore: '+r.overall_score+'/100 — '+r.score_label+'\n\n';
+  if(r.one_thing)txt+='Focus: '+r.one_thing+'\n\n';
+  if(r.what_went_well)txt+='What Went Well:\n'+r.what_went_well.map(function(x){return '• '+x;}).join('\n')+'\n\n';
+  if(r.what_was_missed)txt+='What Was Missed:\n'+r.what_was_missed.map(function(x){return '• '+x;}).join('\n')+'\n\n';
+  if(r.power_moves)txt+='Power Moves:\n'+r.power_moves.map(function(x){return '• '+x;}).join('\n');
+  var sub='Closeify Call Analysis — '+(new Date().toLocaleDateString());
+  window.open('mailto:?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(txt));
+}
+
 function shareAnalysis(){
   if(!lastAnalysis)return;
   var r=lastAnalysis;
@@ -775,7 +806,16 @@ function shareAnalysis(){
   else if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){showToast('Analysis copied!');});}
 }
 function downloadPDF(){
-  var jsPDFLib=window.jspdf||window.jsPDF;if(!lastAnalysis||!jsPDFLib){showToast('PDF not available','err');return;}
+  var jsPDFLib=window.jspdf||window.jsPDF;
+  if(!jsPDFLib){
+    var s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload=function(){downloadPDF();};
+    document.head.appendChild(s);
+    showToast('Loading PDF...','');
+    return;
+  }
+  if(!lastAnalysis){showToast('No analysis yet','err');return;}
   var r=lastAnalysis;
   var doc=new jsPDFLib.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
   var W=210,mg=18,y=20,lh=7;
@@ -934,7 +974,16 @@ function emailSummary(){
 }
 
 function pdfSummary(){
-  var jsPDFLib=window.jspdf||window.jsPDF;if(!jsPDFLib){showToast('PDF loading, try again','err');return;}
+  var jsPDFLib=window.jspdf||window.jsPDF;
+  if(!jsPDFLib){
+    // Try loading jsPDF dynamically if not available
+    var s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload=function(){pdfSummary();};
+    document.head.appendChild(s);
+    showToast('Loading PDF...','');
+    return;
+  }
   var doc = new jsPDFLib.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
   var W=210, mg=18, y=20, lh=6.5;
   // Header
