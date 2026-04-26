@@ -292,6 +292,45 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d0a1e;}
   color:rgba(148,163,184,0.5);
 }
 
+
+/* PRIVACY POLICY OVERLAY */
+#privacy-overlay{position:fixed;inset:0;z-index:400;background:#09061a;display:none;flex-direction:column;overflow:hidden;}
+#privacy-overlay.on{display:flex;}
+#priv-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(129,140,248,0.1);flex-shrink:0;}
+#priv-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff;}
+#priv-close{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);color:rgba(148,163,184,0.6);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;padding:6px 13px;border-radius:16px;cursor:pointer;}
+#priv-body{flex:1;overflow-y:auto;padding:20px 18px 32px;}
+.priv-section{margin-bottom:22px;}
+.priv-h1{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#a5b4fc;letter-spacing:-0.01em;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(129,140,248,0.12);}
+.priv-h2{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:rgba(220,235,255,0.85);margin-bottom:5px;margin-top:12px;}
+.priv-p{font-size:12px;color:rgba(148,163,184,0.65);line-height:1.75;margin-bottom:8px;}
+.priv-bullet{font-size:12px;color:rgba(148,163,184,0.6);line-height:1.7;padding-left:16px;position:relative;margin-bottom:5px;}
+.priv-bullet::before{content:'•';position:absolute;left:4px;color:rgba(129,140,248,0.5);}
+.priv-warning{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:12px 14px;margin:10px 0;}
+.priv-warning p{color:rgba(248,113,113,0.85);font-size:11.5px;line-height:1.7;margin:0;}
+.priv-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(129,140,248,0.1),transparent);margin:20px 0;}
+.priv-meta{text-align:center;font-size:10px;color:rgba(100,116,139,0.35);margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);}
+
+
+/* TERMS OF SERVICE OVERLAY */
+#terms-overlay{position:fixed;inset:0;z-index:400;background:#09061a;display:none;flex-direction:column;overflow:hidden;}
+#terms-overlay.on{display:flex;}
+#terms-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(129,140,248,0.1);flex-shrink:0;}
+#terms-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff;}
+#terms-close{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);color:rgba(148,163,184,0.6);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;padding:6px 13px;border-radius:16px;cursor:pointer;}
+#terms-body{flex:1;overflow-y:auto;padding:20px 18px 32px;}
+.terms-h1{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#a5b4fc;letter-spacing:-0.01em;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(129,140,248,0.12);}
+.terms-h2{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:rgba(220,235,255,0.85);margin-bottom:5px;margin-top:12px;}
+.terms-p{font-size:12px;color:rgba(148,163,184,0.65);line-height:1.75;margin-bottom:8px;}
+.terms-bullet{font-size:12px;color:rgba(148,163,184,0.6);line-height:1.7;padding-left:16px;position:relative;margin-bottom:5px;}
+.terms-bullet::before{content:'•';position:absolute;left:4px;color:rgba(129,140,248,0.5);}
+.terms-warning{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:12px 14px;margin:10px 0;}
+.terms-warning p{color:rgba(248,113,113,0.85);font-size:11.5px;line-height:1.7;margin:0;font-weight:600;}
+.terms-caps{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:9px;padding:10px 12px;margin:8px 0;}
+.terms-caps p{font-size:11px;color:rgba(200,210,240,0.6);line-height:1.7;margin:0;}
+.terms-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(129,140,248,0.1),transparent);margin:18px 0;}
+.terms-meta{text-align:center;font-size:10px;color:rgba(100,116,139,0.35);margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);}
+
 </style>
 </head>
 <body>
@@ -363,7 +402,16 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d0a1e;}
   </div>
 </div>
 </div>
-<div id="footer"><span>By using Closeify you agree to our <a href="https://closeify.app/terms" target="_blank">Terms &amp; Conditions</a> &middot; Obtain all required recording consents</span></div>
+<div id="footer">
+  <div style="display:flex;justify-content:center;gap:16px;margin-bottom:5px;">
+    <a onclick="openPrivacy()" style="font-size:9px;color:rgba(129,140,248,0.5);text-decoration:none;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;letter-spacing:0.06em;">PRIVACY POLICY</a>
+    <span style="font-size:9px;color:rgba(255,255,255,0.1)">·</span>
+    <a onclick="openTerms()" style="font-size:9px;color:rgba(129,140,248,0.5);text-decoration:none;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;letter-spacing:0.06em;">TERMS</a>
+    <span style="font-size:9px;color:rgba(255,255,255,0.1)">·</span>
+    <span style="font-size:9px;color:rgba(148,163,184,0.2);font-family:'Inter',sans-serif;">RECORDING CONSENT REQUIRED</span>
+  </div>
+  <div style="text-align:center"><span style="font-size:8px;color:rgba(100,116,139,0.3);font-family:'Inter',sans-serif;">&copy; 2026 Closeify</span></div>
+</div>
 </div>
 
 <!-- FULLSCREEN REBUTTAL OVERLAY -->
@@ -455,7 +503,7 @@ html,body{height:100%;min-height:100vh;overflow:hidden;background:#0d0a1e;}
   <div class="sfeats"><div class="sfeat"><div class="sdot"></div>Real-time objection detection</div><div class="sfeat"><div class="sdot"></div>Instant AI-powered rebuttals</div><div class="sfeat"><div class="sdot"></div>NEPQ + product-specific responses</div><div class="sfeat"><div class="sdot"></div>Post-call coaching analysis</div></div>
   <button class="sbtn" onclick="startApp()">GET STARTED</button>
   <div class="sver">v2.0 &mdash; All Features Unlocked</div>
-  <div class="stc">By using Closeify you agree to our <a href="https://closeify.app/terms" target="_blank">Terms &amp; Conditions</a></div>
+  <div class="stc">By using Closeify you agree to our <a onclick="openTerms()" style="cursor:pointer">Terms &amp; Conditions</a></div>
 </div>
 
 <!-- PRODUCT MODAL -->
@@ -838,6 +886,22 @@ function renderAnalysis(r){
 
 function closePostcall(){
   document.getElementById('postcall-modal').classList.remove('on');
+}
+
+
+
+function openTerms(){
+  document.getElementById('terms-overlay').classList.add('on');
+}
+function closeTerms(){
+  document.getElementById('terms-overlay').classList.remove('on');
+}
+
+function openPrivacy(){
+  document.getElementById('privacy-overlay').classList.add('on');
+}
+function closePrivacy(){
+  document.getElementById('privacy-overlay').classList.remove('on');
 }
 
 function closeAnalysis(){
@@ -1294,6 +1358,238 @@ document.addEventListener("DOMContentLoaded",function(){
       <svg width="14" height="14" viewBox="0 0 26 26" fill="none"><path d="M8 8l10 10M18 8L8 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       Dismiss
     </button>
+  </div>
+</div>
+
+
+<!-- PRIVACY POLICY OVERLAY -->
+<div id="privacy-overlay">
+  <div id="priv-header">
+    <div id="priv-title">Privacy Policy</div>
+    <button id="priv-close" onclick="closePrivacy()">&#10005; Close</button>
+  </div>
+  <div id="priv-body">
+
+    <div class="priv-p" style="color:rgba(148,163,184,0.4);font-size:11px;margin-bottom:18px;">Last Updated: April 25, 2026</div>
+
+    <div class="priv-section">
+      <p class="priv-p">This Privacy Policy explains how Closeify ("we", "us", "our") collects, uses, and protects information when you use the Closeify sales coaching application ("Services"). By using Closeify, you agree to the practices described in this policy.</p>
+      <p class="priv-p">Closeify is an AI-powered real-time sales coaching tool that listens to live sales calls and provides instant objection rebuttals.</p>
+    </div>
+
+    <div class="priv-divider"></div>
+
+    <div class="priv-section">
+      <div class="priv-h1">1. Recording Consent — Important</div>
+      <div class="priv-warning"><p>You are solely responsible for obtaining all legally required consents from all parties on any call before using Closeify. Recording laws vary by jurisdiction. In many states and countries, all-party consent is required. We are not responsible for your compliance with applicable recording laws.</p></div>
+    </div>
+
+    <div class="priv-divider"></div>
+
+    <div class="priv-section">
+      <div class="priv-h1">2. Information We Collect</div>
+      <div class="priv-h2">Information You Provide</div>
+      <div class="priv-bullet">Product setup data (product name, advantages, competitors, pricing) to personalize rebuttals</div>
+      <div class="priv-bullet">Call outcome logs (win/loss) you manually enter</div>
+      <div class="priv-bullet">Support requests or feedback you send us directly</div>
+      <div class="priv-h2">Automatically Collected</div>
+      <div class="priv-bullet">Voice/speech data processed in real time — not permanently stored on our servers</div>
+      <div class="priv-bullet">Rebuttal history and call analysis results generated during your session</div>
+      <div class="priv-bullet">Device info: device type, OS, browser, IP address, usage patterns</div>
+      <div class="priv-bullet">Session data (call duration, objection counts, stats) stored locally on your device</div>
+    </div>
+
+    <div class="priv-divider"></div>
+
+    <div class="priv-section">
+      <div class="priv-h1">3. How We Use Your Information</div>
+      <div class="priv-bullet">Provide real-time AI-powered sales rebuttals and coaching analysis</div>
+      <div class="priv-bullet">Personalize responses based on your product setup</div>
+      <div class="priv-bullet">Train and improve our AI models</div>
+      <div class="priv-bullet">Respond to support requests</div>
+      <div class="priv-bullet">Monitor for security issues and prevent misuse</div>
+      <div class="priv-bullet">Comply with legal obligations</div>
+    </div>
+
+    <div class="priv-divider"></div>
+
+    <div class="priv-section">
+      <div class="priv-h1">4. How We Share Your Information</div>
+      <div class="priv-h2">AI Processing Providers</div>
+      <p class="priv-p">Rebuttal generation uses third-party AI APIs (including Anthropic). Voice transcriptions are transmitted to these services for processing. These providers have their own privacy policies.</p>
+      <div class="priv-h2">Infrastructure Providers</div>
+      <p class="priv-p">We use Cloudflare and similar providers to operate our services. They process data on our behalf under data protection agreements.</p>
+      <div class="priv-h2">We Do Not Sell Your Data</div>
+      <p class="priv-p">Closeify does not sell, rent, or trade your personal information to third parties for marketing purposes.</p>
+      <div class="priv-h2">Legal Requirements</div>
+      <p class="priv-p">We may disclose information when required by law or to protect our rights, your safety, or the safety of others.</p>
+    </div>
+
+    <div class="priv-divider"></div>
+
+    <div class="priv-section">
+      <div class="priv-h1">5. Data Storage</div>
+      <p class="priv-p">Most Closeify data — call history, win/loss records, product setup, stats — is stored locally on your device using browser localStorage. We do not maintain a central database of this information.</p>
+      <p class="priv-p">Voice data is processed in real time and is not permanently stored on our servers. We implement commercially reasonable security measures for any transmitted data.</p>
+    </div>
+
+    <div class="priv-divider"></div>
+
+    <div class="priv-section">
+      <div class="priv-h1">6. Your Rights</div>
+      <div class="priv-bullet">Access: View all data stored by Closeify in your browser's localStorage</div>
+      <div class="priv-bullet">Deletion: Clear all data using the Clear buttons in-app or by clearing site data in your browser</div>
+      <div class="priv-bullet">Opt-out: Stop the listening feature at any time by tapping Stop Listening</div>
+      <div class="priv-bullet">Correction: Update your product setup and preferences at any time</div>
+      <p class="priv-p" style="margin-top:10px">California and Nevada residents have additional rights under CCPA and Nevada law. We do not sell personal information. Contact us for more information.</p>
+    </div>
+
+    <div class="priv-divider"></div>
+
+    <div class="priv-section">
+      <div class="priv-h1">7. Children's Privacy</div>
+      <p class="priv-p">Closeify is not intended for users under 18. We do not knowingly collect information from minors. Contact us if you believe we have inadvertently collected such information.</p>
+    </div>
+
+    <div class="priv-divider"></div>
+
+    <div class="priv-section">
+      <div class="priv-h1">8. Changes to This Policy</div>
+      <p class="priv-p">We may update this Privacy Policy from time to time. Material changes will be indicated by an updated date at the top. Continued use of the Services constitutes acceptance of the updated policy.</p>
+    </div>
+
+    <div class="priv-divider"></div>
+
+    <div class="priv-section">
+      <div class="priv-h1">9. Contact Us</div>
+      <p class="priv-p">Questions or requests regarding this Privacy Policy:</p>
+      <div class="priv-bullet">Email: privacy@closeify.app</div>
+      <div class="priv-bullet">Website: closeifyapp.github.io/closeify</div>
+      <p class="priv-p" style="margin-top:8px;font-size:11px;color:rgba(148,163,184,0.4)">For recording consent questions, please consult a licensed attorney in your jurisdiction.</p>
+    </div>
+
+    <div class="priv-meta">
+      &copy; 2026 Closeify &mdash; All rights reserved<br/>
+      <span style="font-size:9px">This policy was last reviewed April 25, 2026</span>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- TERMS OF SERVICE OVERLAY -->
+<div id="terms-overlay">
+  <div id="terms-header">
+    <div id="terms-title">Terms of Service</div>
+    <button id="terms-close" onclick="closeTerms()">&#10005; Close</button>
+  </div>
+  <div id="terms-body">
+    <div class="terms-p" style="color:rgba(148,163,184,0.4);font-size:11px;margin-bottom:18px;">Last Updated: April 25, 2026</div>
+    <div class="terms-p">These Terms of Service govern your use of the Closeify sales coaching application and Services. By using Closeify, you agree to these Terms.</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">1. Recording Consent — Your Responsibility</div>
+    <div class="terms-warning"><p>&#9888; You are solely responsible for obtaining all legally required consents from all parties on any call before using Closeify. Recording laws vary by jurisdiction. Closeify is not liable for your failure to comply with recording laws.</p></div>
+    <div class="terms-p">Many states and countries require all-party consent to record or monitor conversations. Consult a licensed attorney in your jurisdiction.</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">2. Acceptance of Terms</div>
+    <div class="terms-p">By using Closeify you confirm you are at least 18 years old and agree to be bound by these Terms. We may revise these Terms at any time — continued use constitutes acceptance.</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">3. Services Description</div>
+    <div class="terms-p">Closeify provides AI-powered real-time sales coaching including live objection detection, instant rebuttal suggestions, post-call analysis, and performance tracking. Voice data is processed in real time and not permanently stored on our servers.</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">4. Permitted &amp; Prohibited Uses</div>
+    <div class="terms-h2">You May Use Closeify To</div>
+    <div class="terms-bullet">Receive real-time coaching during lawfully conducted sales calls</div>
+    <div class="terms-bullet">Improve sales skills through AI feedback and analysis</div>
+    <div class="terms-bullet">Generate and share call summaries for legitimate business purposes</div>
+    <div class="terms-h2">You May NOT Use Closeify To</div>
+    <div class="terms-bullet">Record any call without obtaining all legally required consents</div>
+    <div class="terms-bullet">Violate any applicable law, regulation, or third-party rights</div>
+    <div class="terms-bullet">Deceive, defraud, harass, or harm any person</div>
+    <div class="terms-bullet">Reverse engineer, decompile, or copy any part of the Services</div>
+    <div class="terms-bullet">Use automated bots or scrapers against our Services</div>
+    <div class="terms-bullet">Share access with unauthorized third parties</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">5. AI Content Disclaimer</div>
+    <div class="terms-p">Closeify's AI-generated suggestions are for coaching purposes only. We do not guarantee their accuracy or effectiveness. You are solely responsible for how you use AI suggestions. They are not legal, financial, or professional advice.</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">6. Intellectual Property</div>
+    <div class="terms-p">All Closeify content, design, code, and AI models are owned by Closeify. You receive a limited, non-exclusive license to use the Services for personal or internal business purposes only. You may not copy, modify, distribute, or sell the Services.</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">7. Privacy</div>
+    <div class="terms-p">Your use of Closeify is subject to our Privacy Policy. Voice data is processed in real time and not permanently stored. Call history and stats are stored locally on your device. We do not sell your personal information.</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">8. Subscription &amp; Payment</div>
+    <div class="terms-bullet">Subscriptions renew automatically until cancelled</div>
+    <div class="terms-bullet">Cancel before renewal to avoid next billing charge</div>
+    <div class="terms-bullet">All fees are non-refundable once charged, except where required by law</div>
+    <div class="terms-bullet">Price changes communicated with at least 30 days notice</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">9. Disclaimer of Warranties</div>
+    <div class="terms-caps"><p>THE SERVICES ARE PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND. CLOSEIFY DISCLAIMS ALL WARRANTIES INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND ACCURACY. AS AN AI PRODUCT IN ACTIVE DEVELOPMENT, THE SERVICES MAY EXPERIENCE DOWNTIME OR INACCURACIES.</p></div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">10. Limitation of Liability</div>
+    <div class="terms-caps"><p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, CLOSEIFY SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES — INCLUDING RECORDING CONSENT VIOLATIONS, AI CONTENT RELIANCE, OR LOSS OF BUSINESS — ARISING FROM YOUR USE OF THE SERVICES.</p></div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">11. Indemnification</div>
+    <div class="terms-p">You agree to indemnify and hold harmless Closeify from any claims arising from your use or misuse of the Services, violation of these Terms, violation of any recording law, or violation of any third-party rights.</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">12. Dispute Resolution</div>
+    <div class="terms-h2">Governing Law</div>
+    <div class="terms-p">These Terms are governed by the laws of the State of Delaware, USA.</div>
+    <div class="terms-h2">Arbitration</div>
+    <div class="terms-p">Disputes shall be resolved by binding arbitration in Delaware per the AAA Commercial Arbitration Rules. You waive the right to a jury trial and class action proceedings.</div>
+    <div class="terms-h2">Notice Required</div>
+    <div class="terms-p">Before any legal action, contact us at legal@closeify.app and attempt good-faith resolution within 60 days.</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">13. Suspension &amp; Termination</div>
+    <div class="terms-p">We may suspend or terminate your access for Terms violations, illegal activity, or risk to other users. Upon termination your right to use the Services ceases immediately.</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">14. General</div>
+    <div class="terms-bullet">Severability: Invalid provisions do not affect remaining Terms</div>
+    <div class="terms-bullet">Entire Agreement: These Terms and our Privacy Policy constitute the full agreement</div>
+    <div class="terms-bullet">No Waiver: Failure to enforce any provision is not a waiver</div>
+    <div class="terms-bullet">Assignment: You may not transfer your rights; we may assign ours</div>
+
+    <div class="terms-divider"></div>
+
+    <div class="terms-h1">15. Contact</div>
+    <div class="terms-bullet">Legal: legal@closeify.app</div>
+    <div class="terms-bullet">Privacy: privacy@closeify.app</div>
+    <div class="terms-bullet">Website: closeifyapp.github.io/closeify</div>
+
+    <div class="terms-meta">
+      &copy; 2026 Closeify &mdash; All rights reserved<br/>
+      <span style="font-size:9px">Last reviewed April 25, 2026</span>
+    </div>
   </div>
 </div>
 
