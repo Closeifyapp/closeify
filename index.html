@@ -900,8 +900,8 @@ function renderBullets(blist,color,size){
   }).join('');
 }
 function addCard(r){
-  // Hide old results bar when new call produces rebuttals
-  document.getElementById('results-bar').classList.remove('on');
+  // Hide results bar only on first card of a brand new call
+  if(rebs.length===1) document.getElementById('results-bar').classList.remove('on');
   document.querySelectorAll('.rcard').forEach(function(el){el.classList.add('collapsed');});
   document.getElementById("empty").style.display="none";
   document.getElementById("rebWrap").style.display="block";
